@@ -1,0 +1,116 @@
+<%@ page language="java" pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<html>
+<head>
+    <title>用户管理</title>
+    <meta name="decorator" content="default"/>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="ibox">
+        <div class="ibox-title">
+            <h5>用户列表</h5>
+            <div class="ibox-tools">
+            </div>
+        </div>
+        <div class="ibox-content">
+            <sys:message content="${message}"/>
+            <!-- 查询条件 -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <form:form id="searchForm" modelAttribute="sysUser" action="${ctx}/sys/user/" method="post" class="form-inline">
+                        <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
+                        <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+                        <table:sortColumn id="orderBy" name="orderBy" value="${page.orderBy}" callback="sortOrRefresh();"/><!-- 支持排序 -->
+                        <div class="form-group">
+                            <span>用户名：</span>
+                            <form:input path="username" htmlEscape="false" maxlength="50" class="form-control"/>
+                            <span>姓名：</span>
+                            <form:input path="realName" htmlEscape="false" maxlength="50" class="form-control"/>
+                            <button  class="btn btn-primary btn-outline btn-sm " onclick="search()" ><i class="fa fa-search"></i> 查询</button>
+                            <button  class="btn btn-primary btn-outline btn-sm " onclick="reset()" ><i class="fa fa-refresh"></i> 重置</button>
+                        </div>
+                    </form:form>
+                    <br/>
+                </div>
+            </div>
+
+            <!-- 工具栏 -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="pull-left">
+                        <shiro:hasPermission name="sys:user:edit">
+                            <table:addRow url="${ctx}/sys/user/form" title="用户" width="800px" height="650px"/><!-- 增加按钮 -->
+                            <table:editRow url="${ctx}/sys/user/form" title="用户" width="800px" height="680px" id="contentTable"/><!-- 编辑按钮 -->
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="sys:user:del">
+                            <table:delRow url="${ctx}/sys/user/delete" id="contentTable"/><!-- 删除按钮 -->
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="sys:user:edit">
+                            <table:importExcel url="${ctx}/sys/user/import"/><!-- 导入按钮 -->
+                            <table:exportExcel url="${ctx}/sys/user/export"/><!-- 导出按钮 -->
+                        </shiro:hasPermission>
+                        <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="sortOrRefresh()" title="刷新">
+                            <i class="glyphicon glyphicon-repeat"></i> 刷新
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <table:check id="contentTable"/>
+            <table id="contentTable" class="table table-striped table-bordered table-hover table-condensed dataTables-example dataTable no-footer">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" class="i-checks"></th>
+                        <th class="sort-column username">用户名</th>
+                        <th class="sort-column real_name">姓名</th>
+                        <th class="sort-column mobile">手机号</th>
+                        <th class="sort-column email">邮箱</th>
+                        <th class="sort-column status">用户状态</th>
+                        <th class="sort-column type">用户类型</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${page.list}" var="bean">
+                    <tr>
+                        <td><input type="checkbox" id="${bean.id}" class="i-checks"></td>
+                        <td>${bean.username}</td>
+                        <td>${bean.realName}</td>
+                        <td>${bean.mobile}</td>
+                        <td>${bean.email}</td>
+                        <td>${fns:getDictLabel(bean.status, "sys_user_status", "")}</td>
+                        <td>${fns:getDictLabel(bean.type, "sys_user_type", "")}</td>
+                        <td>
+                            <a href="#"
+                               onclick="openDialogView('查看', '${ctx}/sys/user/form?id=${bean.id}','800px', '500px')"
+                               class="btn btn-info btn-xs">
+                                <i class="fa fa-search-plus"></i> 查看
+                            </a>
+                            <shiro:hasPermission name="sys:user:edit">
+                                <a href="#"
+                                   onclick="openDialog('修改', '${ctx}/sys/user/form?id=${bean.id}','800px', '680px')"
+                                   class="btn btn-success btn-xs">
+                                    <i class="fa fa-edit"></i> 修改
+                                </a>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="sys:user:del">
+                                <a href="${ctx}/sys/user/delete?ids=${bean.id}"
+                                   onclick="return confirmx('确认要删除该用户吗？', this.href)" class="btn btn-danger btn-xs">
+                                    <i class="fa fa-trash"></i> 删除
+                                </a>
+                            </shiro:hasPermission>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <table:page page="${page}"/>
+            <br/>
+            <br/>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+

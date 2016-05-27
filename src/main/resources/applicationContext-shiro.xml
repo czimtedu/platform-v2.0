@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <description>apache shiro配置</description>
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <!-- <property name="loginUrl" value="${cas.server.url}?service=${cas.project.url}/cas" /> -->
+        <property name="loginUrl" value="${adminPath}/login"/>
+        <property name="successUrl" value="${adminPath}?login"/>
+        <property name="filters">
+            <map>
+            	<entry key="cas" value-ref="casFilter"/>
+                <entry key="authc" value-ref="formAuthenticationFilter"/>
+                <entry key="kickout" value-ref="kickoutSessionControlFilter"/>
+            </map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>
+                <!-- 静态资源、接口允许访问 -->
+                /servlet/validateCodeServlet/** = anon
+                /uploads/** = anon
+                /static/** = anon
+                /api/** = anon
+                <!-- 登录页需要认证 -->
+                ${adminPath}/login = authc
+                ${adminPath}/logout = logout
+                <!-- 其他资源需要认证 -->
+                ${adminPath}/** = kickout,user
+                <!-- 单点登录 -->
+                ${adminPath}/cas = cas
+            </value>
+        </property>
+    </bean>
+
+    <!-- 并发登录人数控制过滤器 -->
+    <bean id="kickoutSessionControlFilter" class="com.platform.framework.security.KickoutSessionControlFilter">
+	    <property name="cacheManager" ref="cacheManager"/>
+	    <property name="sessionManager" ref="sessionManager"/>
+	    <property name="kickoutAfter" value="${user.kickoutAfter}"/>
+	    <property name="maxSession" value="${user.maxSession}"/>
+	    <property name="kickoutUrl" value="${adminPath}/login?kickout=1"/>
+	</bean>
+	
+	<!-- CAS认证过滤器 -->  
+	<bean id="casFilter" class="org.apache.shiro.cas.CasFilter">  
+		<property name="failureUrl" value="${adminPath}/login"/>
+	</bean>
+
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="securityRealm" />
+        <property name="cacheManager" ref="cacheManager" />
+        <property name="sessionManager" ref="sessionManager" />
+    </bean>
+    
+    <!-- 自定义Cache存储容器 -->
+    <bean id="cacheManager" class="com.platform.framework.security.shiro.cache.JedisCacheManager">
+        <property name="cacheKeyPrefix" value="${redis.keyPrefix}_shiro_cache_" />
+    </bean>
+    
+    <!-- 会话管理器 -->
+    <bean id="sessionManager" class="com.platform.framework.security.shiro.session.SessionManager">
+        <property name="sessionDAO" ref="sessionDAO"/>
+        <!-- 会话超时时间，单位：毫秒  -->
+		<property name="globalSessionTimeout" value="1800000"/>
+		<!-- 定时清理失效会话, 清理用户直接关闭浏览器造成的孤立会话   -->
+		<property name="sessionValidationInterval" value="120000"/>
+		<property name="sessionValidationSchedulerEnabled" value="true"/>
+		<property name="sessionIdCookie" ref="sessionIdCookie"/>
+		<property name="sessionIdCookieEnabled" value="true"/>
+    </bean>
+    
+    <!-- 指定本系统SESSIONID, 默认为: JSESSIONID 问题: 与SERVLET容器名冲突, 
+    	如JETTY, TOMCAT 等默认JSESSIONID,当跳出SHIRO SERVLET时
+    	如ERROR-PAGE容器会为JSESSIONID重新分配值导致登录会话丢失! -->
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+	    <constructor-arg name="name" value="${redis.keyPrefix}.session.id"/>
+	</bean>
+
+	<!-- 自定义Session存储容器 -->
+ 	<bean id="sessionDAO" class="com.platform.framework.security.shiro.session.JedisSessionDAO">
+ 		<property name="sessionIdGenerator" ref="sessionIdGenerator" />
+ 		<property name="sessionKeyPrefix" value="${redis.keyPrefix}_shiro_session_" />
+ 	</bean>
+ 	
+ 	<!--<entity id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="sessionDAO" ref="sessionDAO"/>
+    </entity>
+     <entity id="sessionDAO" class="org.apache.shiro.session.mgt.eis.MemorySessionDAO"/> -->
+
+	<!-- 会话ID生成器 -->  
+	<bean id="sessionIdGenerator" class="com.platform.framework.security.shiro.session.SessionIdGen"/> 
+
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+	<!-- AOP式方法级权限检查  -->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+    	<property name="securityManager" ref="securityManager"/>
+	</bean>
+</beans>
