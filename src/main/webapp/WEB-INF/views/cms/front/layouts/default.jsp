@@ -135,7 +135,7 @@
                 <form action="#" method="get" id="searchform" class="navbar-form navbar-right visible-lg" role="search">
                     <div class="form-group">
                         <input type="text" name='s' id='s' class="form-control" placeholder="这里有你想要的">
-                        <button class="btn btn-danger" type="submit"><i class="fa fa-search"></i></button>
+                        <button class="btn btn-danger" type=""><i class="fa fa-search"></i></button>
                     </div>
                 </form>
             </div>
@@ -218,7 +218,7 @@
         <a href="#">百度地图</a>
         -<a href="${ctx}" target="_blank">登录</a>-
         Theme By <a href="#" target="_blank">Specs</a><br>
-        <div class="pull-right">${fns:getDate('yyyy年MM月dd日 E')}</div><div class="copyright">111</div>
+        <div>${fns:getDate('yyyy年MM月dd日 E')}</div>
     </div>
     <ul id="jump" class="visible-lg">
         <li><a id="share" title="意见反馈" href="#" target="_blank"><i class="fa fa-comments-o"></i></a></li>
