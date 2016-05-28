@@ -156,6 +156,8 @@
         <constructor-arg index="1" value="${redis.hostname}" type="java.lang.String"/>
         <constructor-arg index="2" value="${redis.port}" type="int"/>
         <constructor-arg index="3" value="${redis.timeout}" type="int"/>
+        <constructor-arg index="4" value="${redis.password}" type="java.lang.String"/>
+        <constructor-arg index="5" value="0" type="int"/>
     </bean>
 
     <!-- Jedis ConnectionFactory spring-data-redis连接池配置 spring-session使用 -->
