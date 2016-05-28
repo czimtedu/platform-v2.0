@@ -171,7 +171,7 @@
                 <div class="panel-heading"><h2>BGM</h2></div>
                 <ul>
                     <li>
-                        <embed src="https://www.douban.com/swf/player.swf?url=${ctxStatic}/static/app/video/HowYouMakeMeFeel.mp3&amp;autoplay=1"
+                        <embed pluginspage="http://www.macromedia.com/go/getflashplayer" src="https://www.douban.com/swf/player.swf?url=${ctxStatic}/static/app/video/HowYouMakeMeFeel.mp3&amp;autoplay=1"
                                type="application/x-shockwave-flash" wmode="transparent" allowscriptaccess="always" width="400" height="30">
                     </li>
                 </ul>
@@ -218,7 +218,7 @@
         <a href="#">百度地图</a>
         -<a href="${ctx}" target="_blank">登录</a>-
         Theme By <a href="#" target="_blank">Specs</a><br>
-        <div class="pull-right">${fns:getDate('yyyy年MM月dd日 E')}</div><div class="copyright">111</div>
+        <div>${fns:getDate('yyyy年MM月dd日 E')}</div>
     </div>
     <ul id="jump" class="visible-lg">
         <li><a id="share" title="意见反馈" href="#" target="_blank"><i class="fa fa-comments-o"></i></a></li>

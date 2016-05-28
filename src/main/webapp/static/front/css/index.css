@@ -346,6 +346,10 @@ blockquote {
     text-align: center;
 }
 
+.align-center {
+    text-align: center;
+}
+
 .entry-meta {
     color: #aaa;
     margin: 5px 0 10px;
@@ -532,6 +536,7 @@ h6.copyright {
 
 .entry-content {
     line-height: 24px;
+    padding: 10px 20px;
 }
 
 .entry-content h6, .page-content h6 {
