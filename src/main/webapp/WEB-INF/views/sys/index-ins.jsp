@@ -11,7 +11,6 @@
     <title>platform</title>
     <%@ include file="/WEB-INF/views/include/head-ins.jsp"%>
     <script src="${ctxStatic}/static/app/js/index-ins.js"></script>
-    <script src="${ctxStatic}/static/app/js/contabs.js"></script>
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg">

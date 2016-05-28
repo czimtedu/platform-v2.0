@@ -25,7 +25,7 @@
         <article class="well clearfix">
             <header class="entry-header">
                 <h1 class="entry-title">
-                    <a href="#">${bean.title} <span class="label label-default entry-tag">置顶</span>
+                    <a href="${ctx}/article/${bean.id}">${bean.title} <span class="label label-default entry-tag">置顶</span>
                     </a>
                 </h1>
                 <div class="clearfix entry-meta">

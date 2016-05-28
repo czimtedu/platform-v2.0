@@ -48,6 +48,7 @@
 
 <script src="${ctxStatic}/static/app/js/mustache.min.js"></script>
 <script src="${ctxStatic}/static/app/js/common.js"></script>
+<script src="${ctxStatic}/static/app/js/contabs.js"></script>
 
 <script type="text/javascript">var ctx = '${ctx}', ctxStatic = '${ctxStatic}';</script>
 
