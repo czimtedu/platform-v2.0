@@ -134,7 +134,7 @@
         </init-param>
         <init-param>
             <param-name>sessionStatEnable</param-name>
-            <param-value>true</param-value>
+            <param-value>false</param-value>
         </init-param>
         <init-param>
             <param-name>principalSessionName</param-name>

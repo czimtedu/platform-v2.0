@@ -132,7 +132,7 @@ public class DaoUtils {
         //(1)修正SQL语句中多个空格为一个空格。
         //(2)转换为大写形式
         //(3)执行语句替换
-        String sqlCommand = sb.toString().replaceAll("\\s+", " ").toUpperCase().replaceAll("WHERE 1=1 OR", "WHERE 1=1 AND");
+        String sqlCommand = sb.toString().replaceAll("\\s+", " ").replaceAll("WHERE 1=1 OR", "WHERE 1=1 AND");
         sb.setLength(0);
         sb.append(sqlCommand);
         return sb;

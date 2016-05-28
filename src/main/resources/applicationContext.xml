@@ -153,7 +153,7 @@
     <!-- Jedis ConnectionFactory 连接池配置 -->
     <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
         <constructor-arg index="0" ref="jedisPoolConfig"/>
-        <constructor-arg index="1" value="${redis.hostname}"/>
+        <constructor-arg index="1" value="${redis.hostname}" type="java.lang.String"/>
         <constructor-arg index="2" value="${redis.port}" type="int"/>
         <constructor-arg index="3" value="${redis.timeout}" type="int"/>
     </bean>

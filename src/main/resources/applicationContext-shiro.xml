@@ -24,6 +24,7 @@
                 /uploads/** = anon
                 /static/** = anon
                 /api/** = anon
+                ${frontPath}/** = anon
                 <!-- 登录页需要认证 -->
                 ${adminPath}/login = authc
                 ${adminPath}/logout = logout
