@@ -1132,3 +1132,7 @@ footer#body-footer a:hover {
     height: auto;
     margin: 10px;
 }
+
+.pagination-detail{
+    display: none;
+}

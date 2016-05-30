@@ -135,7 +135,7 @@
                 <form action="#" method="get" id="searchform" class="navbar-form navbar-right visible-lg" role="search">
                     <div class="form-group">
                         <input type="text" name='s' id='s' class="form-control" placeholder="这里有你想要的">
-                        <button class="btn btn-danger" type="submit"><i class="fa fa-search"></i></button>
+                        <button class="btn btn-danger" type=""><i class="fa fa-search"></i></button>
                     </div>
                 </form>
             </div>
