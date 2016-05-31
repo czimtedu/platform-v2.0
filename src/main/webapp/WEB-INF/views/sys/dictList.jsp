@@ -77,23 +77,23 @@
                         <td>
                             <a href="#"
                                onclick="openDialogView('查看字典', '${ctx}/sys/dict/form?id=${bean.id}','800px', '500px')"
-                               class="btn btn-info btn-xs"><i class="fa fa-search-plus"></i> 查看
+                               class="btn btn-link btn-xs"><i class="fa fa-search-plus"></i> 查看
                             </a>
                             <shiro:hasPermission name="sys:dict:edit">
                             <a href="#"
                                onclick="openDialog('修改字典', '${ctx}/sys/dict/form?id=${bean.id}','800px', '500px')"
-                               class="btn btn-success btn-xs"><i class="fa fa-edit"></i> 修改
+                               class="btn btn-link btn-xs"><i class="fa fa-edit"></i> 修改
                             </a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="sys:dict:del">
                             <a href="${ctx}/sys/dict/delete?ids=${bean.id}&type=${bean.enName}"
-                               onclick="return confirmx('确认要删除该字典吗？', this.href)" class="btn btn-danger btn-xs">
+                               onclick="return confirmx('确认要删除该字典吗？', this.href)" class="btn btn-link btn-xs">
                                 <i class="fa fa-trash"></i> 删除
                             </a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="sys:dict:edit">
                             <a href="#" onclick="openDialog('添加键值', '${ctx}/sys/dict/form?id=${bean.id}&actionType=2','800px', '500px')"
-                               class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> 添加键值
+                               class="btn btn-link btn-xs"><i class="fa fa-plus"></i> 添加键值
                             </a>
                             </shiro:hasPermission>
                         </td>

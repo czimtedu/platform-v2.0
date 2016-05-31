@@ -74,20 +74,20 @@
                         <td>${bean.createBy}</td>
                         <td>${bean.createTime}</td>
                         <td>
-                            <a href="#" onclick="openDialogView('查看角色', '${ctx}/sys/role/form?id=${bean.id}','800px', '500px')" class="btn btn-info btn-xs" >
+                            <a href="#" onclick="openDialogView('查看角色', '${ctx}/sys/role/form?id=${bean.id}','800px', '500px')" class="btn btn-link btn-xs" >
                                 <i class="fa fa-search-plus"></i> 查看
                             </a>
                             <shiro:hasPermission name="sys:role:edit">
-                                    <a href="#" onclick="openDialog('修改角色', '${ctx}/sys/role/form?id=${bean.id}','800px', '500px')" class="btn btn-success btn-xs" ><i class="fa fa-edit"></i> 修改</a>
+                                    <a href="#" onclick="openDialog('修改角色', '${ctx}/sys/role/form?id=${bean.id}','800px', '500px')" class="btn btn-link btn-xs" ><i class="fa fa-edit"></i> 修改</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="sys:role:del">
-                                <a href="${ctx}/sys/role/delete?id=${bean.id}" onclick="return confirmx('确认要删除该角色吗？', this.href)" class="btn  btn-danger btn-xs"><i class="fa fa-trash"></i> 删除</a>
+                                <a href="${ctx}/sys/role/delete?id=${bean.id}" onclick="return confirmx('确认要删除该角色吗？', this.href)" class="btn  btn-link btn-xs"><i class="fa fa-trash"></i> 删除</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="sys:role:edit">
-                                <a href="#" onclick="openDialog('权限设置', '${ctx}/sys/role/auth?id=${bean.id}','350px', '700px')" class="btn btn-primary btn-xs" ><i class="fa fa-edit"></i> 权限设置</a>
+                                <a href="#" onclick="openDialog('权限设置', '${ctx}/sys/role/auth?id=${bean.id}','350px', '700px')" class="btn btn-link btn-xs" ><i class="fa fa-edit"></i> 权限设置</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="sys:role:edit">
-                                <a href="#" onclick="openDialogView('分配用户', '${ctx}/sys/role/assign?id=${bean.id}','800px', '600px')"  class="btn  btn-warning btn-xs" ><i class="glyphicon glyphicon-plus"></i> 分配用户</a>
+                                <a href="#" onclick="openDialogView('分配用户', '${ctx}/sys/role/assign?id=${bean.id}','800px', '600px')"  class="btn  btn-link btn-xs" ><i class="glyphicon glyphicon-plus"></i> 分配用户</a>
                             </shiro:hasPermission>
                         </td>
                     </tr>

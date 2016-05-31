@@ -78,19 +78,19 @@
                         <td>
                             <a href="#"
                                onclick="openDialogView('查看', '${ctx}/cms/article/form?id=${bean.id}','800px', '500px')"
-                               class="btn btn-info btn-xs">
+                               class="btn btn-link btn-xs">
                                 <i class="fa fa-search-plus"></i> 查看
                             </a>
                             <shiro:hasPermission name="sys:user:edit">
                                 <a href="#"
                                    onclick="openDialog('修改', '${ctx}/cms/article/form?id=${bean.id}','800px', '680px')"
-                                   class="btn btn-success btn-xs">
+                                   class="btn btn-link btn-xs">
                                     <i class="fa fa-edit"></i> 修改
                                 </a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="sys:user:del">
                                 <a href="${ctx}/cms/article/delete?ids=${bean.id}"
-                                   onclick="return confirmx('确认要删除该数据吗？', this.href)" class="btn btn-danger btn-xs">
+                                   onclick="return confirmx('确认要删除该数据吗？', this.href)" class="btn btn-link btn-xs">
                                     <i class="fa fa-trash"></i> 删除
                                 </a>
                             </shiro:hasPermission>

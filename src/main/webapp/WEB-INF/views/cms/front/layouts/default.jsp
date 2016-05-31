@@ -117,19 +117,19 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li id="menu-item-2098" class="menu-item active">
+                    <li class="menu-item active">
                         <a href="${ctx}">首页</a>
                     </li>
-                    <li id="menu-item-662" class="menu-item">
-                        <a href="#">文章归档</a>
+                    <li class="menu-item">
+                        <a href="${ctx}">文章归档</a>
                     </li>
-                    <li id="menu-item-699" class="menu-item">
-                        <a href="#">关于我</a></li>
-                    <li id="menu-item-700" class="menu-item">
-                        <a href="#">给我留言</a>
+                    <li class="menu-item">
+                        <a href="${ctx}/me">关于我</a></li>
+                    <li class="menu-item">
+                        <a href="${ctx}/guestbook">给我留言</a>
                     </li>
-                    <li id="menu-item-1029" class="menu-item menu-item-type-post_type menu-item-object-page">
-                        <a href="#">福利</a>
+                    <li class="menu-item">
+                        <a href="${ctx}/guestbook">福利</a>
                     </li>
                 </ul>
                 <form action="#" method="get" id="searchform" class="navbar-form navbar-right visible-lg" role="search">

@@ -59,6 +59,11 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
     }
 
     @Override
+    public void updateArticle(CmsArticle object) {
+        mybatisBaseDaoImpl.updateDbAndCache(object);
+    }
+
+    @Override
     public Long save(CmsArticle object) throws Exception {
         return null;
     }

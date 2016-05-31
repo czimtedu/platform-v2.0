@@ -6,6 +6,7 @@ package com.platform.core.cms.service;
 
 import com.platform.core.cms.bean.CmsArticle;
 import com.platform.core.cms.bean.CmsArticleData;
+import com.platform.core.cms.bean.CmsGuestbook;
 import com.platform.framework.common.BaseService;
 
 /**
@@ -14,12 +15,6 @@ import com.platform.framework.common.BaseService;
  * @author lufengcheng
  * @date 2016-01-15 09:56:22
  */
-public interface ArticleService extends BaseService<CmsArticle> {
+public interface GuestbookService extends BaseService<CmsGuestbook> {
 
-
-    void save(CmsArticle object, CmsArticleData articleData) throws Exception;
-
-    String getContent(String id);
-
-    void updateArticle(CmsArticle object);
 }

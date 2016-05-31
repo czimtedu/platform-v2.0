@@ -32,9 +32,9 @@
                         <span class="pull-left">
                             <span>${fn:substring(bean.createTime, 0, 19)}</span><span class="dot">•</span>
                             <span>${bean.categoryId}</span><span class="dot">•</span>
-                            <span>${bean.author}</span><span class="dot">•</span>
+                            <span>${bean.author}</span>
                             <%--<span><a href="#">${bean.weight} 评论数</a></span><span class="dot">•</span>--%>
-                            <span>${bean.hits} 浏览数</span>
+                            <%--<span>${bean.hits} 浏览数</span>--%>
                         </span>
                 </div>
             </header>
