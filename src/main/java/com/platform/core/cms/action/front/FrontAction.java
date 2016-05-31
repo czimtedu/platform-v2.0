@@ -33,7 +33,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "${frontPath}")
-public class FrontController extends BaseFrontAction {
+public class FrontAction extends BaseFrontAction {
 
     @Autowired
     private ArticleService articleService;
@@ -70,9 +70,9 @@ public class FrontController extends BaseFrontAction {
     /**
      * 关于我
      */
-    @RequestMapping("me")
-    public String me(Model model) throws Exception {
-        return "cms/front/pages/me";
+    @RequestMapping("about")
+    public String about(Model model) throws Exception {
+        return "cms/front/pages/about";
     }
 
     /**
@@ -82,7 +82,7 @@ public class FrontController extends BaseFrontAction {
     public String guestbook(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Page<CmsGuestbook> page = guestbookService.getPage(new Page<CmsGuestbook>(request, response), new CmsGuestbook(), "");
         model.addAttribute("page", page);
-        return "cms/front/pages/me";
+        return "cms/front/pages/guestbook";
     }
 
     /**
@@ -92,11 +92,18 @@ public class FrontController extends BaseFrontAction {
     public String guestbookSave(Model model, CmsGuestbook guestbook,
                                 HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
         guestbook.setIp(request.getRemoteAddr());
-        guestbook.setCreateDate(new Date());
+        guestbook.setCreateTime(new Date());
         guestbook.setDelFlag("0");
         guestbookService.save(guestbook);
         addMessage(redirectAttributes, "提交成功，谢谢！");
         return "redirect:"+ frontPath +"/guestbook";
     }
 
+    /**
+     * data
+     */
+    @RequestMapping("data")
+    public String data(Model model) throws Exception {
+        return "cms/front/pages/data";
+    }
 }

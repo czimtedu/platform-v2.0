@@ -124,12 +124,12 @@
                         <a href="${ctx}">文章归档</a>
                     </li>
                     <li class="menu-item">
-                        <a href="${ctx}/me">关于我</a></li>
+                        <a href="${ctx}/about">关于我</a></li>
                     <li class="menu-item">
                         <a href="${ctx}/guestbook">给我留言</a>
                     </li>
                     <li class="menu-item">
-                        <a href="${ctx}/guestbook">福利</a>
+                        <a href="${ctx}/data">福利</a>
                     </li>
                 </ul>
                 <form action="#" method="get" id="searchform" class="navbar-form navbar-right visible-lg" role="search">
