@@ -151,16 +151,16 @@
             <a href="http://www.google.cn/intl/zh-CN/chrome/" target="_blank"><i class="fa fa-compass"></i> Chrome</a>
         </div>
         <![endif]-->
-        <section class='col-md-8'>
+        <section class='col-md-9'>
             <sitemesh:body/>
         </section>
-        <aside id="side-bar" class="col-md-4">
+        <aside id="side-bar" class="col-md-3">
             <aside class="widget widget_views panel panel-specs visible-lg visible-md">
                 <div class="panel-heading"><h2>回味依旧</h2></div>
                 <ul>
                     <li>
-                        <embed pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://chabudai.sakura.ne.jp/blogparts/honehoneclock/honehone_clock_tr.swf"
-                               width="250" height="80" type="application/x-shockwave-flash" wmode="transparent" quality="high">
+                        <EMBED pluginspage=http://www.macromedia.com/go/getflashplayer src="${ctxStatic}/static/front/file/time.swf"
+                               width=270 height=70 type=application/x-shockwave-flash wmode="transparent" quality="high">
                     </li>
                     <li>
                         闲坐小窗读周易,不知春去已多时
@@ -171,11 +171,23 @@
                 <div class="panel-heading"><h2>BGM</h2></div>
                 <ul>
                     <li>
-                        <embed pluginspage="http://www.macromedia.com/go/getflashplayer" src="https://www.douban.com/swf/player.swf?url=${ctxStatic}/static/app/video/HowYouMakeMeFeel.mp3&amp;autoplay=1"
+                        <embed src="https://www.douban.com/swf/player.swf?url=${ctxStatic}/static/app/video/HowYouMakeMeFeel.mp3&autoplay=1"
                                type="application/x-shockwave-flash" wmode="transparent" allowscriptaccess="always" width="400" height="30">
                     </li>
                 </ul>
 
+            </aside>
+            <aside class="widget widget_views panel panel-specs visible-lg visible-md">
+                <ul>
+                    <li>
+                        <script type="text/javascript" src="${ctxStatic}/static/front/tagcloud/swfobject.js"></script>
+                        <embed src="${ctxStatic}/static/front/tagcloud/tagcloud.swf" width="240" height="240" tplayername="SWF" splayername="SWF"
+                               type="application/x-shockwave-flash" mediawrapchecked="true"
+                               pluginspage="http://www.macromedia.com/go/getflashplayer" id="tagcloudflash" name="tagcloudflash"
+                               quality="high" wmode="transparent" allowscriptaccess="always"
+                               flashvars="tcolor=0x333333&amp;tcolor2=0x666666&amp;hicolor=0xf5f5f5&amp;tspeed=100&amp;distr=true"></embed>
+                    </li>
+                </ul>
             </aside>
             <aside id="views-2" class="widget widget_views panel panel-specs visible-lg visible-md">
                 <div class="panel-heading"><h2>热门文章</h2></div>
