@@ -51,6 +51,16 @@ public class FrontAction extends BaseFrontAction {
     }
 
     /**
+     * 文章列表
+     */
+    @RequestMapping("article")
+    public String article(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response), new CmsArticle(), "");
+        model.addAttribute("page", page);
+        return "cms/front/pages/article-list";
+    }
+
+    /**
      * 文章详情
      */
     @RequestMapping("article/{id}")

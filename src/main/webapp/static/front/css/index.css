@@ -1136,3 +1136,7 @@ footer#body-footer a:hover {
 .pagination-detail {
     display: none;
 }
+
+.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+    background-color: #eee;
+}

@@ -10,6 +10,16 @@
 
     <script>
         $(function () {
+            var url = window.location.href;
+            $(".navbar-nav > li").each(function(){
+                $(this).removeClass("active");
+                if(url.indexOf($(this).attr("data")) > 0){
+                    $(this).addClass("active");
+                }
+            });
+            if(url.indexOf("article") > 0){
+
+            }
             $("a").tooltip();
             if (jQuery(window).width() > 768) {
                 dropDown();
@@ -113,22 +123,22 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
                     <span class="fa fa-bars"></span>
                 </button>
-                <a class="navbar-brand visible-xs" href="http://www.zmrbk.com/">lufengc's blog</a>
+                <a class="navbar-brand visible-xs" href="${ctx}">lufengc's blog</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="menu-item active">
+                    <li class="menu-item" tag="/">
                         <a href="${ctx}">首页</a>
                     </li>
-                    <li class="menu-item">
-                        <a href="${ctx}">文章归档</a>
+                    <li class="menu-item" data="article">
+                        <a href="${ctx}/article">文章归档</a>
                     </li>
-                    <li class="menu-item">
+                    <li class="menu-item" data="about">
                         <a href="${ctx}/about">关于我</a></li>
-                    <li class="menu-item">
+                    <li class="menu-item" data="guestbook">
                         <a href="${ctx}/guestbook">给我留言</a>
                     </li>
-                    <li class="menu-item">
+                    <li class="menu-item" data="data">
                         <a href="${ctx}/data">福利</a>
                     </li>
                 </ul>
@@ -171,7 +181,7 @@
                 <div class="panel-heading"><h2>BGM</h2></div>
                 <ul>
                     <li>
-                        <embed src="https://www.douban.com/swf/player.swf?url=${ctxStatic}/static/app/video/HowYouMakeMeFeel.mp3&autoplay=1"
+                        <embed src="https://www.douban.com/swf/player.swf?url=${ctxStatic}/static/app/video/HowYouMakeMeFeel.mp3&amp;autoplay=1"
                                type="application/x-shockwave-flash" wmode="transparent" allowscriptaccess="always" width="400" height="30">
                     </li>
                 </ul>

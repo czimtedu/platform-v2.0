@@ -59,6 +59,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void updateArticle(CmsArticle object) {
         mybatisBaseDaoImpl.updateDbAndCache(object);
     }
