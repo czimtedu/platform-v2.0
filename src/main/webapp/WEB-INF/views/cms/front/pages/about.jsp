@@ -1,8 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/cms/front/include/taglib.jsp" %>
-<%--
-  ~ Copyright &copy; <a href="https://www.zlgx.com">zlgx</a> All rights reserved.
-  --%>
 
 <!DOCTYPE html>
 <html>
@@ -15,7 +12,12 @@
 <body>
 
 <article class="well clearfix page">
-    怕什么真理无穷，进一寸有一寸的欢喜
+    <p class="text-center">I am what I am</p>
+    <p class="text-center">我</p>
+    <p class="text-center">白天是个程序员,晚上是个有抱负的演员</p>
+    <div style="padding: 20px 50px;">
+        <img class="carousel-inner img-responsive" src="${ctxStatic}/static/front/image/2.png">
+    </div>
 </article>
 </body>
 </html>

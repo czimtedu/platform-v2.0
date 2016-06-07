@@ -152,11 +152,11 @@ a:hover, a:focus, .entry-meta a:hover, a.more-link, a.entry-cover:before,
 }
 
 .well {
-    border-radius: 0;
+    border-radius: 3px;
     background-color: #fff;
     border: 1px solid #E3E3E3;
     overflow: hidden;
-    box-shadow: 0px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, .1);
 }
 
 .badge {
@@ -230,7 +230,7 @@ a.navbar-brand {
 }
 
 #masthead a.brand-text {
-    color: #DFDFDF;
+    color: #ff4d3a;
 }
 
 #masthead a.brand-text:hover {
@@ -1140,3 +1140,21 @@ footer#body-footer a:hover {
 .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
     background-color: #eee;
 }
+
+.container {
+    padding: 0 30px;
+}
+
+label.error {
+    padding-left: 18px;
+    padding-bottom: 2px;
+    font-weight: bold;
+    color: #ea5200;
+    margin-left: 10px
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 0;
+}
+

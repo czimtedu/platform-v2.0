@@ -51,14 +51,6 @@
             //警告框链接加样式
             $(".alert").children("p").children("a").addClass("alert-link");
             $(".alert").children("a").addClass("alert-link");
-
-            //文章页图片特效
-            //$('.fancybox').fancybox();
-            $("select").addClass("form-control");
-            //$("#commentform").addClass('form-horizontal');
-            $("#commentform #submit").addClass('btn btn-danger btn-block');
-            //$("#commentform .form-submit").addClass("col-xs-12");
-
         });
         //返回顶部
         $(window).scroll(function () {
@@ -139,7 +131,7 @@
                         <a href="${ctx}/guestbook">给我留言</a>
                     </li>
                     <li class="menu-item" data="data">
-                        <a href="${ctx}/data">福利</a>
+                        <a href="${ctx}/data">就是这么无聊</a>
                     </li>
                 </ul>
                 <form action="#" method="get" id="searchform" class="navbar-form navbar-right visible-lg" role="search">
@@ -161,10 +153,10 @@
             <a href="http://www.google.cn/intl/zh-CN/chrome/" target="_blank"><i class="fa fa-compass"></i> Chrome</a>
         </div>
         <![endif]-->
-        <section class='col-md-9'>
+        <section class='col-md-8'>
             <sitemesh:body/>
         </section>
-        <aside id="side-bar" class="col-md-3">
+        <aside id="side-bar" class="col-md-4">
             <aside class="widget widget_views panel panel-specs visible-lg visible-md">
                 <div class="panel-heading"><h2>回味依旧</h2></div>
                 <ul>
@@ -181,8 +173,8 @@
                 <div class="panel-heading"><h2>BGM</h2></div>
                 <ul>
                     <li>
-                        <embed src="https://www.douban.com/swf/player.swf?url=${ctxStatic}/static/app/video/HowYouMakeMeFeel.mp3&amp;autoplay=1"
-                               type="application/x-shockwave-flash" wmode="transparent" allowscriptaccess="always" width="400" height="30">
+                        <embed src="${ctxStatic}/static/front/file/player.swf?url=${ctxStatic}/static/app/video/HowYouMakeMeFeel.mp3&amp;autoplay=1"
+                               type="application/x-shockwave-flash" wmode="transparent" allowscriptaccess="always" width="260" height="26">
                     </li>
                 </ul>
 
@@ -191,7 +183,7 @@
                 <ul>
                     <li>
                         <script type="text/javascript" src="${ctxStatic}/static/front/tagcloud/swfobject.js"></script>
-                        <embed src="${ctxStatic}/static/front/tagcloud/tagcloud.swf" width="240" height="240" tplayername="SWF" splayername="SWF"
+                        <embed src="${ctxStatic}/static/front/tagcloud/tagcloud.swf" width="310" height="250" tplayername="SWF" splayername="SWF"
                                type="application/x-shockwave-flash" mediawrapchecked="true"
                                pluginspage="http://www.macromedia.com/go/getflashplayer" id="tagcloudflash" name="tagcloudflash"
                                quality="high" wmode="transparent" allowscriptaccess="always"
