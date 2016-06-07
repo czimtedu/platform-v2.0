@@ -68,7 +68,8 @@
         <div class="form-group">
             <label class="col-md-2 control-label">留言:</label>
             <div class="col-md-10">
-                <textarea name="content" rows="4" maxlength="200" class="form-control input-sm required"></textarea>
+                <textarea name="content" rows="4" maxlength="200" class="form-control input-sm required"
+                          placeholder="Would you like something to write ?"></textarea>
             </div>
         </div>
         <div class="form-group">
