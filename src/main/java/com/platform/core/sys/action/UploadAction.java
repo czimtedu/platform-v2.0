@@ -26,7 +26,7 @@ import java.util.UUID;
  * @date 2016-01-15 09:56:22
  */
 @Controller
-@RequestMapping(value = "${adminPath}")
+@RequestMapping(value = "")
 public class UploadAction {
 
     private static final String ALLOW_TYPE_IMG = "jpg|gif|jpeg|png|bmp";

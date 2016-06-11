@@ -18,6 +18,15 @@
     <meta name="description" content="lufengc's blog">
     <meta name="keywords" content="lufengc's blog">
     <meta name="decorator" content="cms_default_basic"/>
+    <script>
+        function page(n, s) {//翻页
+            $("#pageNo").val(n);
+            $("#pageSize").val(s);
+            $("#searchForm").submit();
+            //$("span.page-size").text(s);
+            return false;
+        }
+    </script>
 </head>
 <body>
 <c:forEach items="${page.list}" var="bean">

@@ -51,6 +51,7 @@
             //警告框链接加样式
             $(".alert").children("p").children("a").addClass("alert-link");
             $(".alert").children("a").addClass("alert-link");
+
         });
         //返回顶部
         $(window).scroll(function () {
@@ -213,7 +214,6 @@
                 <div class="panel-heading"><h2>联系我</h2></div>
                 <div class="textwidget">
                     联系我：798288668<br>
-                    群交流：建设中<br>
                     Email：<a href="mailto:lufengc@163.com">lufengc@163.com</a>
                 </div>
             </aside>

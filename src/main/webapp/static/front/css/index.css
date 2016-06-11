@@ -1158,3 +1158,123 @@ label {
     margin-bottom: 0;
 }
 
+
+
+#comments .commentlist, #comments .navigation {
+    transition: opacity 0.3s ease 0s;
+}
+.commentlist {
+    color: #666;
+    margin: 0;
+    padding: 0;
+}
+#error404 ul, #links, #links ul, .archives-list, .archives-list ul, .commentlist, .widget ul {
+    list-style: outside none none;
+}
+
+.commentlist .comment {
+    border-top: 1px dotted #ccc;
+    margin: 0 0 1em;
+    padding-top: 1em;
+}
+
+.commentlist .comment-body {
+    margin-left: 60px;
+    position: relative;
+}
+
+.commentlist .comment-author .avatar {
+    border-radius: 3px;
+    left: -60px;
+    position: absolute;
+    top: 0;
+}
+.avatar, .ds-avatar img {
+    border-radius: 50% !important;
+}
+img {
+    border: 0 none;
+}
+
+.commentlist .comment-author .fn {
+    color: #2c3e50;
+    font-style: normal;
+}
+
+.commentlist .comment-author .url {
+    color: #2c3e50;
+    font-weight: 700;
+}
+a {
+    color: #666;
+    transition: color 0.2s ease 0s;
+}
+.mobile-menu a, a {
+    text-decoration: none;
+}
+
+.commentlist .comment-author time, .commentlist .comment-awaiting-moderation {
+    color: #999;
+    float: right;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.commentlist .comment-content {
+    margin-top: 0.5em;
+    word-break: normal;
+    word-wrap: break-word;
+}
+
+.commentlist .comment-content > p:last-child {
+    margin-bottom: 0.2em;
+}
+.commentlist .comment-content p {
+    margin: 0 0 0.5em;
+}
+p {
+    line-height: 1.7;
+}
+
+.commentlist .comment-footer {
+    font-size: 12px;
+    opacity: 0;
+    text-align: right;
+    transition: opacity 0.3s ease 0s;
+}
+.bdsharebuttonbox a, .commentlist .comment-footer {
+    transition: opacity 0.3s ease 0s;
+}
+article, aside, details, figcaption, figure, footer, header, main, nav, section, summary {
+    display: block;
+}
+
+.commentlist .comment-footer a {
+    color: #2c3e50;
+    margin-left: 1em;
+}
+a {
+    color: #666;
+    transition: color 0.2s ease 0s;
+}
+.mobile-menu a, a {
+    text-decoration: none;
+}
+
+.commentlist .comment-footer a:hover {
+    color: #34495e;
+}
+.commentlist .comment-footer a {
+    margin-left: 1em;
+    color: #2c3e50;
+}
+a:hover {
+    color: #2c3e50;
+}
+#comment:focus, #s.focus, #s:focus, #s:invalid, .comment-fields input:focus, .widget_minty_mailsubscription .rsstxt:focus, a:active, a:hover {
+    outline: 0;
+}
+a {
+    color: #666;
+    transition: color .2s;
+}

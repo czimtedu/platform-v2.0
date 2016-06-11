@@ -45,7 +45,7 @@ public class FrontAction extends BaseFrontAction {
      */
     @RequestMapping
     public String index(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response), new CmsArticle(), "");
+        Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response, 1000), new CmsArticle(), "");
         model.addAttribute("page", page);
         return "cms/front/pages/index";
     }
@@ -102,7 +102,6 @@ public class FrontAction extends BaseFrontAction {
     public String guestbookSave(Model model, CmsGuestbook guestbook,
                                 HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
         guestbook.setIp(request.getRemoteAddr());
-        guestbook.setCreateTime(new Date());
         guestbook.setDelFlag("0");
         guestbookService.save(guestbook);
         addMessage(redirectAttributes, "提交成功，谢谢！");

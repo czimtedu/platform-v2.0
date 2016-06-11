@@ -29,6 +29,7 @@ public class GuestbookServiceImpl extends BaseServiceImpl<CmsGuestbook> implemen
 
 
     @Override
+    @Transactional(readOnly = false)
     public Long save(CmsGuestbook object) throws Exception {
         if (StringUtils.isNotEmpty(object.getId())) {
             mybatisBaseDaoImpl.updateDbAndCache(object);

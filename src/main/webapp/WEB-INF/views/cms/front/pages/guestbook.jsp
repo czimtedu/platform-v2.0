@@ -46,7 +46,6 @@
 <article class="well clearfix page">
     <h4>我要留言</h4>
     <form:form id="inputForm" action="${ctx}/guestbook" method="post" class="form-horizontal">
-
         <div class="form-group">
             <label class="col-md-2 control-label">名称:</label>
             <div class="col-md-5">
@@ -80,21 +79,28 @@
     </form:form>
 
     <h4>公共留言</h4>
-    <ul>
+    <ol class="commentlist">
         <c:forEach items="${page.list}" var="guestbook">
-            <li>
-                <h5>姓名: ${guestbook.name} &nbsp;时间：<fmt:formatDate value="${guestbook.createTime}"
-                                                                   pattern="yyyy-MM-dd HH:mm:ss"/></h5>
-                <div>内容：${guestbook.content}</div>
-                <h6>回复人：${guestbook.reUserId} 时间：<fmt:formatDate value="${guestbook.reDate}"
-                                                                 pattern="yyyy-MM-dd HH:mm:ss"/></h6>
-                <div>回复内容：${guestbook.reContent}</div>
+            <li class="comment even thread-even depth-1" id="li-comment-8087">
+                <div id="comment-8087" class="comment-body">
+                    <div class="comment-author vcard">
+                        <img src="${ctxStatic}/static/app/image/default.jpg"
+                             class='lazy avatar avatar-50 photo' height='50' width='50'/>
+                        <cite class="fn"><a rel='external nofollow' class='url'>${guestbook.name}</a></cite>
+                        <time>${guestbook.createTime}</time>
+                    </div>
+                    <div class="comment-content"><p>${guestbook.content}</p></div>
+                    <footer class="comment-footer">
+                            <%--<a rel='nofollow' href='#'>回复</a>--%>
+                    </footer>
+                </div>
             </li>
+            <!-- #comment-## -->
         </c:forEach>
         <c:if test="${fn:length(page.list) eq 0}">
             <li>暂时还没有人留言！</li>
         </c:if>
-    </ul>
+    </ol>
     <div class="pagination">${page}</div>
 </article>
 </body>

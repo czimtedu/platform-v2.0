@@ -289,10 +289,10 @@ public class MybatisBaseDaoImpl {
         //自动添加更新时间
         try {
             ReflectionUtils.setFieldValue(obj, "updateBy", UserUtils.getUserId());
+        } catch (Exception ignored) {}
+        try {
             ReflectionUtils.setFieldValue(obj, "updateTime", new java.sql.Timestamp(new Date().getTime()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception ignored) {}
         String conditions = "id=";
         String setFields = "";//对象的字段名=字段值
         Field[] fields = null;
@@ -358,10 +358,10 @@ public class MybatisBaseDaoImpl {
         String tableName = BeanToTable.beanToTable(name);
         try {
             ReflectionUtils.setFieldValue(obj, "createBy", UserUtils.getUserId());
+        } catch (Exception ignored) {}
+        try {
             ReflectionUtils.setFieldValue(obj, "createTime", new java.sql.Timestamp(new Date().getTime()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception ignored) {}
         String param = "";//对象的有值的字段名
         String value = "";//对象的有值的字段值
         Field[] fields = ReflectionUtils.getField(obj.getClass(), null);
