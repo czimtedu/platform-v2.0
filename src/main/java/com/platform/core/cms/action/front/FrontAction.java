@@ -5,6 +5,7 @@
 package com.platform.core.cms.action.front;
 
 import com.platform.core.cms.bean.CmsArticle;
+import com.platform.core.cms.bean.CmsArticleData;
 import com.platform.core.cms.bean.CmsGuestbook;
 import com.platform.core.cms.service.ArticleService;
 import com.platform.core.cms.service.GuestbookService;
@@ -12,6 +13,8 @@ import com.platform.framework.common.BaseFrontAction;
 import com.platform.framework.common.Global;
 import com.platform.framework.common.Page;
 import com.platform.framework.common.SysConfigManager;
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -114,5 +117,75 @@ public class FrontAction extends BaseFrontAction {
     @RequestMapping("data")
     public String data(Model model) throws Exception {
         return "cms/front/pages/data";
+    }
+
+    /**
+     * grz
+     */
+    @RequestMapping("grz")
+    public String grz(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response, 1000), new CmsArticle(), "");
+        model.addAttribute("page", page);
+        return "cms/front/pages/grz";
+    }
+
+    /**
+     * write page
+     *
+     * @return view
+     * @throws Exception
+     */
+    @RequestMapping(value = "write")
+    public String write(Model model,String id) throws Exception {
+        CmsArticle object;
+        if (StringUtils.isNotEmpty(id)) {
+            object = articleService.get(CmsArticle.class, id);
+        } else {
+            object =  new CmsArticle();
+        }
+        String content = "";
+        if(StringUtils.isNotEmpty(object.getId())){
+            content = articleService.getContent(object.getId());
+        }
+        model.addAttribute("cmsArticle", object);
+        model.addAttribute("content", content);
+        return "cms/front/pages/write";
+    }
+
+    /**
+     * 文章详情
+     */
+    @RequestMapping("/grz/article/{id}")
+    public String grzArticle(Model model, @PathVariable("id")String id) throws Exception {
+        CmsArticle bean = articleService.get(CmsArticle.class, id);
+        if(bean == null || bean.getStatus() == 0){
+            return "error/404";
+        }
+        // 文章阅读次数+1
+        bean.setHits(bean.getHits() + 1);
+        articleService.updateArticle(bean);
+        model.addAttribute("bean", bean);
+        model.addAttribute("content", articleService.getContent(id));
+        return "cms/front/pages/grz-article";
+    }
+
+    /**
+     * save
+     *
+     * @param model Model
+     * @param object object
+     * @return view
+     * @throws Exception
+     */
+    @RequestMapping(value = "/article/save")
+    public String save(Model model, CmsArticle object, CmsArticleData articleData,
+                       RedirectAttributes redirectAttributes) throws Exception {
+        object.setCategoryId("心情随笔");
+        object.setAuthor("grz");
+        object.setType(2);
+        object.setStatus(1);
+        articleService.save(object, articleData);
+        addMessage(redirectAttributes, "保存成功");
+        return "redirect:" + frontPath + "/grz";
     }
 }
