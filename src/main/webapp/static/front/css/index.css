@@ -125,6 +125,7 @@ a:hover, a:focus, .entry-meta a:hover, a.more-link, a.entry-cover:before,
 .panel {
     border-radius: 0;
     box-shadow: 0;
+    background-color: #eeeeee;
 }
 
 .panel-specs {

@@ -168,7 +168,17 @@
                                type="application/x-shockwave-flash" wmode="transparent" allowscriptaccess="always" width="260" height="26">
                     </li>
                 </ul>
-
+            </aside>
+            <aside id="categories-7" class="widget widget_categories panel panel-specs visible-lg visible-md">
+                <div class="panel-heading"><h2>分类目录</h2></div>
+                <ul>
+                    <li class="cat-item cat-item-3"><a href="#">心情随笔</a>
+                    </li>
+                    <li class="cat-item cat-item-6"><a href="#">技术杂谈</a>
+                    </li>
+                    <li class="cat-item cat-item-4"><a href="#">情感天地</a>
+                    </li>
+                </ul>
             </aside>
             <aside class="widget widget_views panel panel-specs visible-lg visible-md">
                 <ul>
@@ -182,17 +192,7 @@
                     </li>
                 </ul>
             </aside>
-            <aside id="categories-7" class="widget widget_categories panel panel-specs visible-lg visible-md">
-                <div class="panel-heading"><h2>分类目录</h2></div>
-                <ul>
-                    <li class="cat-item cat-item-3"><a href="#">心情随笔</a>
-                    </li>
-                    <li class="cat-item cat-item-6"><a href="#">技术杂谈</a>
-                    </li>
-                    <li class="cat-item cat-item-4"><a href="#">情感天地</a>
-                    </li>
-                </ul>
-            </aside>
+
         </aside>
     </section>
 </div>
