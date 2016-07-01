@@ -98,16 +98,16 @@
                     <h1>grz's site<small>Write what I think</small></h1>
                 </a>
                 <div class="top-social pull-right hidden-xs">
-                    <a id="s_sina_weibo" title="WEIBO" target="_blank" href="" data-toggle="tooltip" data-placement="bottom">
+                    <a id="s_sina_weibo" title="WEIBO" target="_blank" data-toggle="tooltip" data-placement="bottom">
                         <i class="fa fa-weibo"></i>
                     </a>
                     <a id="s_email" title="EMAIL" target="_blank" href="mailto:798288668@qq.com" data-toggle="tooltip" data-placement="bottom">
                         <i class="fa fa-envelope-o"></i>
                     </a>
-                    <a id="s_github" title="GITHUB" target="_blank" href="#" data-toggle="tooltip" data-placement="bottom">
+                    <a id="s_github" title="GITHUB" target="_blank" data-toggle="tooltip" data-placement="bottom">
                         <i class="fa fa-github"></i>
                     </a>
-                    <a id="s_rss" title="RSS" target="_blank" href="#" data-toggle="tooltip" data-placement="bottom">
+                    <a id="s_rss" title="RSS" target="_blank" data-toggle="tooltip" data-placement="bottom">
                         <i class="fa fa-rss-square"></i>
                     </a>
                 </div>
@@ -200,8 +200,8 @@
     <div class="container clearfix">
         Copyright © 2016 <span>Home</span> |
         <span>Forever</span>
-        -<a href="${ctx}" target="_blank">Login</a>-
-        Theme By <a href="#" target="_blank">lufengc</a><br>
+        -<a href="http://101.201.106.139/a" target="_blank">Login</a>-
+        Theme By <a target="_blank">lufengc</a><br>
         <div>${fns:getDate('yyyy年MM月dd日 E')}</div>
     </div>
     <ul id="jump" class="visible-lg">
