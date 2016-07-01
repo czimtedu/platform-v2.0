@@ -12,7 +12,6 @@ package com.platform.framework.common;
  */
 public class ResultAndParam {
     private Long id;// 实体类主键
-
     private String tableName;// 表名
     private String conditions;// 查询条件
     private String param;// 字段（值）

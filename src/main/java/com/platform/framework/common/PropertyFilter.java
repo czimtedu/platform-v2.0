@@ -35,7 +35,6 @@ public class PropertyFilter {
     public enum FieldRelationType {
         AND, OR;
 
-
         /**
          * 获取当前枚举值的描述
          */
@@ -63,7 +62,6 @@ public class PropertyFilter {
      */
     public enum PropertyType {
         S(String.class), I(Integer.class), L(Long.class), N(Double.class), D(Date.class), B(Boolean.class), G(BigDecimal.class);
-
         private Class<?> clazz;
 
         PropertyType(Class<?> clazz) {
@@ -100,18 +98,15 @@ public class PropertyFilter {
      */
     private String filterProperty;
 
-
     /**
      * 字段匹配关系
      * 默认为:FieldRelationType.AND
      */
     private FieldRelationType fieldRelationType = FieldRelationType.AND;
 
-
     public PropertyFilter() {
         super();
     }
-
 
     public PropertyFilter(final String filterProperty, final String value) {
         if (StringUtils.isEmpty(filterProperty)) {
@@ -155,7 +150,6 @@ public class PropertyFilter {
         }
     }
 
-
     /**
      * 专门用于内容权限部分构造查询对象
      */
@@ -165,7 +159,7 @@ public class PropertyFilter {
         propertyClass = Enum.valueOf(PropertyType.class, "S").getValue();
         this.matchValue = OgnlOps.convertValue(value, propertyClass);
     }
-    
+
     /**
      * 获取比较方式.
      */

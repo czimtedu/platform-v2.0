@@ -18,11 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class MobileIntercepter implements HandlerInterceptor {
 
-
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object object) throws Exception {
-		
+
 		return true;
 	}
 
@@ -30,7 +29,6 @@ public class MobileIntercepter implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest paramHttpServletRequest,
 			HttpServletResponse paramHttpServletResponse, Object paramObject,
 			ModelAndView paramModelAndView) throws Exception {
-
 	}
 
 	@Override
