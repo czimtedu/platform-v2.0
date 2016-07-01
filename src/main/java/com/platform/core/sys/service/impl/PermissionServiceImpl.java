@@ -12,8 +12,6 @@ import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisBaseDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -136,7 +134,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
     public Long delete(String ids) throws Exception {
         mybatisBaseDaoImpl.deleteDbAndCacheByIds(SysPermission.class, ids);
         String sql = "delete from sys_role_permission where permission_id in (" + ids + ")";
-        mybatisBaseDaoImpl.deleteByJPQL(sql);
+        mybatisBaseDaoImpl.deleteBySQL(sql);
         JedisUtils.delObject(LogServiceImpl.CACHE_PERMISSION_NAME_PATH_MAP);
         return 1L;
     }

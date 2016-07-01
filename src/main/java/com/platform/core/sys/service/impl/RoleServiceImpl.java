@@ -64,14 +64,14 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
             }
         }
         String saveSql = "insert into sys_user_role (user_id, role_id) values " + values.toString();
-        mybatisBaseDaoImpl.saveByJPQL(saveSql);
+        mybatisBaseDaoImpl.insertBySQL(saveSql);
     }
 
     @Override
     public boolean outUserInRole(SysRole role, SysUser user) {
         //删除用户角色关联
         String deleteSql = "delete from sys_user_role where user_id = " + user.getId() + " and role_id = " + role.getId();
-        mybatisBaseDaoImpl.deleteByJPQL(deleteSql);
+        mybatisBaseDaoImpl.deleteBySQL(deleteSql);
         return true;
     }
 
@@ -90,7 +90,7 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
             mybatisBaseDaoImpl.updateDbAndCache(object);
             //删除角色权限关联表
             String deleteSql = "delete from sys_role_permission where role_id =" + id;
-            mybatisBaseDaoImpl.deleteByJPQL(deleteSql);
+            mybatisBaseDaoImpl.deleteBySQL(deleteSql);
         } else {
             id = mybatisBaseDaoImpl.saveDb(object).intValue();
         }
@@ -105,7 +105,7 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
             }
         }
         String saveSql = "insert into sys_role_permission (role_id, permission_id) values " + values.toString();
-        mybatisBaseDaoImpl.saveByJPQL(saveSql);
+        mybatisBaseDaoImpl.insertBySQL(saveSql);
         return id.longValue();
     }
 
@@ -122,10 +122,10 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
         mybatisBaseDaoImpl.deleteDbAndCacheByIds(SysRole.class, ids);
         //删除用户角色关联表
         String sql = "delete from sys_user_role where role_id in (" + ids + ")";
-        mybatisBaseDaoImpl.deleteByJPQL(sql);
+        mybatisBaseDaoImpl.deleteBySQL(sql);
         //删除角色权限关联表
         String deleteRelSql = "delete from sys_role_permission where role_id in (" + ids + ")";
-        mybatisBaseDaoImpl.deleteByJPQL(deleteRelSql);
+        mybatisBaseDaoImpl.deleteBySQL(deleteRelSql);
         return 1L;
     }
 

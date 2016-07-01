@@ -107,7 +107,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
             mybatisBaseDaoImpl.updateDbAndCache(object);
             //删除用户角色关联
             String deleteSql = "delete from sys_user_role where user_id =" + id;
-            mybatisBaseDaoImpl.deleteByJPQL(deleteSql);
+            mybatisBaseDaoImpl.deleteBySQL(deleteSql);
         } else {
             object.setPassword(Encodes.entryptPassword(object.getPassword()));
             id = mybatisBaseDaoImpl.saveDb(object).intValue();
@@ -122,7 +122,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
             }
         }
         String saveSql = "insert into sys_user_role (user_id, role_id) values " + values.toString();
-        mybatisBaseDaoImpl.saveByJPQL(saveSql);
+        mybatisBaseDaoImpl.insertBySQL(saveSql);
         return id.longValue();
     }
 

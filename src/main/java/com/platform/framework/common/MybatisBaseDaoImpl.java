@@ -41,6 +41,7 @@ public class MybatisBaseDaoImpl {
      * @param ids         id
      * @return 数据集
      */
+    @SuppressWarnings("unchecked")
     public List findListDbAndCacheByIds(Class entityClass, String ids) {
         if (entityClass == null) {
             throw new CommonException("entityClass is null");
@@ -48,14 +49,14 @@ public class MybatisBaseDaoImpl {
         String name = StringUtils.substringAfterLast(entityClass.getName(), ".");
         String tableName = BeanToTable.beanToTable(name);
         // 检查是否缓存
-        DataCached dataCached = (DataCached)entityClass.getAnnotation(DataCached.class);
+        DataCached dataCached = (DataCached) entityClass.getAnnotation(DataCached.class);
         DataCached.CachedType type = DataCached.CachedType.NO_CACHED;
-        if(dataCached != null){
+        if (dataCached != null) {
             type = dataCached.type();
         }
         List list = new ArrayList<>();
         String noneCacheIds = ids;
-        if(DataCached.CachedType.REDIS_CACHED.equals(type)){
+        if (DataCached.CachedType.REDIS_CACHED.equals(type)) {
             //根据id通过cache查找对象
             Object[] objArray = JedisCachedOrignal.findListObject(entityClass.getName(), ids);
             list = (List) objArray[0];
@@ -71,7 +72,7 @@ public class MybatisBaseDaoImpl {
                 for (Map map : listArray) {
                     //把map转换成对应的实体对象
                     Object obj = ObjectUtils.mapToObject(entityClass, map);
-                    if(DataCached.CachedType.REDIS_CACHED.equals(type)){
+                    if (DataCached.CachedType.REDIS_CACHED.equals(type)) {
                         //把cache中没有的对象保存到cache中
                         JedisCachedOrignal.saveObject(entityClass.getName(), obj);
                     }
@@ -90,22 +91,17 @@ public class MybatisBaseDaoImpl {
      * @param fields      表字段名
      * @return 数据集
      */
+    @SuppressWarnings("unchecked")
     public List findFieldDbAndCacheByIds(Class entityClass, String ids, String fields) {
         if (entityClass == null) {
             throw new CommonException("entityClass is null");
         }
         String name = StringUtils.substringAfterLast(entityClass.getName(), ".");
         String tableName = BeanToTable.beanToTable(name);
-
-        // 检查是否缓存
-        DataCached dataCached = (DataCached)entityClass.getAnnotation(DataCached.class);
-        DataCached.CachedType type = DataCached.CachedType.NO_CACHED;
-        if(dataCached != null){
-            type = dataCached.type();
-        }
         List list = new ArrayList<>();
         String noneCacheIds = ids;
-        if(DataCached.CachedType.REDIS_CACHED.equals(type)){
+        // 检查是否缓存
+        if (JedisCachedOrignal.isCached(entityClass)) {
             //根据id通过cache查找对象
             Object[] objArray = JedisCachedOrignal.findListObject(entityClass.getName(), ids);
             list = (List) objArray[0];
@@ -209,6 +205,7 @@ public class MybatisBaseDaoImpl {
      * @param page        分页参数
      * @return 数据集
      */
+    @SuppressWarnings("unchecked")
     public List findPageListDbAndCacheByConditions(Class entityClass, String conditions, Page page) {
         if (entityClass == null) {
             throw new CommonException("entityClass is null");
@@ -241,7 +238,7 @@ public class MybatisBaseDaoImpl {
         }
         //拼接查询顺序
         DaoUtils.getOrderBy(jpql, page.getOrderBy(), page.getDirection());
-        if(page.getPageSize() != -1){
+        if (page.getPageSize() != -1) {
             int start = 0;
             //查询分页信息
             if (page.getPageNo() != 0) {//=0则查询全部
@@ -250,7 +247,6 @@ public class MybatisBaseDaoImpl {
             jpql.append(" limit ").append(start).append(",").append(page.getPageSize());
         }
         List<String> idList = sqlSession.selectList("com.platform.framework.common.MybatisBaseDao.findBySql", jpql.toString());
-
         //当前筛选条件的分页后的总记录数
         page.setDisplayCount(count);
         StringBuilder ids = new StringBuilder();
@@ -274,25 +270,21 @@ public class MybatisBaseDaoImpl {
             throw new CommonException("Object is null");
         }
         // 检查是否缓存
-        DataCached dataCached = obj.getClass().getAnnotation(DataCached.class);
-        DataCached.CachedType type = DataCached.CachedType.NO_CACHED;
-        if(dataCached != null){
-            type = dataCached.type();
-        }
-        if(DataCached.CachedType.REDIS_CACHED.equals(type)){
+        if (JedisCachedOrignal.isCached(obj.getClass())) {
             // 删除缓存
             JedisCachedOrignal.deleteObject(obj.getClass().getName(), obj);
         }
-
         String name = StringUtils.substringAfterLast(obj.getClass().getName(), ".");
         String tableName = BeanToTable.beanToTable(name);
         //自动添加更新时间
         try {
             ReflectionUtils.setFieldValue(obj, "updateBy", UserUtils.getUserId());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         try {
             ReflectionUtils.setFieldValue(obj, "updateTime", new java.sql.Timestamp(new Date().getTime()));
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         String conditions = "id=";
         String setFields = "";//对象的字段名=字段值
         Field[] fields = null;
@@ -304,7 +296,7 @@ public class MybatisBaseDaoImpl {
             String value = "";//对象的有值的字段值
             field.setAccessible(true);
             NoDbColumn annotation = field.getAnnotation(NoDbColumn.class);
-            if(annotation != null){
+            if (annotation != null) {
                 continue;
             }
             // 字段值
@@ -358,10 +350,12 @@ public class MybatisBaseDaoImpl {
         String tableName = BeanToTable.beanToTable(name);
         try {
             ReflectionUtils.setFieldValue(obj, "createBy", UserUtils.getUserId());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         try {
             ReflectionUtils.setFieldValue(obj, "createTime", new java.sql.Timestamp(new Date().getTime()));
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         String param = "";//对象的有值的字段名
         String value = "";//对象的有值的字段值
         Field[] fields = ReflectionUtils.getField(obj.getClass(), null);
@@ -370,7 +364,7 @@ public class MybatisBaseDaoImpl {
         for (Field field : fields) {
             field.setAccessible(true);
             NoDbColumn annotation = field.getAnnotation(NoDbColumn.class);
-            if(annotation != null){
+            if (annotation != null) {
                 continue;
             }
             // 字段值
@@ -419,12 +413,7 @@ public class MybatisBaseDaoImpl {
             throw new CommonException("entityClass or setfields is null");
         }
         // 检查是否缓存
-        DataCached dataCached = (DataCached)entityClass.getAnnotation(DataCached.class);
-        DataCached.CachedType type = DataCached.CachedType.NO_CACHED;
-        if(dataCached != null){
-            type = dataCached.type();
-        }
-        if(DataCached.CachedType.REDIS_CACHED.equals(type)){
+        if (JedisCachedOrignal.isCached(entityClass)) {
             List list = findListDbAndCacheByConditions(entityClass, conditions);//根据条件查找对象
             for (Object obj : list) {
                 // 删除缓存
@@ -433,7 +422,6 @@ public class MybatisBaseDaoImpl {
         }
         String name = StringUtils.substringAfterLast(entityClass.getName(), ".");
         String tableName = BeanToTable.beanToTable(name);
-
         if (StringUtils.isEmpty(conditions)) {
             conditions = "1=1";
         }
@@ -458,16 +446,9 @@ public class MybatisBaseDaoImpl {
             throw new CommonException("entityClass or ids is null");
         }
         // 检查是否缓存
-        DataCached dataCached = (DataCached)entityClass.getAnnotation(DataCached.class);
-        DataCached.CachedType type = DataCached.CachedType.NO_CACHED;
-        if(dataCached != null){
-            type = dataCached.type();
-        }
-        if(DataCached.CachedType.REDIS_CACHED.equals(type)){
-            // 删除缓存
+        if (JedisCachedOrignal.isCached(entityClass)) {
             JedisCachedOrignal.deleteCache(entityClass.getName(), ids);
         }
-
         String name = StringUtils.substringAfterLast(entityClass.getName(), ".");
         String tableName = BeanToTable.beanToTable(name);
         ResultAndParam result = new ResultAndParam();
@@ -476,20 +457,22 @@ public class MybatisBaseDaoImpl {
         // 删除数据库数据
         sqlSession.delete("com.platform.framework.common.MybatisBaseDao.deleteByIds", result);
     }
-    
+
+
     /**
      * 根据sql语句查询(无缓存)
      *
      * @param jpql SQL语句
      * @return 数据集
      */
+    @SuppressWarnings("unchecked")
     public List findByJPQL(Class entityClass, String jpql) {
         if (entityClass == null) {
             throw new CommonException("entityClass is null");
         }
         List list = new ArrayList<>();
         List<Map> listArray = sqlSession.selectList("com.platform.framework.common.MybatisBaseDao.findMapBySql", jpql);
-        if(listArray != null && listArray.size() > 0){
+        if (listArray != null && listArray.size() > 0) {
             for (Map map : listArray) {
                 list.add(ObjectUtils.mapToObject(entityClass, map));
             }
@@ -500,28 +483,28 @@ public class MybatisBaseDaoImpl {
     /**
      * 根据sql语句删除（无缓存）
      *
-     * @param jpql SQL语句
+     * @param sql SQL语句
      */
-    public void deleteByJPQL(String jpql) {
-        sqlSession.delete("com.platform.framework.common.MybatisBaseDao.deleteByJPQL", jpql);
+    public void deleteBySQL(String sql) {
+        sqlSession.delete("com.platform.framework.common.MybatisBaseDao.deleteBySQL", sql);
     }
 
     /**
      * 根据sql语句保存（无缓存）
      *
-     * @param jpql SQL语句
+     * @param sql SQL语句
      */
-    public void saveByJPQL(String jpql) {
-        sqlSession.insert("com.platform.framework.common.MybatisBaseDao.saveByJPQL", jpql);
+    public void insertBySQL(String sql) {
+        sqlSession.insert("com.platform.framework.common.MybatisBaseDao.insertBySQL", sql);
     }
 
     /**
      * 根据sql语句更新（无缓存）
      *
-     * @param jpql SQL语句
+     * @param sql SQL语句
      */
-    public void updateByJPQL(String jpql) {
-        sqlSession.insert("com.platform.framework.common.MybatisBaseDao.updateByJPQL", jpql);
+    public void updateBySQL(String sql) {
+        sqlSession.insert("com.platform.framework.common.MybatisBaseDao.updateByJPQL", sql);
     }
 
     /**

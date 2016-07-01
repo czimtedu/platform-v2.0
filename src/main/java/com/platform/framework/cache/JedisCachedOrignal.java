@@ -19,6 +19,20 @@ import java.util.Map;
 public class JedisCachedOrignal {
 
     /**
+     * 检查对象是否需要缓存
+     * @return boolean
+     */
+    public static boolean isCached(Class entityClass) {
+        // 检查是否缓存
+        DataCached dataCached = (DataCached) entityClass.getAnnotation(DataCached.class);
+        DataCached.CachedType type = DataCached.CachedType.NO_CACHED;
+        if (dataCached != null) {
+            type = dataCached.type();
+        }
+        return DataCached.CachedType.REDIS_CACHED.equals(type);
+    }
+
+    /**
      * 保存对象数据
      *
      * @param constants key 包名+类名

@@ -207,6 +207,6 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
     @Override
     @Transactional(readOnly = false)
     public void empty() {
-        mybatisBaseDaoImpl.deleteByJPQL("DELETE FROM sys_log");
+        mybatisBaseDaoImpl.deleteBySQL("DELETE FROM sys_log");
     }
 }
