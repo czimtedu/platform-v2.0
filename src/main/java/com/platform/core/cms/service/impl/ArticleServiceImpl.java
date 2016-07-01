@@ -34,7 +34,6 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
      * 保存
      *
      * @param object object
-     * @return 保存的ID
      * @throws Exception
      */
     @Override
@@ -52,21 +51,32 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
         }
     }
 
+    /**
+     * 获取文章内容
+     * @param id 文章内容ID
+     * @return 文章内容
+     */
     @Override
+    @SuppressWarnings("unchecked")
     public String getContent(String id) {
+        String content;
         List<CmsArticleData> list = (List<CmsArticleData>) mybatisBaseDaoImpl.findFieldDbAndCacheByIds(CmsArticleData.class, id, "content");
-        return list.get(0).getContent();
+        if(list != null && list.size() > 0){
+            content = list.get(0).getContent();
+        } else {
+            content = "暂无内容...";
+        }
+        return content;
     }
 
+    /**
+     * 更新文章信息（点击数）
+     * @param object 文章列表对象
+     */
     @Override
     @Transactional(readOnly = false)
     public void updateArticle(CmsArticle object) {
         mybatisBaseDaoImpl.updateDbAndCache(object);
-    }
-
-    @Override
-    public Long save(CmsArticle object) throws Exception {
-        return null;
     }
 
     /**
@@ -79,7 +89,12 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
     @Transactional(readOnly = false)
     public Long delete(String ids) throws Exception {
         mybatisBaseDaoImpl.deleteDbAndCacheByIds(CmsArticle.class, ids);
+        mybatisBaseDaoImpl.deleteDbAndCacheByIds(CmsArticleData.class, ids);
         return 1L;
     }
 
+    @Override
+    public Long save(CmsArticle object) throws Exception {
+        return null;
+    }
 }

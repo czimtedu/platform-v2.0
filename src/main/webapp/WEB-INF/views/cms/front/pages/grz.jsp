@@ -26,9 +26,27 @@
             //$("span.page-size").text(s);
             return false;
         }
+        function confirmx(mess, href) {
+            top.layer.confirm(mess, {icon: 3, title: '系统提示'}, function (index) {
+                //do something
+                if (typeof href == 'function') {
+                    href();
+                } else {
+                    window.location = href;
+                }
+                top.layer.close(index);
+            });
+            return false;
+        }
+
     </script>
 </head>
 <body>
+<div id="ie-warning" class="alert alert-danger fade in visible-lg">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <i class="fa fa-warning"></i> 请注意，本网站不支持低于IE8的浏览器，为了获得最佳效果，请下载最新的浏览器，推荐下载
+    <a href="http://www.google.cn/intl/zh-CN/chrome/" target="_blank"><i class="fa fa-compass"></i> Chrome</a>
+</div>
 <c:forEach items="${page.list}" var="bean">
     <c:if test="${bean.status == 1 && bean.type == 2}">
         <article class="well clearfix">
@@ -41,7 +59,8 @@
                         <span class="pull-left">
                             <span>${fn:substring(bean.createTime, 0, 10)}</span><span class="dot">•</span>
                             <span>${bean.categoryId}</span><span class="dot">•</span>
-                            <span>${bean.author}</span>
+                            <span>${bean.author}</span><span class="dot">•</span>
+                            <span><a href="${ctx}/grz/article/delete/${bean.id}" onclick="return confirmx('确认要删除该文章吗？', this.href)" class="btn btn-link btn-xs">删除</a></span>
                         </span>
                 </div>
             </header>

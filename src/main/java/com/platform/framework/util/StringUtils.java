@@ -333,6 +333,11 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         return (c >= 'a') && (c <= 'z');
     }
 
+    /**
+     * id设置为字符串形式 如："1,2,3,4," to "'1','2','3','4'"
+     * @param ids
+     * @return
+     */
     public static String idsToString(String ids) {
         if (StringUtils.isNotEmpty(ids)) {
             // 查询排序 id设置为字符串形式

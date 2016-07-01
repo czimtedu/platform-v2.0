@@ -472,7 +472,7 @@ public class MybatisBaseDaoImpl {
         String tableName = BeanToTable.beanToTable(name);
         ResultAndParam result = new ResultAndParam();
         result.setTableName(tableName);
-        result.setConditions(ids);
+        result.setConditions(StringUtils.idsToString(ids));
         // 删除数据库数据
         sqlSession.delete("com.platform.framework.common.MybatisBaseDao.deleteByIds", result);
     }

@@ -16,6 +16,9 @@
 <head>
     <title>write something</title>
     <meta name="decorator" content="cms_grz"/>
+    <script src="${ctxStatic}/static/plugins/jquery-validation/1.14.0/jquery.validate.min.js"></script>
+    <script src="${ctxStatic}/static/plugins/jquery-validation/1.14.0/additional-methods.min.js"></script>
+    <script src="${ctxStatic}/static/plugins/jquery-validation/1.14.0/localization/messages_zh.min.js"></script>
     <style>
         textarea {
             resize: none;
@@ -23,7 +26,16 @@
     </style>
     <script type="text/javascript">
         $(document).ready(function() {
-
+            $("#inputForm").validate({
+                errorContainer: "#messageBox",
+                errorPlacement: function (error, element) {
+                    if (element.is(":checkbox") || element.is(":radio") || element.parent().is(".input-append")) {
+                        error.appendTo(element.parent().parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
         });
     </script>
 </head>
@@ -33,7 +45,7 @@
     <div class="form-group">
         <label class="col-md-2 control-label">Title:</label>
         <div class="col-md-10">
-            <input type="text" name="title" class="form-control input-sm">
+            <input type="text" name="title" class="form-control input-sm required">
         </div>
     </div>
     <div class="form-group">

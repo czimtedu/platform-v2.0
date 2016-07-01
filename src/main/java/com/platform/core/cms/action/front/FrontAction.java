@@ -9,6 +9,7 @@ import com.platform.core.cms.bean.CmsArticleData;
 import com.platform.core.cms.bean.CmsGuestbook;
 import com.platform.core.cms.service.ArticleService;
 import com.platform.core.cms.service.GuestbookService;
+import com.platform.core.sys.bean.Param;
 import com.platform.framework.common.BaseFrontAction;
 import com.platform.framework.common.Global;
 import com.platform.framework.common.Page;
@@ -187,5 +188,18 @@ public class FrontAction extends BaseFrontAction {
         articleService.save(object, articleData);
         addMessage(redirectAttributes, "保存成功");
         return "redirect:" + frontPath + "/grz";
+    }
+
+    /**
+     * 删除
+     *
+     * @return view
+     * @throws Exception
+     */
+    @RequestMapping(value = "/grz/article/delete/{id}")
+    public String delete(@PathVariable("id")String id, RedirectAttributes redirectAttributes) throws Exception {
+        articleService.delete(id);
+        addMessage(redirectAttributes, "删除成功");
+        return "redirect:" + frontPath + "/grz?repage";
     }
 }

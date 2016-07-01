@@ -10,7 +10,7 @@
     <meta name="decorator" content="cms_default_basic"/>
     <script src="${ctxStatic}/static/plugins/jquery-validation/1.14.0/jquery.validate.min.js"></script>
     <script src="${ctxStatic}/static/plugins/jquery-validation/1.14.0/additional-methods.min.js"></script>
-    <script src="${ctxStatic}/static/plugins/jquery-validation/1.14.0/localization/messages_zh.min.js"></script>
+    <script src="${ctxStatic}/static/plugins/jquery-validation/1.14.0/localization/messages_zh.min.js"></script>s
     <script>
         $(document).ready(function () {
             <c:if test="${not empty message}">alert("${message}");
