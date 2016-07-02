@@ -174,7 +174,7 @@
                 <div class="panel-heading"><h2>BGM</h2></div>
                 <ul>
                     <li>
-                        <embed src="${ctxStatic}/static/front/file/player.swf?url=${ctxStatic}/static/app/video/HowYouMakeMeFeel.mp3&amp;autoplay=1"
+                        <embed src="${ctxStatic}/static/front/file/player.swf?url=${ctxStatic}/static/front/file/HowYouMakeMeFeel.mp3&amp;autoplay=1"
                                type="application/x-shockwave-flash" wmode="transparent" allowscriptaccess="always" width="260" height="26">
                     </li>
                 </ul>
