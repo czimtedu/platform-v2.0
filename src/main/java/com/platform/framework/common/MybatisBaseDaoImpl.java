@@ -360,9 +360,23 @@ public class MybatisBaseDaoImpl {
         if (StringUtils.isEmpty(conditions)) {
             conditions = "1=1";
         }
-        // TODO: 2016/7/7 更新日期不存在的处理
-        setfields += ",update_time='" + new java.sql.Timestamp(new Date().getTime()) + "'";
-        setfields += ",update_by=" + UserUtils.getUserId();
+        // 添加修改时间和修改人
+        Field updateTime = null;
+        try {
+            updateTime = ReflectionUtils.getAccessibleField(entityClass.newInstance(), "updateTime");
+        } catch (InstantiationException | IllegalAccessException ignored) {
+        }
+        if(updateTime != null){ // 存在该属性
+            setfields += ",update_time='" + new java.sql.Timestamp(new Date().getTime()) + "'";
+        }
+        Field updateBy = null;
+        try {
+            updateBy = ReflectionUtils.getAccessibleField(entityClass.newInstance(), "updateBy");
+        } catch (InstantiationException | IllegalAccessException ignored) {
+        }
+        if(updateBy != null){ // 存在该属性
+            setfields += ",update_by=" + UserUtils.getUserId();
+        }
         ResultAndParam result = new ResultAndParam();
         result.setTableName(tableName);
         result.setConditions(conditions);
