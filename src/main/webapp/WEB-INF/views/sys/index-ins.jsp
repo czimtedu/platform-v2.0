@@ -79,10 +79,10 @@
                         </form>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
-                        <li>
+                        <%--<li>
                             <iframe width="280" scrolling="no" height="25" frameborder="0"
                                     allowtransparency="true" src="http://i.tianqi.com/index.php?c=code&id=34&icon=1&num=3"></iframe>
-                        </li>
+                        </li>--%>
                     </ul>
                 </nav>
             </div>

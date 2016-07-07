@@ -104,7 +104,6 @@ public class ArticleAction extends BaseAction<CmsArticle> {
      * @throws Exception
      */
     @RequestMapping(value = "save")
-    @RequiresPermissions("sys:role:edit")
     public String save(Model model, CmsArticle object, CmsArticleData articleData,
                        RedirectAttributes redirectAttributes) throws Exception {
         if (!beanValidator(model, object)) {
@@ -125,7 +124,6 @@ public class ArticleAction extends BaseAction<CmsArticle> {
      */
     @Override
     @RequestMapping(value = "delete")
-    @RequiresPermissions("sys:role:delete")
     public String delete(Model model, CmsArticle object, Param param, RedirectAttributes redirectAttributes) throws Exception {
         articleService.delete(param.getIds());
         addMessage(redirectAttributes, "删除成功");
