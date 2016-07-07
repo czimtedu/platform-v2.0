@@ -14,13 +14,7 @@ $(document).ready(function () {
     } catch (e) {
         // blank
     }
-
-    // tooltips
-    $('.tooltip-demo').tooltip({
-        selector: "[data-toggle=tooltip]",
-        container: "body"
-    });
-
+    
     // 使用animation.css修改Bootstrap Modal
     $('.modal').appendTo("body");
 

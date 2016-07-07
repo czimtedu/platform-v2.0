@@ -39,7 +39,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
     @Override
     @SuppressWarnings("unchecked")
     public SysUser getByUsername(String username) {
-        List<SysUser> list = mybatisBaseDaoImpl.findListDbAndCacheByConditions(
+        List<SysUser> list = mybatisBaseDaoImpl.selectListDbAndCacheByConditions(
                 SysUser.class, "username = '" + username + "'");
         SysUser user = null;
         if (list != null && list.size() > 0) {
@@ -51,7 +51,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
     @Override
     @SuppressWarnings("unchecked")
     public SysUser checkUsername(String username, Integer id) {
-        List<SysUser> list = mybatisBaseDaoImpl.findListDbAndCacheByConditions(
+        List<SysUser> list = mybatisBaseDaoImpl.selectListDbAndCacheByConditions(
                 SysUser.class, "username = '" + username + "' AND id <> " + id);
         SysUser user = null;
         if (list != null && list.size() > 0) {
@@ -69,7 +69,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
     @Override
     @SuppressWarnings("unchecked")
     public List<SysUser> getByRealName(String realName) {
-        return mybatisBaseDaoImpl.findListDbAndCacheByConditions(
+        return mybatisBaseDaoImpl.selectListDbAndCacheByConditions(
                 SysUser.class, "real_name LIKE '%" + realName + "%'");
     }
 
@@ -77,7 +77,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
     @SuppressWarnings("unchecked")
     public List<SysUser> getByRoleId(Integer id) {
         String sql = "select * from sys_user_role where role_id = " + id;
-        List<SysUserRole> sysUserRoleList = mybatisBaseDaoImpl.findByJPQL(SysUserRole.class, sql);
+        List<SysUserRole> sysUserRoleList = mybatisBaseDaoImpl.selectBySql(SysUserRole.class, sql);
         StringBuilder ids = new StringBuilder();
         for (SysUserRole sysUserRole : sysUserRoleList) {
             if (ids.length() == 0) {
@@ -86,7 +86,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
                 ids.append(",").append(sysUserRole.getUserId());
             }
         }
-        return mybatisBaseDaoImpl.findListDbAndCacheByIds(SysUser.class, ids.toString());
+        return mybatisBaseDaoImpl.selectListDbAndCacheByIds(SysUser.class, ids.toString());
     }
 
     /**
@@ -107,10 +107,10 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
             mybatisBaseDaoImpl.updateDbAndCache(object);
             //删除用户角色关联
             String deleteSql = "delete from sys_user_role where user_id =" + id;
-            mybatisBaseDaoImpl.deleteBySQL(deleteSql);
+            mybatisBaseDaoImpl.deleteBySql(deleteSql);
         } else {
             object.setPassword(Encodes.entryptPassword(object.getPassword()));
-            id = mybatisBaseDaoImpl.saveDb(object).intValue();
+            id = mybatisBaseDaoImpl.insertDb(object).intValue();
         }
         //更新用户角色关联
         StringBuilder values = new StringBuilder();
@@ -122,7 +122,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
             }
         }
         String saveSql = "insert into sys_user_role (user_id, role_id) values " + values.toString();
-        mybatisBaseDaoImpl.insertBySQL(saveSql);
+        mybatisBaseDaoImpl.insertBySql(saveSql);
         return id.longValue();
     }
 

@@ -34,7 +34,7 @@ public class addressServiceImpl implements AddressService {
      */
     @SuppressWarnings("unchecked")
     public List<AddressProvince> getProvinceList() {
-        return mybatisBaseDaoImpl.findListDbAndCacheByConditions(AddressProvince.class, "");
+        return mybatisBaseDaoImpl.selectListDbAndCacheByConditions(AddressProvince.class, "");
     }
 
     /**
@@ -45,7 +45,7 @@ public class addressServiceImpl implements AddressService {
      */
     @SuppressWarnings("unchecked")
     public List<AddressCity> getCityList(String provinceId) {
-        return mybatisBaseDaoImpl.findListDbAndCacheByConditions(AddressCity.class, "province_id = " + provinceId);
+        return mybatisBaseDaoImpl.selectListDbAndCacheByConditions(AddressCity.class, "province_id = " + provinceId);
     }
 
     /**
@@ -56,6 +56,6 @@ public class addressServiceImpl implements AddressService {
      */
     @SuppressWarnings("unchecked")
     public List<AddressCounty> getCountyList(String cityId) {
-        return mybatisBaseDaoImpl.findListDbAndCacheByConditions(AddressCounty.class, "city_id = " + cityId);
+        return mybatisBaseDaoImpl.selectListDbAndCacheByConditions(AddressCounty.class, "city_id = " + cityId);
     }
 }

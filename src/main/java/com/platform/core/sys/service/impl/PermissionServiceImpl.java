@@ -37,7 +37,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
     @SuppressWarnings("unchecked")
     public List<SysPermission> getByRoleId(Integer roleId) {
         String sql = "select * from sys_role_permission where role_id = " + roleId;
-        List<SysRolePermission> sysRolePermissionList = mybatisBaseDaoImpl.findByJPQL(SysRolePermission.class, sql);
+        List<SysRolePermission> sysRolePermissionList = mybatisBaseDaoImpl.selectBySql(SysRolePermission.class, sql);
         StringBuilder ids = new StringBuilder();
         for (SysRolePermission sysRolePermission : sysRolePermissionList) {
             if(ids.length() == 0){
@@ -46,7 +46,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
                 ids.append(",").append(sysRolePermission.getPermissionId());
             }
         }
-        return mybatisBaseDaoImpl.findListDbAndCacheByIds(SysPermission.class, ids.toString());
+        return mybatisBaseDaoImpl.selectListDbAndCacheByIds(SysPermission.class, ids.toString());
     }
 
     /**
@@ -62,7 +62,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
                 " FROM sys_role_permission rp" +
                 " JOIN sys_user_role ur ON ur.role_id = rp.role_id" +
                 " AND ur.user_id = " + userId;
-        List<SysRolePermission> sysRolePermissionList = mybatisBaseDaoImpl.findByJPQL(SysRolePermission.class, sql);
+        List<SysRolePermission> sysRolePermissionList = mybatisBaseDaoImpl.selectBySql(SysRolePermission.class, sql);
         StringBuilder ids = new StringBuilder();
         for (SysRolePermission sysRolePermission : sysRolePermissionList) {
             if(ids.length() == 0){
@@ -71,7 +71,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
                 ids.append(",").append(sysRolePermission.getPermissionId());
             }
         }
-        return mybatisBaseDaoImpl.findListDbAndCacheByIds(SysPermission.class, ids.toString());
+        return mybatisBaseDaoImpl.selectListDbAndCacheByIds(SysPermission.class, ids.toString());
     }
 
     /**
@@ -83,7 +83,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
     @Override
     @SuppressWarnings("unchecked")
     public List<SysPermission> getByParentId(int parentId) {
-        return mybatisBaseDaoImpl.findListDbAndCacheByConditions(
+        return mybatisBaseDaoImpl.selectListDbAndCacheByConditions(
                 SysPermission.class, "parent_id = " + parentId + "");
     }
 
@@ -109,7 +109,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
             mybatisBaseDaoImpl.updateDbAndCache(object);
             id = 1L;
             // 更新子节点parentIds
-            List<SysPermission> list = mybatisBaseDaoImpl.findListDbAndCacheByConditions(SysPermission.class,
+            List<SysPermission> list = mybatisBaseDaoImpl.selectListDbAndCacheByConditions(SysPermission.class,
                     "parent_id like '%," + object.getId() + ",%'");
             if(list != null && list.size() > 0){
                 for (SysPermission p : list) {
@@ -118,7 +118,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
                 }
             }
         } else {
-            id = mybatisBaseDaoImpl.saveDb(object);
+            id = mybatisBaseDaoImpl.insertDb(object);
         }
         JedisUtils.delObject(LogServiceImpl.CACHE_PERMISSION_NAME_PATH_MAP);
         return id;
@@ -134,7 +134,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
     public Long delete(String ids) throws Exception {
         mybatisBaseDaoImpl.deleteDbAndCacheByIds(SysPermission.class, ids);
         String sql = "delete from sys_role_permission where permission_id in (" + ids + ")";
-        mybatisBaseDaoImpl.deleteBySQL(sql);
+        mybatisBaseDaoImpl.deleteBySql(sql);
         JedisUtils.delObject(LogServiceImpl.CACHE_PERMISSION_NAME_PATH_MAP);
         return 1L;
     }

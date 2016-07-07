@@ -46,8 +46,8 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
             String uuid = Encodes.uuid();
             object.setId(uuid);
             articleData.setId(uuid);
-            mybatisBaseDaoImpl.saveDb(object);
-            mybatisBaseDaoImpl.saveDb(articleData);
+            mybatisBaseDaoImpl.insertDb(object);
+            mybatisBaseDaoImpl.insertDb(articleData);
         }
     }
 
@@ -60,7 +60,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
     @SuppressWarnings("unchecked")
     public String getContent(String id) {
         String content;
-        List<CmsArticleData> list = (List<CmsArticleData>) mybatisBaseDaoImpl.findFieldDbAndCacheByIds(CmsArticleData.class, id, "content");
+        List<CmsArticleData> list = (List<CmsArticleData>) mybatisBaseDaoImpl.selectFieldDbAndCacheByIds(CmsArticleData.class, id, "content");
         if(list != null && list.size() > 0){
             content = list.get(0).getContent();
         } else {

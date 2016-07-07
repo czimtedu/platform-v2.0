@@ -33,7 +33,7 @@ public class dictServiceImpl extends BaseServiceImpl<SysDict> implements DictSer
         if (id != null) {
             mybatisBaseDaoImpl.updateDbAndCache(object);
         } else {
-            id = mybatisBaseDaoImpl.saveDb(object).intValue();
+            id = mybatisBaseDaoImpl.insertDb(object).intValue();
         }
         JedisUtils.delObject(DictUtils.CACHE_DICT_MAP);
         return id.longValue();

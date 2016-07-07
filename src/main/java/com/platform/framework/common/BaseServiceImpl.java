@@ -43,7 +43,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
      */
     @SuppressWarnings("unchecked")
     public T get(Class<T> clazz, String id) throws Exception {
-        List<T> list = mybatisBaseDaoImpl.findListDbAndCacheByIds(clazz, id);
+        List<T> list = mybatisBaseDaoImpl.selectListDbAndCacheByIds(clazz, id);
         T entity = null;
         if (list != null && list.size() > 0) {
             entity = list.get(0);
@@ -91,7 +91,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
         if (index > 0) {
             conditionStr = conditions.substring(index + 6, conditions.length());
         }
-        return mybatisBaseDaoImpl.findListDbAndCacheByConditions(object.getClass(), conditionStr);
+        return mybatisBaseDaoImpl.selectListDbAndCacheByConditions(object.getClass(), conditionStr);
     }
 
     /**
@@ -127,7 +127,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
             }
         }
         page.setPropertyFilterList(propertyFilterList);
-        List<T> list = mybatisBaseDaoImpl.findPageListDbAndCacheByConditions(object.getClass(), conditions, page);
+        List<T> list = mybatisBaseDaoImpl.selectPageListDbAndCacheByConditions(object.getClass(), conditions, page);
         page.setList(list);
         return page;
     }

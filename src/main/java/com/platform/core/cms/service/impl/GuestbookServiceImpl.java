@@ -35,7 +35,7 @@ public class GuestbookServiceImpl extends BaseServiceImpl<CmsGuestbook> implemen
             mybatisBaseDaoImpl.updateDbAndCache(object);
         } else {
             object.setId(Encodes.uuid());
-            mybatisBaseDaoImpl.saveDb(object);
+            mybatisBaseDaoImpl.insertDb(object);
         }
         return 1L;
     }
