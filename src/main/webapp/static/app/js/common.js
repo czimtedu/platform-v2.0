@@ -101,7 +101,7 @@ function WinMove() {
             connectWith: connect,
             tolerance: 'pointer',
             forcePlaceholderSize: true,
-            opacity: 0.8,
+            opacity: 0.8
         }).disableSelection();
 }
 
@@ -130,7 +130,7 @@ function getQueryString(name, url) {
     } else {
         url = url.substring(url.indexOf("?"));
     }
-    r = url.substr(1).match(reg)
+    var r = url.substr(1).match(reg);
     if (r != null) return unescape(r[2]);
     return null;
 }
@@ -205,7 +205,7 @@ function confirmx(mess, href, closed) {
             href();
         } else {
             resetTip(); //loading();
-            location = href;
+            window.location = href;
         }
         top.layer.close(index);
     });
