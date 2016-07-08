@@ -444,7 +444,6 @@ public class MybatisBaseDaoImpl {
         result.setConditions(conditions);
         result.setParam(params);
         sqlSession.insert("com.platform.framework.common.MybatisBaseDao.insert", result);
-        // TODO: 2016/7/7 返回ID修改为String类型
         return result.getId();
     }
 
