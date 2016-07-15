@@ -30,7 +30,7 @@
 </head>
 <body>
 <c:forEach items="${page.list}" var="bean">
-    <c:if test="${bean.status == 1}">
+    <c:if test="${bean.status == 1 && bean.type == 1}">
         <article class="well clearfix">
             <header class="entry-header">
                 <h1 class="entry-title">
