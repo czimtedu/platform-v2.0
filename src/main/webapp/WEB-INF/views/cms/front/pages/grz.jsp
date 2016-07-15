@@ -43,29 +43,38 @@
 </head>
 <body>
 <sys:message content="${message}"/>
+<c:if test="${page.displayCount == 0}">
+    <article class="well clearfix">
+        <header class="entry-header">
+            <h1 class="entry-title">
+                哎，什么都没有了 ( ▼-▼ )
+            </h1>
+        </header>
+    </article>
+</c:if>
+<c:if test="${page.displayCount > 0}">
 <c:forEach items="${page.list}" var="bean">
-    <c:if test="${bean.status == 1 && bean.type == 2}">
-        <article class="well clearfix">
-            <header class="entry-header">
-                <h1 class="entry-title">
-                    <a href="${ctx}/grz/article/${bean.id}">${bean.title}</a>
-                </h1>
-                <div class="clearfix entry-meta">
-                        <span class="pull-left">
-                            <span>${fn:substring(bean.createTime, 0, 10)}</span><span class="dot">•</span>
-                            <span>${bean.categoryId}</span><span class="dot">•</span>
-                            <span>${bean.author}</span><span class="dot">•</span>
-                            <span><a href="${ctx}/write?id=${bean.id}" class="btn btn-link btn-xs">编辑</a></span><span class="dot">•</span>
-                            <span><a href="${ctx}/grz/article/delete/${bean.id}" onclick="return confirmx('确认要删除该文章吗？', this.href)" class="btn btn-link btn-xs">删除</a></span>
-                        </span>
-                </div>
-            </header>
-            <footer class="entry-footer clearfix visible-lg visible-md visible-sm">
-                <a class="pull-right more-link" href="${ctx}/grz/article/${bean.id}">阅读全文&raquo;</a>
-            </footer>
-        </article>
-    </c:if>
+    <article class="well clearfix">
+        <header class="entry-header">
+            <h1 class="entry-title">
+                <a href="${ctx}/grz/article/${bean.id}">${bean.title}</a>
+            </h1>
+            <div class="clearfix entry-meta">
+                    <span class="pull-left">
+                        <span>${fn:substring(bean.createTime, 0, 10)}</span><span class="dot">•</span>
+                        <span>${bean.categoryId}</span><span class="dot">•</span>
+                        <span>${bean.author}</span><span class="dot">•</span>
+                        <span><a href="${ctx}/write?id=${bean.id}" class="btn btn-link btn-xs">编辑</a></span><span class="dot">•</span>
+                        <span><a href="${ctx}/grz/article/delete/${bean.id}" onclick="return confirmx('确认要删除该文章吗？', this.href)" class="btn btn-link btn-xs">删除</a></span>
+                    </span>
+            </div>
+        </header>
+        <footer class="entry-footer clearfix visible-lg visible-md visible-sm">
+            <a class="pull-right more-link" href="${ctx}/grz/article/${bean.id}">阅读全文&raquo;</a>
+        </footer>
+    </article>
 </c:forEach>
 <table:page page="${page}"/>
+</c:if>
 </body>
 </html>

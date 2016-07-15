@@ -125,7 +125,7 @@ public class FrontAction extends BaseFrontAction {
      */
     @RequestMapping("grz")
     public String grz(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response, 1000), new CmsArticle(), "");
+        Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response, 1000), new CmsArticle(), "status=1 and type=2");
         model.addAttribute("page", page);
         return "cms/front/pages/grz";
     }
