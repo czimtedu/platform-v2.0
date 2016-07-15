@@ -38,7 +38,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
      */
     @Override
     @Transactional(readOnly = false)
-    public void save(CmsArticle object, CmsArticleData articleData) throws Exception {
+    public String save(CmsArticle object, CmsArticleData articleData) throws Exception {
         if (StringUtils.isNotEmpty(object.getId())) {
             mybatisBaseDaoImpl.updateDbAndCache(object);
             mybatisBaseDaoImpl.updateDbAndCache(articleData);
@@ -49,6 +49,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
             mybatisBaseDaoImpl.insertDb(object);
             mybatisBaseDaoImpl.insertDb(articleData);
         }
+        return object.getId();
     }
 
     /**

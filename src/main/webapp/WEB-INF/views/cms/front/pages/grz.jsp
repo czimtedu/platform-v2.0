@@ -48,21 +48,18 @@
         <article class="well clearfix">
             <header class="entry-header">
                 <h1 class="entry-title">
-                    <a href="${ctx}/grz/article/${bean.id}">${bean.title}
-                    </a>
+                    <a href="${ctx}/grz/article/${bean.id}">${bean.title}</a>
                 </h1>
                 <div class="clearfix entry-meta">
                         <span class="pull-left">
                             <span>${fn:substring(bean.createTime, 0, 10)}</span><span class="dot">•</span>
                             <span>${bean.categoryId}</span><span class="dot">•</span>
                             <span>${bean.author}</span><span class="dot">•</span>
+                            <span><a href="${ctx}/write?id=${bean.id}" class="btn btn-link btn-xs">编辑</a></span><span class="dot">•</span>
                             <span><a href="${ctx}/grz/article/delete/${bean.id}" onclick="return confirmx('确认要删除该文章吗？', this.href)" class="btn btn-link btn-xs">删除</a></span>
                         </span>
                 </div>
             </header>
-            <div class="entry-summary">
-                    ${bean.description}
-            </div>
             <footer class="entry-footer clearfix visible-lg visible-md visible-sm">
                 <a class="pull-right more-link" href="${ctx}/grz/article/${bean.id}">阅读全文&raquo;</a>
             </footer>

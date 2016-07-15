@@ -185,9 +185,9 @@ public class FrontAction extends BaseFrontAction {
         object.setAuthor("grz");
         object.setType(2);
         object.setStatus(1);
-        articleService.save(object, articleData);
+        String id = articleService.save(object, articleData);
         addMessage(redirectAttributes, "保存成功");
-        return "redirect:" + frontPath + "/grz";
+        return "redirect:" + frontPath + "/grz/article/" + id;
     }
 
     /**
@@ -198,7 +198,11 @@ public class FrontAction extends BaseFrontAction {
      */
     @RequestMapping(value = "/grz/article/delete/{id}")
     public String delete(@PathVariable("id")String id, RedirectAttributes redirectAttributes) throws Exception {
-        articleService.delete(id);
+        CmsArticle bean = new CmsArticle();
+        bean.setId(id);
+        bean.setStatus(0);
+        articleService.updateArticle(bean);
+        //articleService.delete(id);
         addMessage(redirectAttributes, "删除成功");
         return "redirect:" + frontPath + "/grz?repage";
     }

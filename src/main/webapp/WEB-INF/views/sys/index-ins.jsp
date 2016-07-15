@@ -110,7 +110,7 @@
                 <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="${ctx}/home" frameborder="0" data-id="${ctx}/home" seamless></iframe>
             </div>
             <div class="footer">
-                <div class="pull-left"><a href="http://www.devplus.org">http://www.zlgx.com</a> &copy; 2016-2026</div>
+                <div class="pull-left"><a href="http://www.zlgx.vip">http://www.zlgx.vip</a> &copy; 2016-2026</div>
             </div>
         </div>
         <!--右侧部分结束-->

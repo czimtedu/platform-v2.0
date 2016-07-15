@@ -43,15 +43,9 @@
 <form:form id="inputForm" modelAttribute="cmsArticle" action="${ctx}/article/save" method="post" class="form-horizontal">
     <form:hidden path="id"/>
     <div class="form-group">
-        <label class="col-md-2 control-label">Title:</label>
+        <label class="col-md-2 control-label" for="title">Title:</label>
         <div class="col-md-10">
-            <input type="text" name="title" class="form-control input-sm required">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Summary:</label>
-        <div class="col-md-10">
-            <textarea name="description" rows="4" class="form-control input-sm"></textarea>
+            <input type="text" id="title" name="title" class="form-control input-sm required" value="${cmsArticle.title}">
         </div>
     </div>
     <div class="form-group">

@@ -16,7 +16,7 @@
     </div>
 </div>
 
-<div class="wrapper wrapper-content">
+<%--<div class="wrapper wrapper-content">
     <div class="row">
         <div class="col-sm-6">
             <div class="ibox float-e-margins">
@@ -391,7 +391,7 @@
     };
     var $echart_3 = echarts.init(document.getElementById('echart_3'));
     $echart_3.setOption(option3);
-</script>
+</script>--%>
 
 </body>
 </html>

@@ -17,7 +17,7 @@ import com.platform.framework.common.BaseService;
 public interface ArticleService extends BaseService<CmsArticle> {
 
 
-    void save(CmsArticle object, CmsArticleData articleData) throws Exception;
+    String save(CmsArticle object, CmsArticleData articleData) throws Exception;
 
     String getContent(String id);
 
