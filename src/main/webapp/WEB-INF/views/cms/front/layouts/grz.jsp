@@ -135,7 +135,7 @@
         </div>
     </nav>
 </header>
-<div class="container">
+<div class="container" style="min-height: 400px;">
     <section class="row">
         <!--[if lt IE 8]>
         <div id="ie-warning" class="alert alert-danger fade in visible-lg">

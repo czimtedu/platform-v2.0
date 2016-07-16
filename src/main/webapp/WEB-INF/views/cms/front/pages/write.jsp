@@ -60,7 +60,7 @@
                 </script>
             </c:if>
             <c:if test="${computer == 0}">
-                <textarea id="content" name="content" class="form-control" rows="10">${content}</textarea>
+                <textarea id="content" name="content" class="form-control" rows="12">${content}</textarea>
             </c:if>
         </div>
     </div>
