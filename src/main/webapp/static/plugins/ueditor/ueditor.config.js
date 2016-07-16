@@ -53,14 +53,13 @@
         
         , toolbars: [[
             'source', '|', 'undo', 'redo', '|',
-            'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 
+            'bold', 'italic', 'underline', 'strikethrough',
             'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 
-            'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 
-            'insertunorderedlist', 'selectall', 'cleardoc', '|',
+            'blockquote', '|', 'forecolor', 'backcolor', 'insertorderedlist',
+            'insertunorderedlist', '|',
             'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
-            'paragraph', 'fontfamily', 'fontsize', '|',
-            'directionalityltr', 'directionalityrtl', 'indent', '|',
-            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|','insertimage'
+            'paragraph', 'fontfamily', 'fontsize', '|', 'indent',
+            'justifyleft', 'justifycenter', 'justifyright', '|','insertimage'
         ]]
         
         

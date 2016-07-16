@@ -14,6 +14,7 @@ import com.platform.framework.common.BaseFrontAction;
 import com.platform.framework.common.Global;
 import com.platform.framework.common.Page;
 import com.platform.framework.common.SysConfigManager;
+import com.platform.framework.util.UserAgentUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,9 +69,9 @@ public class FrontAction extends BaseFrontAction {
      * 文章详情
      */
     @RequestMapping("article/{id}")
-    public String article(Model model, @PathVariable("id")String id) throws Exception {
+    public String article(Model model, @PathVariable("id") String id) throws Exception {
         CmsArticle bean = articleService.get(CmsArticle.class, id);
-        if(bean == null || bean.getStatus() == 0){
+        if (bean == null || bean.getStatus() == 0) {
             return "error/404";
         }
         // 文章阅读次数+1
@@ -92,7 +93,7 @@ public class FrontAction extends BaseFrontAction {
     /**
      * 留言板首页
      */
-    @RequestMapping(value = "guestbook", method= RequestMethod.GET)
+    @RequestMapping(value = "guestbook", method = RequestMethod.GET)
     public String guestbook(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Page<CmsGuestbook> page = guestbookService.getPage(new Page<CmsGuestbook>(request, response), new CmsGuestbook(), "");
         model.addAttribute("page", page);
@@ -102,14 +103,14 @@ public class FrontAction extends BaseFrontAction {
     /**
      * 留言板-保存留言信息
      */
-    @RequestMapping(value = "guestbook", method=RequestMethod.POST)
+    @RequestMapping(value = "guestbook", method = RequestMethod.POST)
     public String guestbookSave(Model model, CmsGuestbook guestbook,
                                 HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
         guestbook.setIp(request.getRemoteAddr());
         guestbook.setDelFlag("0");
         guestbookService.save(guestbook);
         addMessage(redirectAttributes, "提交成功，谢谢！");
-        return "redirect:"+ frontPath +"/guestbook";
+        return "redirect:" + frontPath + "/guestbook";
     }
 
     /**
@@ -137,17 +138,19 @@ public class FrontAction extends BaseFrontAction {
      * @throws Exception
      */
     @RequestMapping(value = "write")
-    public String write(Model model,String id) throws Exception {
+    public String write(Model model, String id, HttpServletRequest request) throws Exception {
         CmsArticle object;
         if (StringUtils.isNotEmpty(id)) {
             object = articleService.get(CmsArticle.class, id);
         } else {
-            object =  new CmsArticle();
+            object = new CmsArticle();
         }
         String content = "";
-        if(StringUtils.isNotEmpty(object.getId())){
+        if (StringUtils.isNotEmpty(object.getId())) {
             content = articleService.getContent(object.getId());
         }
+        boolean computer = UserAgentUtils.isComputer(request);
+        model.addAttribute("computer", computer ? 1 : 0);
         model.addAttribute("cmsArticle", object);
         model.addAttribute("content", content);
         return "cms/front/pages/write";
@@ -157,9 +160,9 @@ public class FrontAction extends BaseFrontAction {
      * 文章详情
      */
     @RequestMapping("/grz/article/{id}")
-    public String grzArticle(Model model, @PathVariable("id")String id) throws Exception {
+    public String grzArticle(Model model, @PathVariable("id") String id) throws Exception {
         CmsArticle bean = articleService.get(CmsArticle.class, id);
-        if(bean == null || bean.getStatus() == 0){
+        if (bean == null || bean.getStatus() == 0) {
             return "error/404";
         }
         // 文章阅读次数+1
@@ -173,7 +176,7 @@ public class FrontAction extends BaseFrontAction {
     /**
      * save
      *
-     * @param model Model
+     * @param model  Model
      * @param object object
      * @return view
      * @throws Exception
@@ -197,7 +200,7 @@ public class FrontAction extends BaseFrontAction {
      * @throws Exception
      */
     @RequestMapping(value = "/grz/article/delete/{id}")
-    public String delete(@PathVariable("id")String id, RedirectAttributes redirectAttributes) throws Exception {
+    public String delete(@PathVariable("id") String id, RedirectAttributes redirectAttributes) throws Exception {
         CmsArticle bean = new CmsArticle();
         bean.setId(id);
         bean.setStatus(0);

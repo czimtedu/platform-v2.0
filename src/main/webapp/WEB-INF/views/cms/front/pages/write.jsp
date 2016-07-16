@@ -49,14 +49,19 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Content:</label>
+        <label class="col-md-2 control-label" for="content">Content:</label>
         <div class="col-md-10">
-            <script id="container" name="content" type="text/plain">${content}</script>
-            <script src="${ctxStatic}/static/plugins/ueditor/ueditor.config.js"></script>
-            <script src="${ctxStatic}/static/plugins/ueditor/ueditor.all.js"></script>
-            <script type="text/javascript">
-                var ue = UE.getEditor('container');
-            </script>
+            <c:if test="${computer == 1}">
+                <script id="content" name="content" type="text/plain">${content}</script>
+                <script src="${ctxStatic}/static/plugins/ueditor/ueditor.config.js"></script>
+                <script src="${ctxStatic}/static/plugins/ueditor/ueditor.all.js"></script>
+                <script type="text/javascript">
+                    var ue = UE.getEditor('content');
+                </script>
+            </c:if>
+            <c:if test="${computer == 0}">
+                <textarea id="content" name="content" class="form-control" rows="10">${content}</textarea>
+            </c:if>
         </div>
     </div>
     <div class="form-group">
