@@ -26,7 +26,7 @@ import java.util.UUID;
  * @date 2016-01-15 09:56:22
  */
 @Controller
-@RequestMapping(value = "")
+@RequestMapping(value = "${adminPath}")
 public class UploadAction {
 
     private static final String ALLOW_TYPE_IMG = "jpg|gif|jpeg|png|bmp";
@@ -69,10 +69,12 @@ public class UploadAction {
                             + "/" + UUID.randomUUID().toString().replace("-", "") + "." + filetype;
                     File file = new File(path + fileName);
                     if (!file.exists()) {
-                        file.mkdirs();
+                        boolean mkdirs = file.mkdirs();
+                        if(mkdirs){
+                            upload.transferTo(file);
+                            status = 0;
+                        }
                     }
-                    upload.transferTo(file);
-                    status = 0;
                 }
             }
         } catch (Exception e) {

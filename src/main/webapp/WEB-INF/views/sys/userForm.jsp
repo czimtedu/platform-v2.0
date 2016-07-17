@@ -28,7 +28,7 @@
 						$("#image_id").val(dataJson.fileName);
 						var $thumbImg = $("#thumbImg");
 						$thumbImg.show();
-						$thumbImg.attr("src", "http://127.0.0.1/uploads/" + dataJson.fileName);
+						$thumbImg.attr("src", "${fns:getFileUrl()}/" + dataJson.fileName);
 					}else{
 						swal("失败", "上传失败，请重新上传！", "error");
 					}
