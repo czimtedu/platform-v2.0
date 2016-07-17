@@ -107,7 +107,7 @@
                     <tr>
                         <td> <input type="checkbox" id="${log.id}" class="i-checks"></td>
                         <td>${log.title}</td>
-                        <td>${log.createBy}</td>
+                        <td>${fns:getUserById(log.createBy).realName}</td>
                         <td><strong>${log.requestUri}</strong></td>
                         <td>${log.method}</td>
                         <td>${log.remoteAddr}</td>

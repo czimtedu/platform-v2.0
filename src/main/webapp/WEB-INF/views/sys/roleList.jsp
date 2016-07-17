@@ -71,7 +71,7 @@
                         <td>${bean.roleName}</td>
                         <td>${bean.roleSign}</td>
                         <td>${bean.description}</td>
-                        <td>${bean.createBy}</td>
+                        <td>${fns:getUserById(bean.createBy).realName}</td>
                         <td>${bean.createTime}</td>
                         <td>
                             <a href="#" onclick="openDialogView('查看角色', '${ctx}/sys/role/form?id=${bean.id}','800px', '500px')" class="btn btn-link btn-xs" >
