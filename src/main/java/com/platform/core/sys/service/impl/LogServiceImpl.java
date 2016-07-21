@@ -115,7 +115,6 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
             if(exception != null){
                 exception = exception.replaceAll("'", "\"");
             }
-            System.out.println(exception);
             log.setException(exception);
             // 如果无标题并无异常日志，则不保存信息
             if (StringUtils.isBlank(log.getTitle()) && StringUtils.isBlank(log.getException())) {

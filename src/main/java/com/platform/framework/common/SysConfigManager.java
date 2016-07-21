@@ -4,8 +4,11 @@
 package com.platform.framework.common;
 
 import com.google.common.collect.Maps;
+import com.platform.framework.util.FileUtils;
 import com.platform.framework.util.PropertiesLoader;
 import com.platform.framework.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.DefaultResourceLoader;
 
 import java.io.File;
@@ -19,6 +22,8 @@ import java.util.Map;
  * @date 2016-01-15 09:56:22
  */
 public class SysConfigManager {
+
+    private static Logger logger = LoggerFactory.getLogger(SysConfigManager.class);
 
     private SysConfigManager() {}
 
@@ -165,7 +170,7 @@ public class SysConfigManager {
         sb.append("\r\n    欢迎使用 " + getConfig("productName") + " @"
                 + getConfig("copyrightYear") + "  - Powered By http://www.bjldwx.com.cn\r\n");
         sb.append("\r\n======================================================================\r\n");
-        System.out.println(sb.toString());
+        logger.info(sb.toString());
         return true;
     }
 }
