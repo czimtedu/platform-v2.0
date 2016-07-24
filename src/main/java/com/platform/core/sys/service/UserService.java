@@ -4,7 +4,6 @@
 
 package com.platform.core.sys.service;
 
-import com.platform.core.sys.bean.SysRole;
 import com.platform.core.sys.bean.SysUser;
 import com.platform.framework.common.BaseService;
 
@@ -46,9 +45,14 @@ public interface UserService extends BaseService<SysUser> {
 
     /**
      * 根据角色ID查询用户列表
-     * @param id
+     * @param id roleId
      * @return
      */
     List<SysUser> getByRoleId(Integer id);
 
+    /**
+     * 更新当前用户信息
+     * @param currentUser 当前用户
+     */
+    void updateUserInfo(SysUser currentUser);
 }

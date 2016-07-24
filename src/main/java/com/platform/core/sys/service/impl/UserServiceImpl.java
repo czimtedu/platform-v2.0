@@ -90,6 +90,15 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
     }
 
     /**
+     * 更新当前用户信息
+     * @param currentUser 当前用户
+     */
+    @Override
+    public void updateUserInfo(SysUser currentUser) {
+        mybatisBaseDaoImpl.updateDbAndCache(currentUser);
+    }
+
+    /**
      * 保存用户信息
      *
      * @param object SysUser

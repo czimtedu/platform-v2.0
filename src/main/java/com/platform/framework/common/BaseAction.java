@@ -5,8 +5,11 @@
 package com.platform.framework.common;
 
 import com.platform.core.sys.bean.Param;
+import com.platform.framework.mapper.JsonMapper;
 import com.platform.framework.util.BeanValidators;
+import com.platform.framework.util.DateUtils;
 import com.platform.framework.util.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +33,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
+import java.beans.PropertyEditorSupport;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 
@@ -199,6 +205,34 @@ public abstract class BaseAction<T> extends AbstractController implements Applic
     }
 
     /**
+     * 客户端返回JSON字符串
+     * @param response
+     * @param object
+     * @return
+     */
+    protected String renderString(HttpServletResponse response, Object object) {
+        return renderString(response, JsonMapper.toJsonString(object));
+    }
+
+    /**
+     * 客户端返回字符串
+     * @param response
+     * @param string
+     * @return
+     */
+    protected String renderString(HttpServletResponse response, String string) {
+        try {
+            response.reset();
+            response.setContentType("application/json");
+            response.setCharacterEncoding("utf-8");
+            response.getWriter().print(string);
+            return null;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    /**
      * 异常控制
      *
      * @param e       异常信息
@@ -247,13 +281,12 @@ public abstract class BaseAction<T> extends AbstractController implements Applic
      */
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
-        /*// String类型转换，将所有传递进来的String进行HTML编码，防止XSS攻击
+        // String类型转换，将所有传递进来的String进行HTML编码，防止XSS攻击
         binder.registerCustomEditor(String.class, new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) {
                 setValue(text == null ? null : StringEscapeUtils.escapeHtml4(text.trim()));
             }
-
             @Override
             public String getAsText() {
                 Object value = getValue();
@@ -266,12 +299,12 @@ public abstract class BaseAction<T> extends AbstractController implements Applic
             public void setAsText(String text) {
                 setValue(DateUtils.parseDate(text));
             }
-            *//*@Override
+            /*@Override
             public String getAsText() {
 				Object value = getValue();
 				return value != null ? DateUtils.formatDateTime((Date)value) : "";
-			}*//*
-        });*/
+			}*/
+        });
     }
 
     @Override

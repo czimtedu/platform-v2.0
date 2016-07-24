@@ -12,12 +12,12 @@ import com.platform.core.sys.bean.SysUser;
 import com.platform.core.sys.service.RoleService;
 import com.platform.core.sys.service.UserService;
 import com.platform.framework.common.BaseAction;
+import com.platform.framework.common.Global;
 import com.platform.framework.common.Page;
+import com.platform.framework.common.SysConfigManager;
+import com.platform.framework.mapper.AjaxJson;
 import com.platform.framework.security.UserUtils;
-import com.platform.framework.util.BeanValidators;
-import com.platform.framework.util.DateUtils;
-import com.platform.framework.util.Encodes;
-import com.platform.framework.util.StringUtils;
+import com.platform.framework.util.*;
 import com.platform.framework.util.excel.ExportExcel;
 import com.platform.framework.util.excel.ImportExcel;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -31,6 +31,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -61,12 +63,16 @@ public class UserAction extends BaseAction<SysUser> {
         SysUser sysUser;
         if (id != null) {
             sysUser = userService.get(SysUser.class, id);
-            List<SysRole> roleList = roleService.getByUserId(StringUtils.toInteger(id));
-            List<Integer> roleIdList = Lists.newArrayList();
-            for (SysRole sysRole : roleList) {
-                roleIdList.add(sysRole.getId());
+            if(sysUser != null) {
+                List<SysRole> roleList = roleService.getByUserId(StringUtils.toInteger(id));
+                List<Integer> roleIdList = Lists.newArrayList();
+                for (SysRole sysRole : roleList) {
+                    roleIdList.add(sysRole.getId());
+                }
+                sysUser.setRoleIdList(roleIdList);
+            } else {
+                sysUser = new SysUser();
             }
-            sysUser.setRoleIdList(roleIdList);
         } else {
             sysUser = new SysUser();
         }
@@ -248,6 +254,59 @@ public class UserAction extends BaseAction<SysUser> {
         }
         return "redirect:" + adminPath + "/sys/user/list?repage";
     }
+
+    /**
+     * 用户头像显示编辑保存
+     *
+     * @param user
+     * @param model
+     * @return
+     */
+    @RequiresPermissions("sys:user:edit")
+    @RequestMapping(value = "imageEdit")
+    public String imageEdit(SysUser user, boolean __ajax, HttpServletResponse response, Model model) {
+        SysUser currentUser = UserUtils.getUser();
+        if (StringUtils.isNotBlank(user.getRealName())) {
+            if (user.getPhoto() != null) {
+                currentUser.setPhoto(user.getPhoto());
+            }
+            userService.updateUserInfo(currentUser);
+            if (__ajax) {//手机访问
+                AjaxJson j = new AjaxJson();
+                j.setSuccess(true);
+                j.setMsg("修改个人头像成功!");
+                return renderString(response, j);
+            }
+            model.addAttribute("message", "保存用户信息成功");
+            return "modules/sys/userInfo";
+        }
+        model.addAttribute("user", currentUser);
+        return "sys/userImageEdit";
+    }
+
+    /**
+     * 用户头像显示编辑保存
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequiresPermissions("sys:user:edit")
+    @RequestMapping(value = "imageUpload")
+    public String imageUpload(HttpServletRequest request, HttpServletResponse response, MultipartFile file) throws Exception{
+        SysUser currentUser = UserUtils.getUser();
+        // 判断文件是否为空
+        if (!file.isEmpty()) {
+            // 文件保存路径
+            String realPath = "userid_" + UserUtils.getPrincipal() + "/images/";
+            // 转存文件
+            FileUtils.createDirectory(SysConfigManager.getFileUploadPath() + realPath);
+            file.transferTo(new File(SysConfigManager.getFileUploadPath() + realPath + file.getOriginalFilename()));
+            currentUser.setPhoto(realPath + file.getOriginalFilename());
+            userService.updateUserInfo(currentUser);
+        }
+        return "sys/userImageEdit";
+    }
+
 
     /**************************
      * app api test
