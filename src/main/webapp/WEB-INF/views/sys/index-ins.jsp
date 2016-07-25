@@ -22,11 +22,13 @@
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
-                            <span><img alt="image" class="img-circle" style="height:64px;width:64px;" src="${ctxStatic}/static/app/image/avatar.jpg" /></span>
+                            <span><img alt="image" class="img-circle" style="height:64px;width:64px;"
+                                       src="<c:if test="${empty fns:getUser().photo}">${ctxStatic}/static/app/image/default.jpg</c:if>
+                                       <c:if test="${not empty fns:getUser().photo}">${fns:getFileUrl()}/${fns:getUser().photo}</c:if>" /></span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
-                                    <span class="block m-t-xs"><strong class="font-bold">${fns:getUser().realName}</strong></span>
-                                    <span class="text-muted text-xs block">${fns:getUser().username}<b class="caret"></b></span>
+                                    <span class="block m-t-xs"><strong class="font-bold">${fns:getUser().username}</strong></span>
+                                    <span class="text-muted text-xs block">${fns:getUser().roleNames}<b class="caret"></b></span>
                                 </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">

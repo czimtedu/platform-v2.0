@@ -12,7 +12,6 @@ import com.platform.core.sys.bean.SysUser;
 import com.platform.core.sys.service.RoleService;
 import com.platform.core.sys.service.UserService;
 import com.platform.framework.common.BaseAction;
-import com.platform.framework.common.Global;
 import com.platform.framework.common.Page;
 import com.platform.framework.common.SysConfigManager;
 import com.platform.framework.mapper.AjaxJson;
@@ -32,7 +31,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -307,6 +305,17 @@ public class UserAction extends BaseAction<SysUser> {
         return "sys/userImageEdit";
     }
 
+    /**
+     * 当前用户信息显示
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "info")
+    public String info(Model model) {
+        SysUser currentUser = UserUtils.getUser();
+        model.addAttribute("sysUser", currentUser);
+        return "sys/userInfo";
+    }
 
     /**************************
      * app api test

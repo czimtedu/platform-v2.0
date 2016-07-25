@@ -33,9 +33,9 @@ public class UserUtils {
     private static RoleService roleService = SpringContextHolder.getBean(RoleService.class);
     private static PermissionService permissionService = SpringContextHolder.getBean(PermissionService.class);
 
-    public static final String CACHE_ROLE_LIST = "roleList";
-    public static final String CACHE_ROLE_ALL_LIST = "roleAllList";
-    public static final String CACHE_PERMISSION_LIST = "permissionList";
+    private static final String CACHE_ROLE_LIST = "roleList";
+    private static final String CACHE_ROLE_ALL_LIST = "roleAllList";
+    private static final String CACHE_PERMISSION_LIST = "permissionList";
 
     /**
      * 根据ID获取用户
@@ -63,6 +63,7 @@ public class UserUtils {
         if (principal != null) {
             SysUser user = get(principal.getId());
             if (user != null) {
+                user.setRoleList(getRoleList());
                 return user;
             }
             return new SysUser();
