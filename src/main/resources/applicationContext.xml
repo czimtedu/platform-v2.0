@@ -125,10 +125,10 @@
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
     <!-- 启用缓存注解功能 -->
-    <cache:annotation-driven cache-manager="springCacheManager"/>
+    <!--<cache:annotation-driven cache-manager="springCacheManager"/>-->
 
-    <!-- spring自己的换管理器，这里定义了两个缓存位置名称 ，既注解中的value -->
-    <bean id="springCacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+    <!-- spring自己的缓存管理器，这里定义了两个缓存位置名称 ，既注解中的value -->
+    <!--<bean id="springCacheManager" class="org.springframework.cache.support.SimpleCacheManager">
         <property name="caches">
             <set>
                 <bean class="com.platform.framework.cache.SpringRedisCache">
@@ -137,7 +137,7 @@
                 </bean>
             </set>
         </property>
-    </bean>
+    </bean>-->
 
     <!-- spring-session配置 -->
     <!--<entity class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"/>-->

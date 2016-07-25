@@ -7,7 +7,7 @@ package com.platform.framework.cache;
 import org.apache.ibatis.cache.decorators.LoggingCache;
 
 /**
- * 日志缓存
+ * Mybatis缓存，在mapper.xml中添加cache标签，<cache type="com.platform.framework.cache.LoggingRedisCache" />
  *
  * @author lufengcheng
  * @date 2016-01-15 09:56:22
