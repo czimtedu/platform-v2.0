@@ -33,7 +33,7 @@ public class SysDict implements Serializable {
     private Integer updateBy;    // 更新者
     private Date updateTime;    // 更新日期
     @NoDbColumn
-    private Integer actionType;
+    private Integer actionType; // 表单类型
 
     public Integer getId() {
         return id;

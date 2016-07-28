@@ -1,7 +1,7 @@
 package com.platform.framework.util.excel;
 
 import com.google.common.collect.Lists;
-import com.platform.framework.util.ReflectionUtils;
+import com.platform.framework.util.Reflections;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -325,13 +325,13 @@ public class ImportExcel {
                     }
                     // set entity value
                     if (os[1] instanceof Field){
-                        ReflectionUtils.invokeSetter(e, ((Field) os[1]).getName(), val);
+                        Reflections.invokeSetter(e, ((Field) os[1]).getName(), val);
                     }else if (os[1] instanceof Method){
                         String mthodName = ((Method)os[1]).getName();
                         if ("get".equals(mthodName.substring(0, 3))){
                             mthodName = "set"+StringUtils.substringAfter(mthodName, "get");
                         }
-                        ReflectionUtils.invokeMethod(e, mthodName, new Class[] {valType}, new Object[] {val});
+                        Reflections.invokeMethod(e, mthodName, new Class[] {valType}, new Object[] {val});
                     }
                 }
                 sb.append(val+", ");

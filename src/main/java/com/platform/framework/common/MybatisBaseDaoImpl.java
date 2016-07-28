@@ -19,7 +19,7 @@ import com.platform.framework.security.UserUtils;
 import com.platform.framework.util.BeanToTable;
 import com.platform.framework.util.DaoUtils;
 import com.platform.framework.util.ObjectUtils;
-import com.platform.framework.util.ReflectionUtils;
+import com.platform.framework.util.Reflections;
 import com.platform.framework.util.StringUtils;
 
 /**
@@ -281,16 +281,16 @@ public class MybatisBaseDaoImpl {
         String tableName = BeanToTable.beanToTable(name);
         //自动添加更新时间
         try {
-            ReflectionUtils.setFieldValue(obj, "updateBy", UserUtils.getUserId());
+            Reflections.setFieldValue(obj, "updateBy", UserUtils.getUserId());
         } catch (Exception ignored) {
         }
         try {
-            ReflectionUtils.setFieldValue(obj, "updateTime", new java.sql.Timestamp(new Date().getTime()));
+            Reflections.setFieldValue(obj, "updateTime", new java.sql.Timestamp(new Date().getTime()));
         } catch (Exception ignored) {
         }
         String conditions = "id=";
         String setFields = "";//对象的字段名=字段值
-        Field[] fields = ReflectionUtils.getField(obj.getClass(), null);
+        Field[] fields = Reflections.getField(obj.getClass(), null);
         for (Field field : fields) {
             String param = "";//对象的有值的字段名
             String value = "";//对象的有值的字段值
@@ -363,7 +363,7 @@ public class MybatisBaseDaoImpl {
         // 添加修改时间和修改人
         Field updateTime = null;
         try {
-            updateTime = ReflectionUtils.getAccessibleField(entityClass.newInstance(), "updateTime");
+            updateTime = Reflections.getAccessibleField(entityClass.newInstance(), "updateTime");
         } catch (InstantiationException | IllegalAccessException ignored) {
         }
         if(updateTime != null){ // 存在该属性
@@ -371,7 +371,7 @@ public class MybatisBaseDaoImpl {
         }
         Field updateBy = null;
         try {
-            updateBy = ReflectionUtils.getAccessibleField(entityClass.newInstance(), "updateBy");
+            updateBy = Reflections.getAccessibleField(entityClass.newInstance(), "updateBy");
         } catch (InstantiationException | IllegalAccessException ignored) {
         }
         if(updateBy != null){ // 存在该属性
@@ -398,16 +398,16 @@ public class MybatisBaseDaoImpl {
         String name = StringUtils.substringAfterLast(obj.getClass().getName(), ".");
         String tableName = BeanToTable.beanToTable(name);
         try {
-            ReflectionUtils.setFieldValue(obj, "createBy", UserUtils.getUserId());
+            Reflections.setFieldValue(obj, "createBy", UserUtils.getUserId());
         } catch (Exception ignored) {
         }
         try {
-            ReflectionUtils.setFieldValue(obj, "createTime", new java.sql.Timestamp(new Date().getTime()));
+            Reflections.setFieldValue(obj, "createTime", new java.sql.Timestamp(new Date().getTime()));
         } catch (Exception ignored) {
         }
         String param = "";//对象的有值的字段名
         String value = "";//对象的有值的字段值
-        Field[] fields = ReflectionUtils.getField(obj.getClass(), null);
+        Field[] fields = Reflections.getField(obj.getClass(), null);
         for (Field field : fields) {
             field.setAccessible(true);
             NoDbColumn annotation = field.getAnnotation(NoDbColumn.class);

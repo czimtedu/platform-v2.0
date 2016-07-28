@@ -8,7 +8,7 @@ import com.platform.core.sys.bean.NoDbColumn;
 import com.platform.framework.exception.CommonException;
 import com.platform.framework.util.BeanToTable;
 import com.platform.framework.util.DaoUtils;
-import com.platform.framework.util.ReflectionUtils;
+import com.platform.framework.util.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +67,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
         List<PropertyFilter> propertyFilterList = new ArrayList<>();
         PropertyFilter propertyFilter;
         String column;
-        Field[] fields = ReflectionUtils.getField(object.getClass(), null);
+        Field[] fields = Reflections.getField(object.getClass(), null);
         for (Field field : fields) {
             field.setAccessible(true);
             NoDbColumn annotation = field.getAnnotation(NoDbColumn.class);
@@ -108,7 +108,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
         List<PropertyFilter> propertyFilterList = new ArrayList<>();
         PropertyFilter propertyFilter;
         String column;
-        Field[] fields = ReflectionUtils.getField(object.getClass(), null);
+        Field[] fields = Reflections.getField(object.getClass(), null);
         for (Field field : fields) {
             field.setAccessible(true);
             NoDbColumn annotation = field.getAnnotation(NoDbColumn.class);

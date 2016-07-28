@@ -20,7 +20,7 @@ import java.util.Map;
  * @author lufengcheng
  * @date 2016-01-15 09:56:22
  */
-public class CollectionUtils {
+public class Collections3 {
 
     /**
      * 提取集合中的对象的两个属性(通过Getter函数), 组合成Map.
@@ -40,7 +40,7 @@ public class CollectionUtils {
                         PropertyUtils.getProperty(obj, valuePropertyName));
             }
         } catch (Exception e) {
-            throw ReflectionUtils.convertReflectionExceptionToUnchecked(e);
+            throw Reflections.convertReflectionExceptionToUnchecked(e);
         }
 
         return map;
@@ -61,7 +61,7 @@ public class CollectionUtils {
                 list.add(PropertyUtils.getProperty(obj, propertyName));
             }
         } catch (Exception e) {
-            throw ReflectionUtils.convertReflectionExceptionToUnchecked(e);
+            throw Reflections.convertReflectionExceptionToUnchecked(e);
         }
 
         return list;

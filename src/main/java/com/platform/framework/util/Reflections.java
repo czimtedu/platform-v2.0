@@ -25,14 +25,14 @@ import org.springframework.util.Assert;
  * @date 2016-01-15 09:56:22
  */
 @SuppressWarnings("rawtypes")
-public class ReflectionUtils {
+public class Reflections {
     private static final String SETTER_PREFIX = "set";
 
     private static final String GETTER_PREFIX = "get";
 
     private static final String CGLIB_CLASS_SEPARATOR = "$$";
 
-    private static Logger logger = LoggerFactory.getLogger(ReflectionUtils.class);
+    private static Logger logger = LoggerFactory.getLogger(Reflections.class);
 
     /**
      * 获取所有字段（包括父类）

@@ -7,7 +7,7 @@ package com.platform.core.sys.bean;
 import com.google.common.collect.Lists;
 import com.platform.framework.cache.DataCached;
 import com.platform.framework.common.BaseEntity;
-import com.platform.framework.util.CollectionUtils;
+import com.platform.framework.util.Collections3;
 import com.platform.framework.util.excel.ExcelField;
 import org.hibernate.validator.constraints.Length;
 
@@ -171,7 +171,7 @@ public class SysUser extends BaseEntity<SysUser> {
     }
 
     public String getRoleNames() {
-        return CollectionUtils.extractToString(roleList, "roleName", ",");
+        return Collections3.extractToString(roleList, "roleName", ",");
     }
 
     public void setRoleNames(String roleNames) {

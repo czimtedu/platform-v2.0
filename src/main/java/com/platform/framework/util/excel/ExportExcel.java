@@ -2,7 +2,7 @@ package com.platform.framework.util.excel;
 
 import com.google.common.collect.Lists;
 import com.platform.framework.util.Encodes;
-import com.platform.framework.util.ReflectionUtils;
+import com.platform.framework.util.Reflections;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -357,12 +357,12 @@ public class ExportExcel {
                 // Get entity value
                 try{
                     if (StringUtils.isNotBlank(ef.value())){
-                        val = ReflectionUtils.invokeGetter(e, ef.value());
+                        val = Reflections.invokeGetter(e, ef.value());
                     }else{
                         if (os[1] instanceof Field){
-                            val = ReflectionUtils.invokeGetter(e, ((Field)os[1]).getName());
+                            val = Reflections.invokeGetter(e, ((Field)os[1]).getName());
                         }else if (os[1] instanceof Method){
-                            val = ReflectionUtils.invokeMethod(e, ((Method)os[1]).getName(), new Class[] {}, new Object[] {});
+                            val = Reflections.invokeMethod(e, ((Method)os[1]).getName(), new Class[] {}, new Object[] {});
                         }
                     }
                     // If is oa, get oa label
