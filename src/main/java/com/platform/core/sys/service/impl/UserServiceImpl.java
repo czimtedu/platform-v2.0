@@ -94,6 +94,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
      * @param currentUser 当前用户
      */
     @Override
+    @Transactional()
     public void updateUserInfo(SysUser currentUser) {
         mybatisBaseDaoImpl.updateDbAndCache(currentUser);
     }
@@ -105,10 +106,11 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
      * @throws Exception
      */
     @Override
-    @Transactional(readOnly = false)
-    public Long save(SysUser object) throws Exception {
-        Integer id = object.getId();
-        if (id != null) {
+    @Transactional()
+    public String save(SysUser object) throws Exception {
+        String id;
+        if (object.getId() != null) {
+            id = object.getId().toString();
             // 如果新密码为空，则不更换密码
             if (StringUtils.isNotBlank(object.getPassword())) {
                 object.setPassword(Encodes.entryptPassword(object.getPassword()));
@@ -119,7 +121,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
             mybatisBaseDaoImpl.deleteBySql(deleteSql);
         } else {
             object.setPassword(Encodes.entryptPassword(object.getPassword()));
-            id = mybatisBaseDaoImpl.insertDb(object).intValue();
+            id = mybatisBaseDaoImpl.insertDb(object);
         }
         //更新用户角色关联
         StringBuilder values = new StringBuilder();
@@ -132,7 +134,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
         }
         String saveSql = "insert into sys_user_role (user_id, role_id) values " + values.toString();
         mybatisBaseDaoImpl.insertBySql(saveSql);
-        return id.longValue();
+        return id;
     }
 
     /**
@@ -142,10 +144,10 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
      * @throws Exception
      */
     @Override
-    @Transactional(readOnly = false)
-    public Long delete(String ids) throws Exception {
+    @Transactional()
+    public String delete(String ids) throws Exception {
         mybatisBaseDaoImpl.updateDbAndCacheByConditions(SysUser.class, "status=3", "id in(" + ids + ")");
-        return 1L;
+        return "";
     }
 
 

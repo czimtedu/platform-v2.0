@@ -50,7 +50,7 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
      * @throws Exception
      */
     @Override
-    @Transactional(readOnly = false)
+    @Transactional()
     public void save(HttpServletRequest request, String title) throws Exception {
         save(request, null, null, title);
     }
@@ -65,7 +65,7 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
      * @throws Exception
      */
     @Override
-    @Transactional(readOnly = false)
+    @Transactional()
     public void save(HttpServletRequest request, Object handler, Exception ex, String title) throws Exception {
         SysUser user = UserUtils.getUser();
         if (user != null && user.getId() != null) {
@@ -187,7 +187,7 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
     }
 
     @Override
-    public Long save(SysLog object) throws Exception {
+    public String save(SysLog object) throws Exception {
         return null;
     }
 
@@ -197,14 +197,14 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
      * @throws Exception
      */
     @Override
-    @Transactional(readOnly = false)
-    public Long delete(String ids) throws Exception {
+    @Transactional()
+    public String delete(String ids) throws Exception {
         mybatisBaseDaoImpl.deleteDbAndCacheByIds(SysLog.class, ids);
-        return 1L;
+        return "";
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional()
     public void empty() {
         mybatisBaseDaoImpl.deleteBySql("DELETE FROM sys_log");
     }

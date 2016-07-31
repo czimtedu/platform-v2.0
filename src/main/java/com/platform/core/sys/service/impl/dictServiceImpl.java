@@ -27,24 +27,25 @@ public class dictServiceImpl extends BaseServiceImpl<SysDict> implements DictSer
     private MybatisBaseDaoImpl mybatisBaseDaoImpl;
 
     @Override
-    @Transactional(readOnly = false)
-    public Long save(SysDict object) throws Exception {
-        Integer id = object.getId();
-        if (id != null) {
+    @Transactional()
+    public String save(SysDict object) throws Exception {
+        String id;
+        if (object.getId() != null) {
+            id = object.getId().toString();
             mybatisBaseDaoImpl.updateDbAndCache(object);
         } else {
-            id = mybatisBaseDaoImpl.insertDb(object).intValue();
+            id = mybatisBaseDaoImpl.insertDb(object);
         }
         JedisUtils.delObject(DictUtils.CACHE_DICT_MAP);
-        return id.longValue();
+        return id;
     }
 
     @Override
-    @Transactional(readOnly = false)
-    public Long delete(String ids) throws Exception {
+    @Transactional()
+    public String delete(String ids) throws Exception {
         mybatisBaseDaoImpl.deleteDbAndCacheByIds(SysDict.class, ids);
         JedisUtils.delObject(DictUtils.CACHE_DICT_MAP);
-        return 1L;
+        return "";
     }
 
 }

@@ -12,6 +12,7 @@ import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisBaseDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -95,9 +96,10 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
      * @throws Exception
      */
     @Override
+    @Transactional()
     @SuppressWarnings("unchecked")
-    public Long save(SysPermission object) throws Exception {
-        Long id;
+    public String save(SysPermission object) throws Exception {
+        String id;
         String oldParentIds = object.getParentIds();
         SysPermission parent = get(SysPermission.class, object.getParentId().toString());
         if(parent != null) {
@@ -107,7 +109,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
         }
         if (object.getId() != null) {
             mybatisBaseDaoImpl.updateDbAndCache(object);
-            id = 1L;
+            id = object.getId().toString();
             // 更新子节点parentIds
             List<SysPermission> list = mybatisBaseDaoImpl.selectListDbAndCacheByConditions(SysPermission.class,
                     "parent_id like '%," + object.getId() + ",%'");
@@ -131,12 +133,13 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
      * @throws Exception
      */
     @Override
-    public Long delete(String ids) throws Exception {
+    @Transactional()
+    public String delete(String ids) throws Exception {
         mybatisBaseDaoImpl.deleteDbAndCacheByIds(SysPermission.class, ids);
         String sql = "delete from sys_role_permission where permission_id in (" + ids + ")";
         mybatisBaseDaoImpl.deleteBySql(sql);
         JedisUtils.delObject(LogServiceImpl.CACHE_PERMISSION_NAME_PATH_MAP);
-        return 1L;
+        return "";
     }
 
 

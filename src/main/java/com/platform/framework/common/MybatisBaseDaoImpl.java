@@ -38,6 +38,18 @@ public class MybatisBaseDaoImpl {
     private final String[] objectTypes = {"java.lang.Integer", "java.lang.String", "java.lang.Long", "java.util.Date", "java.math.BigDecimal"};
 
     /**
+     * 根据指定表名实体类、主键id获取Object
+     *
+     * @param entityClass 实体类Class
+     * @param id         id
+     * @return 数据集
+     */
+    public Object selectObjectDbAndCacheById(Class entityClass, String id) {
+        List list = selectListDbAndCacheByIds(entityClass, id);
+        return list.get(0);
+    }
+
+    /**
      * 根据指定表名实体类、id获取数据集
      *
      * @param entityClass 实体类Class
@@ -391,7 +403,7 @@ public class MybatisBaseDaoImpl {
      * @param obj 保存对象
      * @return 保存的数据ID
      */
-    public Long insertDb(Object obj) {
+    public String insertDb(Object obj) {
         if (obj == null) {
             throw new CommonException("Object is null");
         }

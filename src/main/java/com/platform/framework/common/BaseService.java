@@ -22,7 +22,7 @@ public interface BaseService<T> {
      * @return 保存的ID
      * @throws Exception
      */
-    Long save(T object) throws Exception;
+    String save(T object) throws Exception;
 
     /**
      * 删除entity
@@ -31,7 +31,7 @@ public interface BaseService<T> {
      * @return 值
      * @throws Exception
      */
-    Long delete(String ids) throws Exception;
+    String delete(String ids) throws Exception;
 
     /**
      * 获取对象

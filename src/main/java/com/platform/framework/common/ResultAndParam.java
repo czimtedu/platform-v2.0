@@ -11,7 +11,7 @@ package com.platform.framework.common;
  * @date 2016-01-15 09:56:22
  */
 public class ResultAndParam {
-    private Long id;// 实体类主键
+    private String id;// 实体类主键
     private String tableName;// 表名
     private String conditions;// 查询条件
     private String param;// 字段（值）
@@ -20,11 +20,11 @@ public class ResultAndParam {
     private Integer pageNo;
     private Integer pageSize;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -29,19 +29,20 @@ public class GuestbookServiceImpl extends BaseServiceImpl<CmsGuestbook> implemen
 
 
     @Override
-    @Transactional(readOnly = false)
-    public Long save(CmsGuestbook object) throws Exception {
+    @Transactional()
+    public String save(CmsGuestbook object) throws Exception {
         if (StringUtils.isNotEmpty(object.getId())) {
             mybatisBaseDaoImpl.updateDbAndCache(object);
         } else {
             object.setId(Encodes.uuid());
             mybatisBaseDaoImpl.insertDb(object);
         }
-        return 1L;
+        return object.getId();
     }
 
     @Override
-    public Long delete(String ids) throws Exception {
+    @Transactional()
+    public String delete(String ids) throws Exception {
         return null;
     }
 }
