@@ -32,9 +32,9 @@ public class dictServiceImpl extends BaseServiceImpl<SysDict> implements DictSer
         String id;
         if (object.getId() != null) {
             id = object.getId().toString();
-            mybatisBaseDaoImpl.updateDbAndCache(object);
+            mybatisBaseDaoImpl.update(object);
         } else {
-            id = mybatisBaseDaoImpl.insertDb(object);
+            id = mybatisBaseDaoImpl.insert(object);
         }
         JedisUtils.delObject(DictUtils.CACHE_DICT_MAP);
         return id;
@@ -43,7 +43,7 @@ public class dictServiceImpl extends BaseServiceImpl<SysDict> implements DictSer
     @Override
     @Transactional()
     public String delete(String ids) throws Exception {
-        mybatisBaseDaoImpl.deleteDbAndCacheByIds(SysDict.class, ids);
+        mybatisBaseDaoImpl.deleteByIds(SysDict.class, ids);
         JedisUtils.delObject(DictUtils.CACHE_DICT_MAP);
         return "";
     }

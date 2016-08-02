@@ -40,14 +40,14 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
     @Transactional()
     public String save(CmsArticle object, CmsArticleData articleData) throws Exception {
         if (StringUtils.isNotEmpty(object.getId())) {
-            mybatisBaseDaoImpl.updateDbAndCache(object);
-            mybatisBaseDaoImpl.updateDbAndCache(articleData);
+            mybatisBaseDaoImpl.update(object);
+            mybatisBaseDaoImpl.update(articleData);
         } else {
             String uuid = Encodes.uuid();
             object.setId(uuid);
             articleData.setId(uuid);
-            mybatisBaseDaoImpl.insertDb(object);
-            mybatisBaseDaoImpl.insertDb(articleData);
+            mybatisBaseDaoImpl.insert(object);
+            mybatisBaseDaoImpl.insert(articleData);
         }
         return object.getId();
     }
@@ -61,7 +61,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
     @SuppressWarnings("unchecked")
     public String getContent(String id) {
         String content;
-        List<CmsArticleData> list = mybatisBaseDaoImpl.selectFieldDbAndCacheByIds(CmsArticleData.class, id, "content");
+        List<CmsArticleData> list = mybatisBaseDaoImpl.selectFieldByIds(CmsArticleData.class, id, "content");
         if(list != null && list.size() > 0){
             content = list.get(0).getContent();
         } else {
@@ -77,7 +77,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
     @Override
     @Transactional()
     public void updateArticle(CmsArticle object) {
-        mybatisBaseDaoImpl.updateDbAndCache(object);
+        mybatisBaseDaoImpl.update(object);
     }
 
     /**
@@ -89,8 +89,8 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
     @Override
     @Transactional()
     public String delete(String ids) throws Exception {
-        mybatisBaseDaoImpl.deleteDbAndCacheByIds(CmsArticle.class, ids);
-        mybatisBaseDaoImpl.deleteDbAndCacheByIds(CmsArticleData.class, ids);
+        mybatisBaseDaoImpl.deleteByIds(CmsArticle.class, ids);
+        mybatisBaseDaoImpl.deleteByIds(CmsArticleData.class, ids);
         return "";
     }
 

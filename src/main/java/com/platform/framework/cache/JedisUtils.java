@@ -755,6 +755,28 @@ public class JedisUtils {
     }
 
     /**
+     * 删除缓存
+     *
+     * @param likekey 键
+     * @return 值
+     */
+    public static long delKeysLike(String likekey) {
+        long result = 0;
+        Jedis jedis = null;
+        try {
+            jedis = getResource();
+            Set<String> keys = jedis.keys(likekey + "");
+            result = jedis.del(keys.toArray(new String[keys.size()]));
+            logger.debug("delKeysLike {}", likekey);
+        } catch (Exception e) {
+            logger.warn("delKeysLike {}", likekey, e);
+        } finally {
+            returnResource(jedis);
+        }
+        return result;
+    }
+    
+    /**
      * 缓存是否存在
      *
      * @param key 键

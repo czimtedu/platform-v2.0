@@ -38,7 +38,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
     @SuppressWarnings("unchecked")
     public List<SysPermission> getByRoleId(Integer roleId) {
         String sql = "select * from sys_role_permission where role_id = " + roleId;
-        List<SysRolePermission> sysRolePermissionList = mybatisBaseDaoImpl.selectBySql(SysRolePermission.class, sql);
+        List<SysRolePermission> sysRolePermissionList = mybatisBaseDaoImpl.selectListBySql(SysRolePermission.class, sql);
         StringBuilder ids = new StringBuilder();
         for (SysRolePermission sysRolePermission : sysRolePermissionList) {
             if(ids.length() == 0){
@@ -47,7 +47,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
                 ids.append(",").append(sysRolePermission.getPermissionId());
             }
         }
-        return mybatisBaseDaoImpl.selectListDbAndCacheByIds(SysPermission.class, ids.toString());
+        return mybatisBaseDaoImpl.selectListByIds(SysPermission.class, ids.toString());
     }
 
     /**
@@ -63,7 +63,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
                 " FROM sys_role_permission rp" +
                 " JOIN sys_user_role ur ON ur.role_id = rp.role_id" +
                 " AND ur.user_id = " + userId;
-        List<SysRolePermission> sysRolePermissionList = mybatisBaseDaoImpl.selectBySql(SysRolePermission.class, sql);
+        List<SysRolePermission> sysRolePermissionList = mybatisBaseDaoImpl.selectListBySql(SysRolePermission.class, sql);
         StringBuilder ids = new StringBuilder();
         for (SysRolePermission sysRolePermission : sysRolePermissionList) {
             if(ids.length() == 0){
@@ -72,7 +72,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
                 ids.append(",").append(sysRolePermission.getPermissionId());
             }
         }
-        return mybatisBaseDaoImpl.selectListDbAndCacheByIds(SysPermission.class, ids.toString());
+        return mybatisBaseDaoImpl.selectListByIds(SysPermission.class, ids.toString());
     }
 
     /**
@@ -84,7 +84,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
     @Override
     @SuppressWarnings("unchecked")
     public List<SysPermission> getByParentId(int parentId) {
-        return mybatisBaseDaoImpl.selectListDbAndCacheByConditions(
+        return mybatisBaseDaoImpl.selectListByConditions(
                 SysPermission.class, "parent_id = " + parentId + "");
     }
 
@@ -108,19 +108,19 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
             object.setParentIds(SysPermission.getRootId().toString());
         }
         if (object.getId() != null) {
-            mybatisBaseDaoImpl.updateDbAndCache(object);
+            mybatisBaseDaoImpl.update(object);
             id = object.getId().toString();
             // 更新子节点parentIds
-            List<SysPermission> list = mybatisBaseDaoImpl.selectListDbAndCacheByConditions(SysPermission.class,
+            List<SysPermission> list = mybatisBaseDaoImpl.selectListByConditions(SysPermission.class,
                     "parent_id like '%," + object.getId() + ",%'");
             if(list != null && list.size() > 0){
                 for (SysPermission p : list) {
                     p.setParentIds(p.getParentIds().replace(oldParentIds, object.getParentIds()));
-                    mybatisBaseDaoImpl.updateDbAndCache(p);
+                    mybatisBaseDaoImpl.update(p);
                 }
             }
         } else {
-            id = mybatisBaseDaoImpl.insertDb(object);
+            id = mybatisBaseDaoImpl.insert(object);
         }
         JedisUtils.delObject(LogServiceImpl.CACHE_PERMISSION_NAME_PATH_MAP);
         return id;
@@ -135,9 +135,9 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
     @Override
     @Transactional()
     public String delete(String ids) throws Exception {
-        mybatisBaseDaoImpl.deleteDbAndCacheByIds(SysPermission.class, ids);
+        mybatisBaseDaoImpl.deleteByIds(SysPermission.class, ids);
         String sql = "delete from sys_role_permission where permission_id in (" + ids + ")";
-        mybatisBaseDaoImpl.deleteBySql(sql);
+        mybatisBaseDaoImpl.deleteBySql(sql, null);
         JedisUtils.delObject(LogServiceImpl.CACHE_PERMISSION_NAME_PATH_MAP);
         return "";
     }

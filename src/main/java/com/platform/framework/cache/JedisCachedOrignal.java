@@ -88,6 +88,20 @@ public class JedisCachedOrignal {
     }
 
     /**
+     * 删除某表缓存数据
+     *
+     * @param likekey 包名
+     */
+    @SuppressWarnings("unchecked")
+    public static void deleteObjectLike(String likekey) {
+        try {
+            JedisUtils.delKeysLike(likekey);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 查找指定ids列表的Object对象
      *
      * @param constants key 包名+类名

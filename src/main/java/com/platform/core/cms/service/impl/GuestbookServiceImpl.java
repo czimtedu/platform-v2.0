@@ -32,10 +32,10 @@ public class GuestbookServiceImpl extends BaseServiceImpl<CmsGuestbook> implemen
     @Transactional()
     public String save(CmsGuestbook object) throws Exception {
         if (StringUtils.isNotEmpty(object.getId())) {
-            mybatisBaseDaoImpl.updateDbAndCache(object);
+            mybatisBaseDaoImpl.update(object);
         } else {
             object.setId(Encodes.uuid());
-            mybatisBaseDaoImpl.insertDb(object);
+            mybatisBaseDaoImpl.insert(object);
         }
         return object.getId();
     }

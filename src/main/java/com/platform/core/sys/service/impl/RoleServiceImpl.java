@@ -39,7 +39,7 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
     @SuppressWarnings("unchecked")
     public List<SysRole> getByUserId(Integer userId) {
         String sql = "select * from sys_user_role where user_id = " + userId;
-        List<SysUserRole> sysUserRoleList = mybatisBaseDaoImpl.selectBySql(SysUserRole.class, sql);
+        List<SysUserRole> sysUserRoleList = mybatisBaseDaoImpl.selectListBySql(SysUserRole.class, sql);
         StringBuilder ids = new StringBuilder();
         for (SysUserRole sysUserRole : sysUserRoleList) {
             if (ids.length() == 0) {
@@ -48,7 +48,7 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
                 ids.append(",").append(sysUserRole.getRoleId());
             }
         }
-        return mybatisBaseDaoImpl.selectListDbAndCacheByIds(SysRole.class, ids.toString());
+        return mybatisBaseDaoImpl.selectListByIds(SysRole.class, ids.toString());
     }
 
     @Override
@@ -72,7 +72,7 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
     public boolean outUserInRole(SysRole role, SysUser user) {
         //删除用户角色关联
         String deleteSql = "delete from sys_user_role where user_id = " + user.getId() + " and role_id = " + role.getId();
-        mybatisBaseDaoImpl.deleteBySql(deleteSql);
+        mybatisBaseDaoImpl.deleteBySql(deleteSql, null);
         return true;
     }
 
@@ -89,12 +89,12 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
         String id;
         if (object.getId() != null) {
             id = object.getId().toString();
-            mybatisBaseDaoImpl.updateDbAndCache(object);
+            mybatisBaseDaoImpl.update(object);
             //删除角色权限关联表
             String deleteSql = "delete from sys_role_permission where role_id =" + id;
-            mybatisBaseDaoImpl.deleteBySql(deleteSql);
+            mybatisBaseDaoImpl.deleteBySql(deleteSql, null);
         } else {
-            id = mybatisBaseDaoImpl.insertDb(object);
+            id = mybatisBaseDaoImpl.insert(object);
         }
         //保存角色权限关联表
         StringBuilder values = new StringBuilder();
@@ -121,13 +121,13 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
     @Transactional()
     public String delete(String ids) throws Exception {
         //删除角色表
-        mybatisBaseDaoImpl.deleteDbAndCacheByIds(SysRole.class, ids);
+        mybatisBaseDaoImpl.deleteByIds(SysRole.class, ids);
         //删除用户角色关联表
         String sql = "delete from sys_user_role where role_id in (" + ids + ")";
-        mybatisBaseDaoImpl.deleteBySql(sql);
+        mybatisBaseDaoImpl.deleteBySql(sql, null);
         //删除角色权限关联表
         String deleteRelSql = "delete from sys_role_permission where role_id in (" + ids + ")";
-        mybatisBaseDaoImpl.deleteBySql(deleteRelSql);
+        mybatisBaseDaoImpl.deleteBySql(deleteRelSql, null);
         // TODO: 2016/7/30 无缓存的更新删除操作需要手动清空缓存 ,可以在mybatis封装中清空该类的所有缓存
         return "";
     }

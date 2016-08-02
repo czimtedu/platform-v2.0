@@ -38,18 +38,6 @@ public class MybatisBaseDaoImpl {
     private final String[] objectTypes = {"java.lang.Integer", "java.lang.String", "java.lang.Long", "java.util.Date", "java.math.BigDecimal"};
 
     /**
-     * 根据指定表名实体类、主键id获取Object
-     *
-     * @param entityClass 实体类Class
-     * @param id         id
-     * @return 数据集
-     */
-    public Object selectObjectDbAndCacheById(Class entityClass, String id) {
-        List list = selectListDbAndCacheByIds(entityClass, id);
-        return list.get(0);
-    }
-
-    /**
      * 根据指定表名实体类、id获取数据集
      *
      * @param entityClass 实体类Class
@@ -57,7 +45,7 @@ public class MybatisBaseDaoImpl {
      * @return 数据集
      */
     @SuppressWarnings("unchecked")
-    public List selectListDbAndCacheByIds(Class entityClass, String ids) {
+    public List selectListByIds(Class entityClass, String ids) {
         if (entityClass == null) {
             throw new CommonException("entityClass is null");
         }
@@ -107,7 +95,7 @@ public class MybatisBaseDaoImpl {
      * @return 数据集
      */
     @SuppressWarnings("unchecked")
-    public List selectFieldDbAndCacheByIds(Class entityClass, String ids, String fields) {
+    public List selectFieldByIds(Class entityClass, String ids, String fields) {
         if (entityClass == null) {
             throw new CommonException("entityClass is null");
         }
@@ -149,7 +137,7 @@ public class MybatisBaseDaoImpl {
      * @param fields      表字段名
      * @return 数据集
      */
-    public List selectFieldDbAndCacheByConditions(Class entityClass, String conditions, String fields) {
+    public List selectFieldByConditions(Class entityClass, String conditions, String fields) {
         if (entityClass == null) {
             throw new CommonException("entityClass is null");
         }
@@ -174,7 +162,7 @@ public class MybatisBaseDaoImpl {
                 ids.append(",").append(ids);
             }
         }
-        return selectFieldDbAndCacheByIds(entityClass, ids.toString(), fields);
+        return selectFieldByIds(entityClass, ids.toString(), fields);
     }
 
     /**
@@ -184,7 +172,7 @@ public class MybatisBaseDaoImpl {
      * @param conditions  筛选条件
      * @return 数据集
      */
-    public List selectListDbAndCacheByConditions(Class entityClass, String conditions) {
+    public List selectListByConditions(Class entityClass, String conditions) {
         if (entityClass == null) {
             throw new CommonException("entityClass is null");
         }
@@ -209,7 +197,7 @@ public class MybatisBaseDaoImpl {
                 ids.append(",").append(id);
             }
         }
-        return selectListDbAndCacheByIds(entityClass, ids.toString());
+        return selectListByIds(entityClass, ids.toString());
     }
 
     /**
@@ -221,7 +209,7 @@ public class MybatisBaseDaoImpl {
      * @return 数据集
      */
     @SuppressWarnings("unchecked")
-    public List selectPageListDbAndCacheByConditions(Class entityClass, String conditions, Page page) {
+    public List selectPageByConditions(Class entityClass, String conditions, Page page) {
         if (entityClass == null) {
             throw new CommonException("entityClass is null");
         }
@@ -239,7 +227,7 @@ public class MybatisBaseDaoImpl {
         //拼接where语句
         DaoUtils.getWhereClauseBuf(jpql, page.getPropertyFilterList());
         //根据筛选条件查询总条数
-        List<String> listArray = sqlSession.selectList("com.platform.framework.common.MybatisBaseDao.selectBySql", jpql.toString());
+        List<String> listArray = sqlSession.selectList("com.platform.framework.common.MybatisBaseDao.selectListBySql", jpql.toString());
         int count = listArray.size();
         //计算总页数
         int i = count % page.getPageSize();
@@ -262,7 +250,7 @@ public class MybatisBaseDaoImpl {
             jpql.append(" limit ").append(start).append(",").append(page.getPageSize());
         }
         //当前筛选条件的分页后的总记录数
-        List<String> idList = sqlSession.selectList("com.platform.framework.common.MybatisBaseDao.selectBySql", jpql.toString());
+        List<String> idList = sqlSession.selectList("com.platform.framework.common.MybatisBaseDao.selectListBySql", jpql.toString());
         page.setDisplayCount(count);
         StringBuilder ids = new StringBuilder();
         for (String id : idList) {
@@ -272,7 +260,7 @@ public class MybatisBaseDaoImpl {
                 ids.append(",").append(id);
             }
         }
-        return selectListDbAndCacheByIds(entityClass, ids.toString());
+        return selectListByIds(entityClass, ids.toString());
     }
 
     /**
@@ -280,7 +268,7 @@ public class MybatisBaseDaoImpl {
      *
      * @param obj 更新对象
      */
-    public void updateDbAndCache(Object obj) {
+    public void update(Object obj) {
         if (obj == null) {
             throw new CommonException("Object is null");
         }
@@ -355,13 +343,13 @@ public class MybatisBaseDaoImpl {
      * @param setfields   要更新的字段（例如“userName='a', password='1'”）
      * @param conditions  更新条件（例如“userName='a' and password='1'”）
      */
-    public void updateDbAndCacheByConditions(Class entityClass, String setfields, String conditions) {
+    public void updateByConditions(Class entityClass, String setfields, String conditions) {
         if (entityClass == null || setfields == null) {
             throw new CommonException("entityClass or setfields is null");
         }
         // 检查是否缓存
         if (JedisCachedOrignal.isCached(entityClass)) {
-            List list = selectListDbAndCacheByConditions(entityClass, conditions);//根据条件查找对象
+            List list = selectListByConditions(entityClass, conditions);//根据条件查找对象
             for (Object obj : list) {
                 // 删除缓存
                 JedisCachedOrignal.deleteObject(entityClass.getName(), obj);
@@ -403,7 +391,7 @@ public class MybatisBaseDaoImpl {
      * @param obj 保存对象
      * @return 保存的数据ID
      */
-    public String insertDb(Object obj) {
+    public String insert(Object obj) {
         if (obj == null) {
             throw new CommonException("Object is null");
         }
@@ -465,7 +453,7 @@ public class MybatisBaseDaoImpl {
      * @param entityClass 实体类
      * @param ids         ids
      */
-    public void deleteDbAndCacheByIds(Class entityClass, String ids) {
+    public void deleteByIds(Class entityClass, String ids) {
         if (entityClass == null || ids == null) {
             throw new CommonException("entityClass or ids is null");
         }
@@ -490,7 +478,7 @@ public class MybatisBaseDaoImpl {
      * @return 数据集
      */
     @SuppressWarnings("unchecked")
-    public List selectBySql(Class entityClass, String sql) {
+    public List selectListBySql(Class entityClass, String sql) {
         if (entityClass == null) {
             throw new CommonException("entityClass is null");
         }
@@ -505,16 +493,32 @@ public class MybatisBaseDaoImpl {
     }
 
     /**
+     * 根据sql语句查询(无缓存)
+     *
+     * @param sql SQL语句
+     * @return 数据集
+     */
+    @SuppressWarnings("unchecked")
+    public List<String> selectBySql(String sql) {
+        return sqlSession.selectList("com.platform.framework.common.MybatisBaseDao.selectBySql", sql);
+    }
+
+    /**
      * 根据sql语句删除（无缓存）
      *
      * @param sql SQL语句
+     * @param entityClass 实体类
      */
-    public void deleteBySql(String sql) {
+    public void deleteBySql(String sql, Class entityClass) {
+        // 检查是否缓存
+        if (JedisCachedOrignal.isCached(entityClass)) {
+            JedisCachedOrignal.deleteObjectLike(entityClass.getName());
+        }
         sqlSession.delete("com.platform.framework.common.MybatisBaseDao.deleteBySql", sql);
     }
 
     /**
-     * 根据sql语句保存（无缓存）
+     * 根据sql语句保存
      *
      * @param sql SQL语句
      */
@@ -523,12 +527,17 @@ public class MybatisBaseDaoImpl {
     }
 
     /**
-     * 根据sql语句更新（无缓存）
+     * 根据sql语句更新
      *
      * @param sql SQL语句
+     * @param entityClass 实体类
      */
-    public void updateBySql(String sql) {
-        sqlSession.insert("com.platform.framework.common.MybatisBaseDao.updateBySql", sql);
+    public void updateBySql(String sql, Class entityClass) {
+        // 检查是否缓存
+        if (JedisCachedOrignal.isCached(entityClass)) {
+            JedisCachedOrignal.deleteObjectLike(entityClass.getName());
+        }
+        sqlSession.update("com.platform.framework.common.MybatisBaseDao.updateBySql", sql);
     }
 
     /**

@@ -122,7 +122,7 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
             }
             // 保存日志信息
             try {
-                mybatisBaseDaoImpl.insertDb(log);
+                mybatisBaseDaoImpl.insert(log);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -143,7 +143,7 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
         Map<String, String> permissionMap = (Map<String, String>) JedisUtils.getObject(CACHE_PERMISSION_NAME_PATH_MAP);
         if(permissionMap == null){
             permissionMap = Maps.newHashMap();
-            List<SysPermission> permissions = mybatisBaseDaoImpl.selectListDbAndCacheByConditions(SysPermission.class, "");
+            List<SysPermission> permissions = mybatisBaseDaoImpl.selectListByConditions(SysPermission.class, "");
             for (SysPermission bean : permissions) {
                 // 获取菜单名称路径（如：系统设置-机构用户-用户管理-编辑）
                 String namePath = "";
@@ -199,13 +199,13 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
     @Override
     @Transactional()
     public String delete(String ids) throws Exception {
-        mybatisBaseDaoImpl.deleteDbAndCacheByIds(SysLog.class, ids);
+        mybatisBaseDaoImpl.deleteByIds(SysLog.class, ids);
         return "";
     }
 
     @Override
     @Transactional()
     public void empty() {
-        mybatisBaseDaoImpl.deleteBySql("DELETE FROM sys_log");
+        mybatisBaseDaoImpl.deleteBySql("DELETE FROM sys_log", null);
     }
 }
