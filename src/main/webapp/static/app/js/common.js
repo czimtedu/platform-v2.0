@@ -445,8 +445,8 @@ function sortOrRefresh() {//刷新或者排序，页码不清零
     return false;
 }
 function page(n, s) {//翻页
-    $("#pageNo").val(n);
-    $("#pageSize").val(s);
+    if(n) $("#pageNo").val(n);
+    if(s) $("#pageSize").val(s);
     $("#searchForm").submit();
     //$("span.page-size").text(s);
     return false;

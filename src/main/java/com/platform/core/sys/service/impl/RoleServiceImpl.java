@@ -10,6 +10,7 @@ import com.platform.core.sys.bean.SysUserRole;
 import com.platform.core.sys.service.RoleService;
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisBaseDaoImpl;
+import com.platform.framework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -96,18 +97,20 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
         } else {
             id = mybatisBaseDaoImpl.insert(object);
         }
-        //保存角色权限关联表
-        StringBuilder values = new StringBuilder();
-        String[] split = object.getPermissionIds().split(",");
-        for (String s : split) {
-            if (values.length() == 0) {
-                values.append("(").append(id).append(",").append(s).append(")");
-            } else {
-                values.append(",").append("(").append(id).append(",").append(s).append(")");
+        if(StringUtils.isNotEmpty(object.getPermissionIds())){
+            //保存角色权限关联表
+            StringBuilder values = new StringBuilder();
+            String[] split = object.getPermissionIds().split(",");
+            for (String s : split) {
+                if (values.length() == 0) {
+                    values.append("(").append(id).append(",").append(s).append(")");
+                } else {
+                    values.append(",").append("(").append(id).append(",").append(s).append(")");
+                }
             }
+            String saveSql = "insert into sys_role_permission (role_id, permission_id) values " + values.toString();
+            mybatisBaseDaoImpl.insertBySql(saveSql);
         }
-        String saveSql = "insert into sys_role_permission (role_id, permission_id) values " + values.toString();
-        mybatisBaseDaoImpl.insertBySql(saveSql);
         return id;
     }
 

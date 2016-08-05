@@ -4,6 +4,7 @@
 package com.platform.core.gen.bean;
 
 import com.google.common.collect.Lists;
+import com.platform.core.sys.bean.NoDbColumn;
 import com.platform.framework.common.BaseEntity;
 import com.platform.framework.util.StringUtils;
 import org.hibernate.validator.constraints.Length;
@@ -26,14 +27,24 @@ public class GenTable extends BaseEntity<GenTable> {
     private String parentTable;        // 关联父表
     private String parentTableFk;        // 关联父表外键
 
+    @NoDbColumn
     private List<GenTableColumn> columnList = Lists.newArrayList();    // 表列
-
+    @NoDbColumn
     private String nameLike;    // 按名称模糊查询
-
+    @NoDbColumn
     private List<String> pkList; // 当前表主键列表
-
+    @NoDbColumn
     private GenTable parent;    // 父表对象
+    @NoDbColumn
     private List<GenTable> childList = Lists.newArrayList();    // 子表列表
+
+    public GenTable() {
+        super();
+    }
+
+    public GenTable(String id) {
+        this.id = id;
+    }
 
     public String getId() {
         return id;

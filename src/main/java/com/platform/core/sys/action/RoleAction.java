@@ -13,6 +13,7 @@ import com.platform.core.sys.service.UserService;
 import com.platform.framework.common.BaseAction;
 import com.platform.framework.common.Page;
 import com.platform.framework.security.UserUtils;
+import com.platform.framework.util.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,7 +55,7 @@ public class RoleAction extends BaseAction<SysRole> {
     @ModelAttribute
     public SysRole get(@RequestParam(required = false) String id) throws Exception {
         SysRole sysRole;
-        if (id != null) {
+        if (StringUtils.isNotEmpty(id)) {
             sysRole =  roleService.get(SysRole.class, id);
             StringBuilder checkedPermissionIds = new StringBuilder();
             StringBuilder permissionIds = new StringBuilder();

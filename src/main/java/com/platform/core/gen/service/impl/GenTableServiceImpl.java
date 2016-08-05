@@ -1,0 +1,178 @@
+/*
+ * Copyright &copy; <a href="https://www.zlgx.com">zlgx</a> All rights reserved.
+ */
+
+package com.platform.core.gen.service.impl;
+
+import com.platform.core.gen.bean.GenTable;
+import com.platform.core.gen.bean.GenTableColumn;
+import com.platform.core.gen.service.GenTableService;
+import com.platform.core.gen.utils.GenUtils;
+import com.platform.framework.common.BaseServiceImpl;
+import com.platform.framework.common.Global;
+import com.platform.framework.common.MybatisBaseDaoImpl;
+import com.platform.framework.util.BeanToTable;
+import com.platform.framework.util.Encodes;
+import com.platform.framework.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * 业务表Service实现类
+ *
+ * @author lufengc
+ * @date 2016/7/29 0:33
+ */
+@Service
+@Transactional(readOnly = true)
+public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements GenTableService {
+
+    @Autowired
+    private MybatisBaseDaoImpl mybatisBaseDaoImpl;
+
+    @Override
+    @Transactional
+    public String save(GenTable object) throws Exception {
+        if (StringUtils.isBlank(object.getId())) {
+            object.setId(Encodes.uuid());
+            mybatisBaseDaoImpl.insert(object);
+        } else {
+            mybatisBaseDaoImpl.update(object);
+        }
+        // 保存列
+        for (GenTableColumn column : object.getColumnList()) {
+            column.setGenTable(object);
+            if (StringUtils.isBlank(column.getId())) {
+                column.setId(Encodes.uuid());
+                mybatisBaseDaoImpl.insert(column);
+            } else {
+                mybatisBaseDaoImpl.update(column);
+            }
+        }
+        return object.getId();
+    }
+
+    @Override
+    @Transactional
+    public String delete(String ids) throws Exception {
+        mybatisBaseDaoImpl.deleteByIds(GenTable.class, ids);
+        String deleteSql = "delete from gen_table_column where gen_table_id in (" + ids + ")";
+        mybatisBaseDaoImpl.deleteBySql(deleteSql, GenTableColumn.class);
+        return "";
+    }
+
+    /**
+     * 获取物理数据表列表
+     *
+     * @param genTable
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public List<GenTable> findTableListFormDb(GenTable genTable) {
+        String sql = "SELECT t.table_name AS name,t.TABLE_COMMENT AS comments " +
+                "FROM information_schema.`TABLES` t " +
+                "WHERE t.TABLE_SCHEMA = (select database()) ";
+        if (StringUtils.isNoneEmpty(genTable.getName())) {
+            sql += "AND t.TABLE_NAME = " + genTable.getName().toUpperCase() + " ";
+        }
+        sql += "ORDER BY t.TABLE_NAME";
+        List<GenTable> list = mybatisBaseDaoImpl.selectListBySql(GenTable.class, sql);
+        //return genDataBaseDictDao.findTableList(genTable);
+        return list;
+    }
+
+    /**
+     * 验证表名是否可用，如果已存在，则返回false
+     *
+     * @param tableName
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public boolean checkTableName(String tableName) {
+        if (StringUtils.isBlank(tableName)) {
+            return true;
+        }
+        GenTable genTable = new GenTable();
+        genTable.setName(tableName);
+        List<GenTable> list = mybatisBaseDaoImpl.selectListByConditions(GenTable.class, "name=" + tableName);
+        //List<GenTable> list = genTableDao.findList(genTable);
+        return list.size() == 0;
+    }
+
+    /**
+     * 获取物理数据表列表
+     *
+     * @param genTable
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public GenTable getTableFormDb(GenTable genTable) {
+        // 如果有表名，则获取物理表
+        if (StringUtils.isNotBlank(genTable.getName())) {
+            List<GenTable> list = findTableListFormDb(genTable);
+            if (list.size() > 0) {
+                // 如果是新增，初始化表属性
+                if (StringUtils.isBlank(genTable.getId())) {
+                    genTable = list.get(0);
+                    // 设置字段说明
+                    if (StringUtils.isBlank(genTable.getComments())) {
+                        genTable.setComments(genTable.getName());
+                    }
+                    genTable.setClassName(BeanToTable.tableNameToClassName(genTable.getName()));
+                }
+                // 添加新列
+                //List<GenTableColumn> columnList = genDataBaseDictDao.findTableColumnList(genTable);
+                String sql = "SELECT t.COLUMN_NAME AS name, " +
+                        "(CASE WHEN t.IS_NULLABLE = 'YES' THEN '1' ELSE '0' END) AS isNull," +
+                        "(t.ORDINAL_POSITION * 10) AS sort," +
+                        "t.COLUMN_COMMENT AS comments," +
+                        "t.COLUMN_TYPE AS jdbcType " +
+                        "FROM information_schema.`COLUMNS` t " +
+                        "WHERE t.TABLE_SCHEMA = (select database()) ";
+                if (StringUtils.isNoneEmpty(genTable.getName())) {
+                    sql += "AND t.TABLE_NAME = " + genTable.getName().toUpperCase() + " ";
+                }
+                sql += "ORDER BY t.ORDINAL_POSITION";
+                List<GenTableColumn> columnList = mybatisBaseDaoImpl.selectListBySql(GenTableColumn.class, sql);
+                for (GenTableColumn column : columnList) {
+                    boolean b = false;
+                    for (GenTableColumn e : genTable.getColumnList()) {
+                        if (e.getName().equals(column.getName())) {
+                            b = true;
+                        }
+                    }
+                    if (!b) {
+                        genTable.getColumnList().add(column);
+                    }
+                }
+                // 删除已删除的列
+                for (GenTableColumn e : genTable.getColumnList()) {
+                    boolean b = false;
+                    for (GenTableColumn column : columnList) {
+                        if (column.getName().equals(e.getName())) {
+                            b = true;
+                        }
+                    }
+                    if (!b) {
+                        e.setStatus(Global.STATUS_DELETE);
+                    }
+                }
+                // 获取主键
+                //genTable.setPkList(genDataBaseDictDao.findTablePK(genTable));
+                String findTablePKSql = "SELECT lower(au.COLUMN_NAME) AS columnName " +
+                        "FROM information_schema.`COLUMNS` au " +
+                        "WHERE au.TABLE_SCHEMA = (select database())  " +
+                        "AND au.COLUMN_KEY='PRI' AND au.TABLE_NAME = upper(" +
+                        genTable.getName().toUpperCase() + ")";
+                genTable.setPkList(mybatisBaseDaoImpl.selectBySql(findTablePKSql));
+                // 初始化列属性字段
+                GenUtils.initColumnField(genTable);
+            }
+        }
+        return genTable;
+    }
+
+}

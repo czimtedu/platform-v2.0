@@ -1,7 +1,8 @@
 /*
  * Copyright &copy; <a href="https://www.zlgx.com">zlgx</a> All rights reserved.
  */
-package com.platform.framework.util;
+
+package com.platform.core.gen.utils;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -10,6 +11,7 @@ import com.platform.core.sys.bean.SysUser;
 import com.platform.framework.common.SysConfigManager;
 import com.platform.framework.mapper.JaxbMapper;
 import com.platform.framework.security.UserUtils;
+import com.platform.framework.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -305,7 +307,7 @@ public class GenUtils {
 	public static String generateToFile(GenTemplate tpl, Map<String, Object> model, boolean isReplaceFile){
 		// 获取生成文件
 		String fileName = SysConfigManager.getProjectPath() + File.separator
-				+ StringUtils.replaceEach(FreeMarkers.renderString(tpl.getFilePath() + "/", model), 
+				+ StringUtils.replaceEach(FreeMarkers.renderString(tpl.getFilePath() + "/", model),
 						new String[]{"//", "/", "."}, new String[]{File.separator, File.separator, File.separator})
 				+ FreeMarkers.renderString(tpl.getFileName(), model);
 		logger.debug(" fileName === " + fileName);
