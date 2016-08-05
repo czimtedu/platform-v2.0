@@ -144,7 +144,7 @@ public class RoleAction extends BaseAction<SysRole> {
      */
     @Override
     @RequestMapping(value = "delete")
-    @RequiresPermissions("sys:role:delete")
+    @RequiresPermissions("sys:role:del")
     public String delete(Model model, SysRole object, Param param, RedirectAttributes redirectAttributes) throws Exception {
         roleService.delete(param.getIds());
         addMessage(redirectAttributes, "删除角色成功");
@@ -161,7 +161,7 @@ public class RoleAction extends BaseAction<SysRole> {
     @RequiresPermissions("sys:role:edit")
     @RequestMapping(value = "auth")
     public String auth(SysRole role, Model model) throws Exception {
-        model.addAttribute("permissionList", UserUtils.getMenuList());
+        model.addAttribute("permissionList", UserUtils.getAllMenu());
         return "sys/roleAuth";
     }
 

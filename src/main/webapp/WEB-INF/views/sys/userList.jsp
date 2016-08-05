@@ -15,6 +15,7 @@
         </div>
         <div class="ibox-content">
             <sys:message content="${message}"/>
+
             <!-- 查询条件 -->
             <div class="row">
                 <div class="col-sm-12">
@@ -27,8 +28,8 @@
                             <form:input path="username" htmlEscape="false" maxlength="50" class="form-control"/>
                             <span>姓名：</span>
                             <form:input path="realName" htmlEscape="false" maxlength="50" class="form-control"/>
-                            <button  class="btn btn-primary btn-outline btn-sm " onclick="search()" ><i class="fa fa-search"></i> 查询</button>
-                            <button  class="btn btn-primary btn-outline btn-sm " onclick="reset()" ><i class="fa fa-refresh"></i> 重置</button>
+                            <button  class="btn btn-primary btn-outline btn-sm " onclick="searchAll()" ><i class="fa fa-search"></i> 查询</button>
+                            <button  class="btn btn-primary btn-outline btn-sm " onclick="resetAll()" ><i class="fa fa-refresh"></i> 重置</button>
                         </div>
                     </form:form>
                     <br/>

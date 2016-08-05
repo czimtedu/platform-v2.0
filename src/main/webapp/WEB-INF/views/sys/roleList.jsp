@@ -26,8 +26,8 @@
                         <div class="form-group">
                             <span>角色名称：</span>
                             <form:input path="roleName" value="${sysRole.roleName}"  htmlEscape="false" maxlength="64"  class=" form-control input-sm"/>
-                            <button  class="btn btn-primary btn-outline btn-sm " onclick="search()" ><i class="fa fa-search"></i> 查询</button>
-                            <button  class="btn btn-primary btn-outline btn-sm " onclick="reset()" ><i class="fa fa-refresh"></i> 重置</button>
+                            <button  class="btn btn-primary btn-outline btn-sm " onclick="searchAll()" ><i class="fa fa-search"></i> 查询</button>
+                            <button  class="btn btn-primary btn-outline btn-sm " onclick="resetAll()" ><i class="fa fa-refresh"></i> 重置</button>
                         </div>
                     </form:form>
                     <br/>
@@ -56,11 +56,11 @@
                 <thead>
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <th>角色名称</th>
-                        <th>角色标记</th>
+                        <th class="sort-column role_name">角色名称</th>
+                        <th class="sort-column role_sign">角色标记</th>
                         <th>描述</th>
                         <th>创建人</th>
-                        <th>创建时间</th>
+                        <th class="sort-column create_time">创建时间</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -81,7 +81,7 @@
                                     <a href="#" onclick="openDialog('修改角色', '${ctx}/sys/role/form?id=${bean.id}','800px', '500px')" class="btn btn-link btn-xs" ><i class="fa fa-edit"></i> 修改</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="sys:role:del">
-                                <a href="${ctx}/sys/role/delete?id=${bean.id}" onclick="return confirmx('确认要删除该角色吗？', this.href)" class="btn  btn-link btn-xs"><i class="fa fa-trash"></i> 删除</a>
+                                <a href="#" onclick="return confirmx('确认要删除该角色吗？', '${ctx}/sys/role/delete?ids=${bean.id}')" class="btn  btn-link btn-xs"><i class="fa fa-trash"></i> 删除</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="sys:role:edit">
                                 <a href="#" onclick="openDialog('权限设置', '${ctx}/sys/role/auth?id=${bean.id}','350px', '700px')" class="btn btn-link btn-xs" ><i class="fa fa-edit"></i> 权限设置</a>

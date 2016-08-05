@@ -36,6 +36,7 @@ public class UserUtils {
     private static final String CACHE_ROLE_LIST = "roleList";
     private static final String CACHE_ROLE_ALL_LIST = "roleAllList";
     private static final String CACHE_PERMISSION_LIST = "permissionList";
+    private static final String CACHE_PERMISSION_ALL_LIST = "permissionAllList";
 
     /**
      * 根据ID获取用户
@@ -138,6 +139,25 @@ public class UserUtils {
             }
         }
         return roleList;
+    }
+
+    /**
+     * 获取所有菜单列表
+     *
+     * @return 权限菜单列表
+     */
+    public static List<SysPermission> getAllMenu() {
+        @SuppressWarnings("unchecked")
+        List<SysPermission> permissionList = (List<SysPermission>) getCache(CACHE_PERMISSION_ALL_LIST);
+        if (permissionList == null) {
+            try {
+                permissionList = permissionService.getList(new SysPermission());
+                putCache(CACHE_PERMISSION_LIST, permissionList);
+            } catch (Exception e) {
+                permissionList = new ArrayList<>();
+            }
+        }
+        return permissionList;
     }
 
     /**

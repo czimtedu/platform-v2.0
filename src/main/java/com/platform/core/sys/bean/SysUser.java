@@ -88,7 +88,6 @@ public class SysUser extends BaseEntity<SysUser> {
         this.email = email;
     }
 
-    @ExcelField(title="电话", align=2, sort=60)
     public String getPhoto() {
         return photo;
     }

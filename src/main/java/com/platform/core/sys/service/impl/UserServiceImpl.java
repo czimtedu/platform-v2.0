@@ -114,6 +114,8 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
             // 如果新密码为空，则不更换密码
             if (StringUtils.isNotBlank(object.getPassword())) {
                 object.setPassword(Encodes.entryptPassword(object.getPassword()));
+            }else{
+                object.setPassword(null);
             }
             mybatisBaseDaoImpl.update(object);
             //删除用户角色关联

@@ -426,13 +426,13 @@ function openDialogView(title, url, width, height) {
 
 }
 
-function search() {//查询，页码清零
+function searchAll() {//查询，页码清零
     $("#pageNo").val(0);
     $("#searchForm").submit();
     return false;
 }
 
-function reset() {//重置，页码清零
+function resetAll() {//重置，页码清零
     $("#pageNo").val(0);
     $("#searchForm div.form-group input").val("");
     $("#searchForm div.form-group select").val("");

@@ -510,9 +510,11 @@ public class MybatisBaseDaoImpl {
      * @param entityClass 实体类
      */
     public void deleteBySql(String sql, Class entityClass) {
-        // 检查是否缓存
-        if (JedisCachedOrignal.isCached(entityClass)) {
-            JedisCachedOrignal.deleteObjectLike(entityClass.getName());
+        if(entityClass != null){
+            // 检查是否缓存
+            if (JedisCachedOrignal.isCached(entityClass)) {
+                JedisCachedOrignal.deleteObjectLike(entityClass.getName());
+            }
         }
         sqlSession.delete("com.platform.framework.common.MybatisBaseDao.deleteBySql", sql);
     }
@@ -533,9 +535,11 @@ public class MybatisBaseDaoImpl {
      * @param entityClass 实体类
      */
     public void updateBySql(String sql, Class entityClass) {
-        // 检查是否缓存
-        if (JedisCachedOrignal.isCached(entityClass)) {
-            JedisCachedOrignal.deleteObjectLike(entityClass.getName());
+        if(entityClass != null){
+            // 检查是否缓存
+            if (JedisCachedOrignal.isCached(entityClass)) {
+                JedisCachedOrignal.deleteObjectLike(entityClass.getName());
+            }
         }
         sqlSession.update("com.platform.framework.common.MybatisBaseDao.updateBySql", sql);
     }

@@ -10,6 +10,7 @@ import com.platform.core.sys.bean.Param;
 import com.platform.core.sys.bean.SysPermission;
 import com.platform.core.sys.service.PermissionService;
 import com.platform.framework.common.BaseAction;
+import com.platform.framework.util.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,7 +49,7 @@ public class PermissionAction extends BaseAction<SysPermission> {
     @Override
     @ModelAttribute
     public SysPermission get(@RequestParam(required = false) String id) throws Exception {
-        if (id != null) {
+        if (StringUtils.isNotEmpty(id)) {
             return permissionService.get(SysPermission.class, id);
         } else {
             return new SysPermission();

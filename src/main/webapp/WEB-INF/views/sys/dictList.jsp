@@ -61,7 +61,7 @@
                     <th class="sort-column enName">字典英文名</th>
                     <th>类型名</th>
                     <th class="sort-column value">类型值</th>
-                    <th class="sort-column sort">排序</th>
+                    <th class="sort-column sort_id">排序</th>
                     <th>操作</th>
                 </tr>
                 </thead>

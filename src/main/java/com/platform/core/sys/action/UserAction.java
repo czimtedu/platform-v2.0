@@ -31,7 +31,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 用户管理
@@ -47,6 +50,8 @@ public class UserAction extends BaseAction<SysUser> {
     private UserService userService;
     @Autowired
     private RoleService roleService;
+
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * 数据绑定
@@ -290,16 +295,25 @@ public class UserAction extends BaseAction<SysUser> {
      */
     @RequiresPermissions("sys:user:edit")
     @RequestMapping(value = "imageUpload")
-    public String imageUpload(HttpServletRequest request, HttpServletResponse response, MultipartFile file) throws Exception{
+    public String imageUpload(HttpServletRequest request, MultipartFile file) throws Exception{
         SysUser currentUser = UserUtils.getUser();
         // 判断文件是否为空
         if (!file.isEmpty()) {
+            String uploadFileName = file.getOriginalFilename();
+            int index = uploadFileName.lastIndexOf(".");
+            String filetype = "";
+            if (index > -1) {
+                filetype = uploadFileName.substring(index + 1);
+            }
             // 文件保存路径
-            String realPath = "userid_" + UserUtils.getPrincipal() + "/images/";
+            String path = SysConfigManager.getFileUploadPath();
+            String realPath = "userid_" + UserUtils.getPrincipal() + "/images/"
+                    + simpleDateFormat.format(new Date()) + "/";
+            String fileName = UUID.randomUUID().toString().replace("-", "") + "." + filetype;
             // 转存文件
-            FileUtils.createDirectory(SysConfigManager.getFileUploadPath() + realPath);
-            file.transferTo(new File(SysConfigManager.getFileUploadPath() + realPath + file.getOriginalFilename()));
-            currentUser.setPhoto(realPath + file.getOriginalFilename());
+            FileUtils.createDirectory(path + realPath);
+            file.transferTo(new File(path + realPath + fileName));
+            currentUser.setPhoto(realPath + fileName);
             userService.updateUserInfo(currentUser);
         }
         return "sys/userImageEdit";

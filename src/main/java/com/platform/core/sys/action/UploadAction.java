@@ -6,6 +6,8 @@ package com.platform.core.sys.action;
 
 import com.alibaba.fastjson.JSONObject;
 import com.platform.framework.common.SysConfigManager;
+import com.platform.framework.security.UserUtils;
+import com.platform.framework.util.FileUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,16 +67,12 @@ public class UploadAction {
                 }
                 if (allowUpload) {
                     String path = SysConfigManager.getFileUploadPath();
-                    fileName = simpleDateFormat.format(new Date())
-                            + "/" + UUID.randomUUID().toString().replace("-", "") + "." + filetype;
-                    File file = new File(path + fileName);
-                    if (!file.exists()) {
-                        boolean mkdirs = file.mkdirs();
-                        if(mkdirs){
-                            upload.transferTo(file);
-                            status = 0;
-                        }
-                    }
+                    String realPath = "userid_" + UserUtils.getPrincipal() + "/images/"
+                            + simpleDateFormat.format(new Date()) + "/";
+                    fileName = realPath + UUID.randomUUID().toString().replace("-", "") + "." + filetype;
+                    FileUtils.createDirectory(path + realPath);
+                    upload.transferTo(new File(path + fileName));
+                    status = 0;
                 }
             }
         } catch (Exception e) {
