@@ -161,7 +161,7 @@ public class RoleAction extends BaseAction<SysRole> {
     @RequiresPermissions("sys:role:edit")
     @RequestMapping(value = "auth")
     public String auth(SysRole role, Model model) throws Exception {
-        model.addAttribute("permissionList", UserUtils.getAllMenu());
+        model.addAttribute("permissionList", UserUtils.getMenuList());
         return "sys/roleAuth";
     }
 

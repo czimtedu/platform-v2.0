@@ -122,6 +122,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
         } else {
             id = mybatisBaseDaoImpl.insert(object);
         }
+        // 清除日志相关缓存
         JedisUtils.delObject(LogServiceImpl.CACHE_PERMISSION_NAME_PATH_MAP);
         return id;
     }
@@ -138,6 +139,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
         mybatisBaseDaoImpl.deleteByIds(SysPermission.class, ids);
         String sql = "delete from sys_role_permission where permission_id in (" + ids + ")";
         mybatisBaseDaoImpl.deleteBySql(sql, null);
+        // 清除日志相关缓存
         JedisUtils.delObject(LogServiceImpl.CACHE_PERMISSION_NAME_PATH_MAP);
         return "";
     }

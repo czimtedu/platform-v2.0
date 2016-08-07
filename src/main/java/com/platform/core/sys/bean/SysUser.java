@@ -37,8 +37,6 @@ public class SysUser extends BaseEntity<SysUser> {
     @NoDbColumn
     private List<Integer> roleIdList;
     @NoDbColumn
-    private String roleNames;
-    @NoDbColumn
     private List<SysRole> roleList = Lists.newArrayList();
 
 
@@ -52,7 +50,7 @@ public class SysUser extends BaseEntity<SysUser> {
     }
 
     @Length(min = 1, max = 20, message = "用户名长度必须介于 1 和 20 之间")
-    @ExcelField(title="用户名", align=2, sort=30)
+    @ExcelField(title = "用户名", align = 2, sort = 30)
     public String getUsername() {
         return username;
     }
@@ -61,7 +59,7 @@ public class SysUser extends BaseEntity<SysUser> {
         this.username = username == null ? null : username.trim();
     }
 
-    @ExcelField(title="姓名", align=2, sort=40)
+    @ExcelField(title = "姓名", align = 2, sort = 40)
     public String getRealName() {
         return realName;
     }
@@ -70,7 +68,7 @@ public class SysUser extends BaseEntity<SysUser> {
         this.realName = realName;
     }
 
-    @ExcelField(title="手机", align=2, sort=60)
+    @ExcelField(title = "手机", align = 2, sort = 60)
     public String getMobile() {
         return mobile;
     }
@@ -79,7 +77,7 @@ public class SysUser extends BaseEntity<SysUser> {
         this.mobile = mobile;
     }
 
-    @ExcelField(title="邮箱", align=1, sort=50)
+    @ExcelField(title = "邮箱", align = 1, sort = 50)
     public String getEmail() {
         return email;
     }
@@ -173,7 +171,11 @@ public class SysUser extends BaseEntity<SysUser> {
         return Collections3.extractToString(roleList, "roleName", ",");
     }
 
-    public void setRoleNames(String roleNames) {
-        this.roleNames = roleNames;
+    public boolean isAdmin() {
+        return isAdmin(id);
+    }
+
+    public static boolean isAdmin(Integer id) {
+        return id != null && id == 1;
     }
 }

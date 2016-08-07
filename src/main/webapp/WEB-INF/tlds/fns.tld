@@ -73,14 +73,6 @@
         <example>${fns:getMenuList()}</example>
     </function>
 
-    <function>
-        <description>获取所有角色列表</description>
-        <name>getAllRole</name>
-        <function-class>com.platform.framework.security.UserUtils</function-class>
-        <function-signature>java.util.List getAllRole()</function-signature>
-        <example>${fns:getAllRole()}</example>
-    </function>
-
     <!-- DictUtils -->
     <function>
         <description>获取字典标签</description>

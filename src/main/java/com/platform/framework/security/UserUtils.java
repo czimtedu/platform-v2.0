@@ -21,6 +21,8 @@ import com.platform.framework.cache.JedisUtils;
 import com.platform.framework.common.SpringContextHolder;
 import com.platform.framework.security.SecurityRealm.Principal;
 
+import static com.platform.core.sys.service.impl.LogServiceImpl.CACHE_PERMISSION_NAME_PATH_MAP;
+
 /**
  * 用户工具类
  *
@@ -34,9 +36,8 @@ public class UserUtils {
     private static PermissionService permissionService = SpringContextHolder.getBean(PermissionService.class);
 
     private static final String CACHE_ROLE_LIST = "roleList";
-    private static final String CACHE_ROLE_ALL_LIST = "roleAllList";
     private static final String CACHE_PERMISSION_LIST = "permissionList";
-    private static final String CACHE_PERMISSION_ALL_LIST = "permissionAllList";
+
 
     /**
      * 根据ID获取用户
@@ -48,6 +49,9 @@ public class UserUtils {
         SysUser user = null;
         try {
             user = userService.get(SysUser.class, id + "");
+            if(user != null){
+                user.setRoleList(roleService.getByUserId(id));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,7 +68,6 @@ public class UserUtils {
         if (principal != null) {
             SysUser user = get(principal.getId());
             if (user != null) {
-                user.setRoleList(getRoleList());
                 return user;
             }
             return new SysUser();
@@ -100,9 +103,18 @@ public class UserUtils {
     public static List<SysRole> getRoleList() {
         @SuppressWarnings("unchecked")
         List<SysRole> roleList = (List<SysRole>) getCache(CACHE_ROLE_LIST);
-        if (roleList == null) {
-            roleList = roleService.getByUserId(getUserId());
-            putCache(CACHE_ROLE_LIST, roleList);
+        try {
+            if (roleList == null) {
+                SysUser user = getUser();
+                if (user.isAdmin()) {
+                    roleList = roleService.getList(new SysRole());
+                } else {
+                    roleList = roleService.getByUserId(getUserId());
+                }
+                putCache(CACHE_ROLE_LIST, roleList);
+            }
+        } catch (Exception e) {
+            roleList = new ArrayList<>();
         }
         return roleList;
     }
@@ -115,47 +127,18 @@ public class UserUtils {
     public static List<SysPermission> getMenuList() {
         @SuppressWarnings("unchecked")
         List<SysPermission> permissionList = (List<SysPermission>) getCache(CACHE_PERMISSION_LIST);
-        if (permissionList == null) {
-            permissionList = permissionService.getByUserId(getUserId());
-            putCache(CACHE_PERMISSION_LIST, permissionList);
-        }
-        return permissionList;
-    }
-
-    /**
-     * 获取所有角色列表
-     *
-     * @return 角色列表
-     */
-    public static List<SysRole> getAllRole() {
-        @SuppressWarnings("unchecked")
-        List<SysRole> roleList = (List<SysRole>) JedisUtils.getObject(CACHE_ROLE_ALL_LIST);
-        if (roleList == null) {
-            try {
-                roleList = roleService.getList(new SysRole());
-                JedisUtils.setObject(CACHE_ROLE_ALL_LIST, roleList, 0);
-            } catch (Exception e) {
-                roleList = new ArrayList<>();
-            }
-        }
-        return roleList;
-    }
-
-    /**
-     * 获取所有菜单列表
-     *
-     * @return 权限菜单列表
-     */
-    public static List<SysPermission> getAllMenu() {
-        @SuppressWarnings("unchecked")
-        List<SysPermission> permissionList = (List<SysPermission>) getCache(CACHE_PERMISSION_ALL_LIST);
-        if (permissionList == null) {
-            try {
-                permissionList = permissionService.getList(new SysPermission());
+        try {
+            if (permissionList == null) {
+                SysUser user = getUser();
+                if (user.isAdmin()) {
+                    permissionList = permissionService.getList(new SysPermission());
+                } else {
+                    permissionList = permissionService.getByUserId(getUserId());
+                }
                 putCache(CACHE_PERMISSION_LIST, permissionList);
-            } catch (Exception e) {
-                permissionList = new ArrayList<>();
             }
+        } catch (Exception e) {
+            permissionList = new ArrayList<>();
         }
         return permissionList;
     }

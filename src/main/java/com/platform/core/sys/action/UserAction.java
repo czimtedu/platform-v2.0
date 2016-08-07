@@ -281,7 +281,7 @@ public class UserAction extends BaseAction<SysUser> {
                 return renderString(response, j);
             }
             model.addAttribute("message", "保存用户信息成功");
-            return "modules/sys/userInfo";
+            return "sys/userInfo";
         }
         model.addAttribute("user", currentUser);
         return "sys/userImageEdit";
@@ -313,7 +313,7 @@ public class UserAction extends BaseAction<SysUser> {
             // 转存文件
             FileUtils.createDirectory(path + realPath);
             file.transferTo(new File(path + realPath + fileName));
-            currentUser.setPhoto(realPath + fileName);
+            currentUser.setPhoto(realPath + file.getOriginalFilename());
             userService.updateUserInfo(currentUser);
         }
         return "sys/userImageEdit";
