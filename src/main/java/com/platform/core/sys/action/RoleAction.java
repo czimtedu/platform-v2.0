@@ -95,8 +95,9 @@ public class RoleAction extends BaseAction<SysRole> {
     @Override
     @RequestMapping(value = {"list", ""})
     public String list(Model model, SysRole object, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Page<SysRole> page = roleService.getPage(new Page<SysRole>(request, response), object, "");
-        model.addAttribute("page", page);
+        /*Page<SysRole> page = roleService.getPage(new Page<SysRole>(request, response), object, "");
+        model.addAttribute("page", page);*/
+        model.addAttribute("roleList", UserUtils.getRoleList());
         return "sys/roleList";
     }
 

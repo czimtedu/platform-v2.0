@@ -4,6 +4,7 @@
 
 package com.platform.core.sys.action;
 
+import com.google.common.collect.Lists;
 import com.platform.core.sys.bean.Param;
 import com.platform.core.sys.bean.SysDict;
 import com.platform.core.sys.service.DictService;
@@ -21,7 +22,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 字典Action
@@ -64,6 +67,11 @@ public class dictAction extends BaseAction<SysDict> {
     @Override
     @RequestMapping(value = {"list", ""})
     protected String list(Model model, SysDict object, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Set<String> typeList = new HashSet<>();
+        for (SysDict dict : dictService.getList(new SysDict())) {
+            typeList.add(dict.getEnName());
+        }
+        model.addAttribute("typeList", typeList);
         Page<SysDict> page = dictService.getPage(new Page<SysDict>(request, response), object, "");
         model.addAttribute("page", page);
         return "sys/dictList";

@@ -28,9 +28,12 @@
                             <span>名称：</span>
                             <form:input path="name" htmlEscape="false" maxlength="50" class="form-control"/>
                             <span>英文名称：</span>
-                            <form:input path="enName" htmlEscape="false" maxlength="50" class="form-control"/>
-                            <button  class="btn btn-primary btn-outline btn-sm " onclick="search()" ><i class="fa fa-search"></i> 查询</button>
-                            <button  class="btn btn-primary btn-outline btn-sm " onclick="reset()" ><i class="fa fa-refresh"></i> 重置</button>
+                            <form:select id="type" path="enName" class="form-control m-b">
+                                <form:option value="" label=""/>
+                                <form:options items="${typeList}" htmlEscape="false"/>
+                            </form:select>
+                            <button  class="btn btn-primary btn-outline btn-sm " onclick="searchAll()" ><i class="fa fa-search"></i> 查询</button>
+                            <button  class="btn btn-primary btn-outline btn-sm " onclick="resetAll()" ><i class="fa fa-refresh"></i> 重置</button>
                         </div>
                     </form:form>
                     <br/>

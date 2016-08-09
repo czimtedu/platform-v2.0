@@ -16,24 +16,6 @@
         <div class="ibox-content">
             <sys:message content="${message}"/>
 
-            <!-- 查询条件 -->
-            <div class="row">
-                <div class="col-sm-12">
-                    <form:form id="searchForm" modelAttribute="sysRole" action="${ctx}/sys/role/" method="post" class="form-inline">
-                        <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
-                        <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-                        <table:sortColumn id="orderBy" name="orderBy" value="${page.orderBy}" callback="sortOrRefresh();"/><!-- 支持排序 -->
-                        <div class="form-group">
-                            <span>角色名称：</span>
-                            <form:input path="roleName" value="${sysRole.roleName}"  htmlEscape="false" maxlength="64"  class=" form-control input-sm"/>
-                            <button  class="btn btn-primary btn-outline btn-sm " onclick="searchAll()" ><i class="fa fa-search"></i> 查询</button>
-                            <button  class="btn btn-primary btn-outline btn-sm " onclick="resetAll()" ><i class="fa fa-refresh"></i> 重置</button>
-                        </div>
-                    </form:form>
-                    <br/>
-                </div>
-            </div>
-
             <!-- 工具栏 -->
             <div class="row">
                 <div class="col-sm-12">
@@ -56,16 +38,16 @@
                 <thead>
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <th class="sort-column role_name">角色名称</th>
-                        <th class="sort-column role_sign">角色标记</th>
+                        <th>角色名称</th>
+                        <th>角色标记</th>
                         <th>描述</th>
                         <th>创建人</th>
-                        <th class="sort-column create_time">创建时间</th>
+                        <th>创建时间</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${page.list}" var="bean">
+                <c:forEach items="${roleList}" var="bean">
                     <tr>
                         <td> <input type="checkbox" id="${bean.id}" class="i-checks"></td>
                         <td>${bean.roleName}</td>
@@ -94,8 +76,6 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <table:page page="${page}"/>
-            <br/><br/>
         </div>
     </div>
 </div>
