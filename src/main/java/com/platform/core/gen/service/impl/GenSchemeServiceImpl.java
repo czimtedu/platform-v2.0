@@ -71,12 +71,12 @@ public class GenSchemeServiceImpl extends BaseServiceImpl<GenScheme> implements 
         List<GenTemplate> templateList = GenUtils.getTemplateList(config, genScheme.getCategory(), false);
         List<GenTemplate> childTableTemplateList = GenUtils.getTemplateList(config, genScheme.getCategory(), true);
         // 如果有子表模板，则需要获取子表列表
-        if (childTableTemplateList.size() > 0) {
+        /*if (childTableTemplateList.size() > 0) {
             List<GenTable> genTableList = mybatisBaseDaoImpl.selectListByConditions(GenTable.class, "parent_table=" + genTable.getName());
             genTable.setChildList(genTableList);
-        }
+        }*/
         // 生成子表模板代码
-        for (GenTable childTable : genTable.getChildList()) {
+        /*for (GenTable childTable : genTable.getChildList()) {
             childTable.setParent(genTable);
             List<GenTableColumn> genChildTableColumList = mybatisBaseDaoImpl.selectListByIds(GenTableColumn.class, childTable.getId());
             childTable.setColumnList(genChildTableColumList);
@@ -85,7 +85,7 @@ public class GenSchemeServiceImpl extends BaseServiceImpl<GenScheme> implements 
             for (GenTemplate tpl : childTableTemplateList) {
                 result.append(GenUtils.generateToFile(tpl, childTableModel, genScheme.getReplaceFile()));
             }
-        }
+        }*/
         // 生成主表模板代码
         genScheme.setGenTable(genTable);
         Map<String, Object> model = GenUtils.getDataModel(genScheme);

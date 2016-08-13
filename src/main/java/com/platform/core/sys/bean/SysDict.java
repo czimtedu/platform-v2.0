@@ -5,7 +5,9 @@
 package com.platform.core.sys.bean;
 
 import com.platform.framework.cache.DataCached;
+import org.hibernate.validator.constraints.Length;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -43,6 +45,8 @@ public class SysDict implements Serializable {
         this.id = id;
     }
 
+    @XmlAttribute
+    @Length(min=1, max=100)
     public String getLabel() {
         return label;
     }
@@ -51,6 +55,8 @@ public class SysDict implements Serializable {
         this.label = label;
     }
 
+    @XmlAttribute
+    @Length(min=1, max=100)
     public String getValue() {
         return value;
     }
@@ -59,6 +65,7 @@ public class SysDict implements Serializable {
         this.value = value;
     }
 
+    @Length(min=1, max=100)
     public String getEnName() {
         return enName;
     }
@@ -67,6 +74,8 @@ public class SysDict implements Serializable {
         this.enName = enName;
     }
 
+    @XmlAttribute
+    @Length(min=0, max=100)
     public String getName() {
         return name;
     }
@@ -137,5 +146,9 @@ public class SysDict implements Serializable {
 
     public void setActionType(Integer actionType) {
         this.actionType = actionType;
+    }
+
+    public String toString() {
+        return label;
     }
 }

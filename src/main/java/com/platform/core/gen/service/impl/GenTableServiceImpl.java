@@ -34,6 +34,16 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
     private MybatisBaseDaoImpl mybatisBaseDaoImpl;
 
     @Override
+    @SuppressWarnings("unchecked")
+    public GenTable get(Class<GenTable> clazz, String id) throws Exception {
+        GenTable genTable = super.get(clazz, id);
+        List<GenTableColumn> columnList = mybatisBaseDaoImpl.selectListByConditions(GenTableColumn.class,
+                "gen_table_id='" + genTable.getId() + "'");
+        genTable.setColumnList(columnList);
+        return genTable;
+    }
+
+    @Override
     @Transactional
     public String save(GenTable object) throws Exception {
         if (StringUtils.isBlank(object.getId())) {
@@ -76,7 +86,7 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
                 "FROM information_schema.`TABLES` t " +
                 "WHERE t.TABLE_SCHEMA = (select database()) ";
         if (StringUtils.isNoneEmpty(genTable.getName())) {
-            sql += "AND t.TABLE_NAME = " + genTable.getName().toUpperCase() + " ";
+            sql += "AND t.TABLE_NAME = '" + genTable.getName().toUpperCase() + "' ";
         }
         sql += "ORDER BY t.TABLE_NAME";
         List<GenTable> list = mybatisBaseDaoImpl.selectListBySql(GenTable.class, sql);
@@ -133,7 +143,7 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
                         "FROM information_schema.`COLUMNS` t " +
                         "WHERE t.TABLE_SCHEMA = (select database()) ";
                 if (StringUtils.isNoneEmpty(genTable.getName())) {
-                    sql += "AND t.TABLE_NAME = " + genTable.getName().toUpperCase() + " ";
+                    sql += "AND t.TABLE_NAME = '" + genTable.getName().toUpperCase() + "' ";
                 }
                 sql += "ORDER BY t.ORDINAL_POSITION";
                 List<GenTableColumn> columnList = mybatisBaseDaoImpl.selectListBySql(GenTableColumn.class, sql);

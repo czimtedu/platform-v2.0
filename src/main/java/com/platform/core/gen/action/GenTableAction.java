@@ -38,10 +38,10 @@ public class GenTableAction extends BaseAction<GenTable> {
     private GenTableService genTableService;
 
     @ModelAttribute
-    public GenTable get(@RequestParam(required=false) String id) throws Exception {
-        if (StringUtils.isNotBlank(id)){
+    public GenTable get(@RequestParam(required = false) String id) throws Exception {
+        if (StringUtils.isNotBlank(id)) {
             return genTableService.get(GenTable.class, id);
-        }else{
+        } else {
             return new GenTable();
         }
     }
@@ -61,28 +61,26 @@ public class GenTableAction extends BaseAction<GenTable> {
         List<GenTable> tableList = genTableService.findTableListFormDb(new GenTable());
         model.addAttribute("tableList", tableList);
         // 验证表是否存在
-        if (StringUtils.isBlank(genTable.getId()) && !genTableService.checkTableName(genTable.getName())){
+        if (StringUtils.isBlank(genTable.getId()) && !genTableService.checkTableName(genTable.getName())) {
             addMessage(model, "下一步失败！" + genTable.getName() + " 表已经添加！");
             genTable.setName("");
-        }
-        // 获取物理表字段
-        else{
+        } else { // 获取物理表字段
             genTable = genTableService.getTableFormDb(genTable);
         }
         model.addAttribute("genTable", genTable);
         model.addAttribute("config", GenUtils.getConfig());
-        return "modules/gen/genTableForm";
+        return "gen/genTableForm";
     }
 
     @Override
     @RequestMapping(value = "save")
     @RequiresPermissions("gen:genTable:edit")
     public String save(Model model, GenTable genTable, RedirectAttributes redirectAttributes) throws Exception {
-        if (!beanValidator(model, genTable)){
+        if (!beanValidator(model, genTable)) {
             return form(model, genTable);
         }
         // 验证表是否已经存在
-        if (StringUtils.isBlank(genTable.getId()) && !genTableService.checkTableName(genTable.getName())){
+        if (StringUtils.isBlank(genTable.getId()) && !genTableService.checkTableName(genTable.getName())) {
             addMessage(model, "保存失败！" + genTable.getName() + " 表已经存在！");
             genTable.setName("");
             return form(model, genTable);

@@ -46,6 +46,7 @@ public class MybatisBaseDaoImpl {
      */
     @SuppressWarnings("unchecked")
     public List selectListByIds(Class entityClass, String ids) {
+        // TODO: 2016/8/12 泛型支持
         if (entityClass == null) {
             throw new CommonException("entityClass is null");
         }

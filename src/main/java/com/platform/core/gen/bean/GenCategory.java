@@ -28,7 +28,7 @@ public class GenCategory extends SysDict {
 		super();
 	}
 
-	@XmlElement(name = "template")
+	@XmlElement(name = "templates")
 	public List<String> getTemplate() {
 		return template;
 	}
@@ -38,7 +38,7 @@ public class GenCategory extends SysDict {
 	}
 	
 	@XmlElementWrapper(name = "childTable")
-	@XmlElement(name = "template")
+	@XmlElement(name = "templates")
 	public List<String> getChildTableTemplate() {
 		return childTableTemplate;
 	}

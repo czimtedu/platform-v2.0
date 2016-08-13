@@ -18,7 +18,7 @@ import java.util.List;
  * @author ThinkGem
  * @version 2013-10-15
  */
-@XmlRootElement(name = "template")
+@XmlRootElement(name = "templates")
 public class GenTemplate extends BaseEntity<GenTemplate> {
 
     private static final long serialVersionUID = 1L;

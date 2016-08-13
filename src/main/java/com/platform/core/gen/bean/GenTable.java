@@ -30,13 +30,7 @@ public class GenTable extends BaseEntity<GenTable> {
     @NoDbColumn
     private List<GenTableColumn> columnList = Lists.newArrayList();    // 表列
     @NoDbColumn
-    private String nameLike;    // 按名称模糊查询
-    @NoDbColumn
     private List<String> pkList; // 当前表主键列表
-    @NoDbColumn
-    private GenTable parent;    // 父表对象
-    @NoDbColumn
-    private List<GenTable> childList = Lists.newArrayList();    // 子表列表
 
     public GenTable() {
         super();
@@ -103,36 +97,12 @@ public class GenTable extends BaseEntity<GenTable> {
         this.pkList = pkList;
     }
 
-    public String getNameLike() {
-        return nameLike;
-    }
-
-    public void setNameLike(String nameLike) {
-        this.nameLike = nameLike;
-    }
-
-    public GenTable getParent() {
-        return parent;
-    }
-
-    public void setParent(GenTable parent) {
-        this.parent = parent;
-    }
-
     public List<GenTableColumn> getColumnList() {
         return columnList;
     }
 
     public void setColumnList(List<GenTableColumn> columnList) {
         this.columnList = columnList;
-    }
-
-    public List<GenTable> getChildList() {
-        return childList;
-    }
-
-    public void setChildList(List<GenTable> childList) {
-        this.childList = childList;
     }
 
     /**
@@ -168,25 +138,7 @@ public class GenTable extends BaseEntity<GenTable> {
                 }
             }
         }
-        // 如果有子表，则需要导入List相关引用
-        if (getChildList() != null && getChildList().size() > 0) {
-            if (!importList.contains("java.util.List")) {
-                importList.add("java.util.List");
-            }
-            if (!importList.contains("com.google.common.collect.Lists")) {
-                importList.add("com.google.common.collect.Lists");
-            }
-        }
         return importList;
-    }
-
-    /**
-     * 是否存在父类
-     *
-     * @return
-     */
-    public Boolean getParentExists() {
-        return parent != null && StringUtils.isNotBlank(parentTable) && StringUtils.isNotBlank(parentTableFk);
     }
 
     /**

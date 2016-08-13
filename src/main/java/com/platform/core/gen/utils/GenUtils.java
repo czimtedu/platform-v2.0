@@ -163,7 +163,7 @@ public class GenUtils {
 			File file = new DefaultResourceLoader().getResource("").getFile();
 			if(file != null){
 				return file.getAbsolutePath() + File.separator + StringUtils.replaceEach(GenUtils.class.getName(), 
-						new String[]{"util."+GenUtils.class.getSimpleName(), "."}, new String[]{"template", File.separator});
+						new String[]{"util."+GenUtils.class.getSimpleName(), "."}, new String[]{"templates", File.separator});
 			}			
 		}catch(Exception e){
 			logger.error("{}", e);
@@ -181,7 +181,7 @@ public class GenUtils {
 	@SuppressWarnings("unchecked")
 	public static <T> T fileToObject(String fileName, Class<?> clazz){
 		try {
-			String pathName = "/templates/modules/gen/" + fileName;
+			String pathName = "/templates/gen/" + fileName;
 //			logger.debug("File to object: {}", pathName);
 			Resource resource = new ClassPathResource(pathName);
 			InputStream is = resource.getInputStream();

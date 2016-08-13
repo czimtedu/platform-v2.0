@@ -4,6 +4,7 @@
 package com.platform.core.gen.bean;
 
 import com.google.common.collect.Lists;
+import com.platform.core.sys.bean.NoDbColumn;
 import com.platform.framework.common.BaseEntity;
 import com.platform.framework.util.BeanToTable;
 import com.platform.framework.util.StringUtils;
@@ -21,7 +22,6 @@ public class GenTableColumn extends BaseEntity<GenTableColumn> {
 
     private static final long serialVersionUID = 1L;
     private String id;
-    private GenTable genTable;    // 归属表
     private String name;        // 列名
     private String comments;    // 描述
     private String jdbcType;    // JDBC类型
@@ -38,9 +38,8 @@ public class GenTableColumn extends BaseEntity<GenTableColumn> {
     private String dictType;    // 字典类型
     private Integer sort;        // 排序（升序）
 
-    public GenTableColumn(GenTable genTable) {
-        this.genTable = genTable;
-    }
+    @NoDbColumn
+    private GenTable genTable;    // 归属表
 
     public String getId() {
         return id;

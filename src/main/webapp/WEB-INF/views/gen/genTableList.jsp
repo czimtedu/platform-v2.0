@@ -15,8 +15,7 @@
     <div class="ibox">
         <div class="ibox-title">
             <h5>业务表列表</h5>
-            <div class="ibox-tools">
-            </div>
+            <div class="ibox-tools"></div>
         </div>
         <div class="ibox-content">
             <sys:message content="${message}"/>
@@ -46,12 +45,12 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="pull-left">
-                        <shiro:hasPermission name="sys:user:edit">
-                            <table:addRow url="${ctx}/sys/user/form" title="用户" width="800px" height="650px"/><!-- 增加按钮 -->
-                            <table:editRow url="${ctx}/sys/user/form" title="用户" width="800px" height="680px" id="contentTable"/><!-- 编辑按钮 -->
+                        <shiro:hasPermission name="gen:genTable:edit">
+                            <table:addRow url="${ctx}/gen/genTable/form" title="业务表" width="800px" height="650px"/><!-- 增加按钮 -->
+                            <table:editRow url="${ctx}/gen/genTable/form" title="业务表" width="800px" height="680px" id="contentTable"/><!-- 编辑按钮 -->
                         </shiro:hasPermission>
                         <shiro:hasPermission name="sys:user:del">
-                            <table:delRow url="${ctx}/sys/user/delete" id="contentTable"/><!-- 删除按钮 -->
+                            <table:delRow url="${ctx}/gen/genTable/delete" id="contentTable"/><!-- 删除按钮 -->
                         </shiro:hasPermission>
                         <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="sortOrRefresh()" title="刷新">
                             <i class="glyphicon glyphicon-repeat"></i> 刷新
@@ -86,12 +85,12 @@
                         </td>
                         <td>
                             <a href="#"
-                               onclick="openDialogView('查看', '${ctx}/gen/genTable/form?id=${bean.id}','800px', '500px')"
+                               onclick="openDialogView('查看', '${ctx}/gen/genTable/form?id=${bean.id}','1200px', '650px')"
                                class="btn btn-link btn-xs"><i class="fa fa-search-plus"></i> 查看
                             </a>
                             <shiro:hasPermission name="sys:user:edit">
                                 <a href="#"
-                                   onclick="openDialog('修改', '${ctx}/gen/genTable/form?id=${bean.id}','800px', '680px')"
+                                   onclick="openDialog('修改', '${ctx}/gen/genTable/form?id=${bean.id}','1200px', '650px')"
                                    class="btn btn-link btn-xs"><i class="fa fa-edit"></i> 修改
                                 </a>
                             </shiro:hasPermission>
