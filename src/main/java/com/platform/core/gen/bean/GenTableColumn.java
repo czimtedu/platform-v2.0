@@ -10,6 +10,7 @@ import com.platform.framework.util.BeanToTable;
 import com.platform.framework.util.StringUtils;
 import org.hibernate.validator.constraints.Length;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public class GenTableColumn extends BaseEntity<GenTableColumn> {
     private String queryType;    // 查询方式（等于、不等于、大于、小于、范围、左LIKE、右LIKE、左右LIKE）
     private String showType;    // 字段生成方案（文本框、文本域、下拉框、复选框、单选框、字典选择、人员选择、部门选择、区域选择）
     private String dictType;    // 字典类型
-    private Integer sort;        // 排序（升序）
+    private Object sort;        // 排序（升序）
 
     @NoDbColumn
     private GenTable genTable;    // 归属表
@@ -170,11 +171,11 @@ public class GenTableColumn extends BaseEntity<GenTableColumn> {
         this.dictType = dictType;
     }
 
-    public Integer getSort() {
+    public Object getSort() {
         return sort;
     }
 
-    public void setSort(Integer sort) {
+    public void setSort(Object sort) {
         this.sort = sort;
     }
 

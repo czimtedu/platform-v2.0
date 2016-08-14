@@ -132,10 +132,10 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
                 // 添加新列
                 //List<GenTableColumn> columnList = genDataBaseDictDao.findTableColumnList(genTable);
                 String sql = "SELECT t.COLUMN_NAME AS name, " +
-                        "(CASE WHEN t.IS_NULLABLE = 'YES' THEN '1' ELSE '0' END) AS isNull," +
+                        "(CASE WHEN t.IS_NULLABLE = 'YES' THEN '1' ELSE '0' END) AS is_null," +
                         "(t.ORDINAL_POSITION * 10) AS sort," +
                         "t.COLUMN_COMMENT AS comments," +
-                        "t.COLUMN_TYPE AS jdbcType " +
+                        "t.COLUMN_TYPE AS jdbc_type " +
                         "FROM information_schema.`COLUMNS` t " +
                         "WHERE t.TABLE_SCHEMA = (select database()) ";
                 if (StringUtils.isNoneEmpty(genTable.getName())) {

@@ -4,19 +4,17 @@
 
 package com.platform.framework.util;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * 对象操作工具类, 继承org.apache.commons.lang3.ObjectUtils类
@@ -26,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class ObjectUtils extends org.apache.commons.lang3.ObjectUtils {
 
+    protected static Logger logger = LoggerFactory.getLogger(ObjectUtils.class);
 
     /**
      * 注解到对象复制，只复制能匹配上的方法。
@@ -145,10 +144,9 @@ public class ObjectUtils extends org.apache.commons.lang3.ObjectUtils {
     /**
      * map转Object
      *
-     * @param beanClass
-     * @param map
-     * @return
-     * @throws Exception
+     * @param beanClass 实体类
+     * @param map map对象
+     * @return Object
      */
     public static <T> T mapToObject(Class<T> beanClass, Map map) {
         if (map == null) {
@@ -166,7 +164,7 @@ public class ObjectUtils extends org.apache.commons.lang3.ObjectUtils {
                     try {
                         property.getWriteMethod().invoke(obj, map.get(tableField));
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        logger.error("属性名：" + propertyName + "设置值失败", e);
                     }
                 }
             }
