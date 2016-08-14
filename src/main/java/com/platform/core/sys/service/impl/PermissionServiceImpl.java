@@ -35,7 +35,6 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
      * @return List
      */
     @Override
-    @SuppressWarnings("unchecked")
     public List<SysPermission> getByRoleId(Integer roleId) {
         String sql = "select * from sys_role_permission where role_id = " + roleId;
         List<SysRolePermission> sysRolePermissionList = mybatisBaseDaoImpl.selectListBySql(SysRolePermission.class, sql);
@@ -57,7 +56,6 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
      * @return List
      */
     @Override
-    @SuppressWarnings("unchecked")
     public List<SysPermission> getByUserId(Integer userId) {
         String sql = "SELECT rp.permission_id, rp.role_id" +
                 " FROM sys_role_permission rp" +
@@ -82,7 +80,6 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
      * @return List
      */
     @Override
-    @SuppressWarnings("unchecked")
     public List<SysPermission> getByParentId(int parentId) {
         return mybatisBaseDaoImpl.selectListByConditions(
                 SysPermission.class, "parent_id = " + parentId + "");
@@ -97,7 +94,6 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
      */
     @Override
     @Transactional()
-    @SuppressWarnings("unchecked")
     public String save(SysPermission object) throws Exception {
         String id;
         String oldParentIds = object.getParentIds();

@@ -31,12 +31,12 @@ public interface MybatisBaseDao extends SqlMapper {
 
 
     /**
-     * 根据指定表名获取当前表的记录数量
+     * 执行SQL查询语句
      *
      * @return 记录数量
      */
-    @Select("SELECT COUNT(0) FROM ${_parameter}")
-    List<Integer> selectCountByTableName();
+    @Select("${_parameter}")
+    List<Integer> selectCountBySql();
 
     /**
      * 根据指定表名(${tableName})、id列表(${conditions})、表字段(${param})查询

@@ -37,7 +37,6 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
      * @return SysUser
      */
     @Override
-    @SuppressWarnings("unchecked")
     public SysUser getByUsername(String username) {
         List<SysUser> list = mybatisBaseDaoImpl.selectListByConditions(
                 SysUser.class, "username = '" + username + "'");
@@ -49,7 +48,6 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public SysUser checkUsername(String username, Integer id) {
         List<SysUser> list = mybatisBaseDaoImpl.selectListByConditions(
                 SysUser.class, "username = '" + username + "' AND id <> " + id);
@@ -67,14 +65,12 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
      * @return List
      */
     @Override
-    @SuppressWarnings("unchecked")
     public List<SysUser> getByRealName(String realName) {
         return mybatisBaseDaoImpl.selectListByConditions(
                 SysUser.class, "real_name LIKE '%" + realName + "%'");
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<SysUser> getByRoleId(Integer id) {
         String sql = "select * from sys_user_role where role_id = " + id;
         List<SysUserRole> sysUserRoleList = mybatisBaseDaoImpl.selectListBySql(SysUserRole.class, sql);

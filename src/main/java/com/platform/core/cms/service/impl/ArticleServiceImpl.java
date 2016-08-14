@@ -58,7 +58,6 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
      * @return 文章内容
      */
     @Override
-    @SuppressWarnings("unchecked")
     public String getContent(String id) {
         String content;
         List<CmsArticleData> list = mybatisBaseDaoImpl.selectFieldByIds(CmsArticleData.class, id, "content");

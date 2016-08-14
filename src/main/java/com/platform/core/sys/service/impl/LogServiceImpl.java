@@ -136,10 +136,10 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
      * @param permission 权限
      * @return 菜单路径
      */
-    @SuppressWarnings("unchecked")
     public String getMenuNamePath(String requestUri, String permission) {
         String href = StringUtils.substringAfter(requestUri, "");
         href = href.substring(1, href.length());
+        @SuppressWarnings("unchecked")
         Map<String, String> permissionMap = (Map<String, String>) JedisUtils.getObject(CACHE_PERMISSION_NAME_PATH_MAP);
         if(permissionMap == null){
             permissionMap = Maps.newHashMap();

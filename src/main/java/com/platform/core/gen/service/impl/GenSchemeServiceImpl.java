@@ -58,7 +58,6 @@ public class GenSchemeServiceImpl extends BaseServiceImpl<GenScheme> implements 
         return "";
     }
 
-    @SuppressWarnings("unchecked")
     private String generateCode(GenScheme genScheme) throws Exception {
         StringBuilder result = new StringBuilder();
         // 查询主表及字段列

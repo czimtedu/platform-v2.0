@@ -34,7 +34,6 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
     private MybatisBaseDaoImpl mybatisBaseDaoImpl;
 
     @Override
-    @SuppressWarnings("unchecked")
     public GenTable get(Class<GenTable> clazz, String id) throws Exception {
         GenTable genTable = super.get(clazz, id);
         List<GenTableColumn> columnList = mybatisBaseDaoImpl.selectListByConditions(GenTableColumn.class,
@@ -80,7 +79,6 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
      * @param genTable
      * @return
      */
-    @SuppressWarnings("unchecked")
     public List<GenTable> findTableListFormDb(GenTable genTable) {
         String sql = "SELECT t.table_name AS name,t.TABLE_COMMENT AS comments " +
                 "FROM information_schema.`TABLES` t " +
@@ -100,7 +98,6 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
      * @param tableName
      * @return
      */
-    @SuppressWarnings("unchecked")
     public boolean checkTableName(String tableName) {
         if (StringUtils.isBlank(tableName)) {
             return true;
@@ -118,7 +115,6 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
      * @param genTable
      * @return
      */
-    @SuppressWarnings("unchecked")
     public GenTable getTableFormDb(GenTable genTable) {
         // 如果有表名，则获取物理表
         if (StringUtils.isNotBlank(genTable.getName())) {

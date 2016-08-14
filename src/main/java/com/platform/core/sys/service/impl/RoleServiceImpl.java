@@ -37,7 +37,6 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
      * @return List
      */
     @Override
-    @SuppressWarnings("unchecked")
     public List<SysRole> getByUserId(Integer userId) {
         String sql = "select * from sys_user_role where user_id = " + userId;
         List<SysUserRole> sysUserRoleList = mybatisBaseDaoImpl.selectListBySql(SysUserRole.class, sql);

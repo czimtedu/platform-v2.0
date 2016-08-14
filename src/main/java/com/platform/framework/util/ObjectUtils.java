@@ -150,11 +150,11 @@ public class ObjectUtils extends org.apache.commons.lang3.ObjectUtils {
      * @return
      * @throws Exception
      */
-    public static Object mapToObject(Class beanClass, Map map) {
+    public static <T> T mapToObject(Class<T> beanClass, Map map) {
         if (map == null) {
             return null;
         }
-        Object obj = null;
+        T obj = null;
         try {
             obj = beanClass.newInstance();
             BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
