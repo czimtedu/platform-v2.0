@@ -31,11 +31,11 @@ public class Global {
 	public static final String FALSE = "false";
 
 	/**
-	 * 删除标记（0：删除；1：正常；2：审核；）
+	 * 标准状态值（0：删除；1：正常；2：审核；）
 	 */
 	public static final int STATUS_DELETE = 0;
 	public static final int STATUS_NORMAL = 1;
-	public static final int DEL_FLAG_AUDIT = 2;
+	public static final int STATUS_AUDIT = 2;
 	
 	/**
 	 * 列表中每页默认显示条数

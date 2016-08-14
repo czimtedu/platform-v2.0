@@ -60,7 +60,7 @@ public interface MybatisBaseDao extends SqlMapper {
      * @return 单列List数据集
      */
     @Select("${_parameter}")
-    List<String> selectListBySql();
+    List<String> selectStringBySql();
 
     /**
      * 执行SQL查询语句

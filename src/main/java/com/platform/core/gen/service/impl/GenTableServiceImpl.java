@@ -123,7 +123,7 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
         // 如果有表名，则获取物理表
         if (StringUtils.isNotBlank(genTable.getName())) {
             List<GenTable> list = findTableListFormDb(genTable);
-            if (list.size() > 0) {
+            if (list.size() > 0) { // 表已存在
                 // 如果是新增，初始化表属性
                 if (StringUtils.isBlank(genTable.getId())) {
                     genTable = list.get(0);
@@ -147,6 +147,8 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
                 }
                 sql += "ORDER BY t.ORDINAL_POSITION";
                 List<GenTableColumn> columnList = mybatisBaseDaoImpl.selectListBySql(GenTableColumn.class, sql);
+                // 同步已存在的表的最新列数据到genTableColumn中
+                // 添加表中已存在 数据中不存在的列
                 for (GenTableColumn column : columnList) {
                     boolean b = false;
                     for (GenTableColumn e : genTable.getColumnList()) {
@@ -158,7 +160,7 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
                         genTable.getColumnList().add(column);
                     }
                 }
-                // 删除已删除的列
+                // 删除表中不存在 数据中存在的列
                 for (GenTableColumn e : genTable.getColumnList()) {
                     boolean b = false;
                     for (GenTableColumn column : columnList) {
@@ -175,9 +177,9 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
                 String findTablePKSql = "SELECT lower(au.COLUMN_NAME) AS columnName " +
                         "FROM information_schema.`COLUMNS` au " +
                         "WHERE au.TABLE_SCHEMA = (select database())  " +
-                        "AND au.COLUMN_KEY='PRI' AND au.TABLE_NAME = upper(" +
-                        genTable.getName().toUpperCase() + ")";
-                genTable.setPkList(mybatisBaseDaoImpl.selectBySql(findTablePKSql));
+                        "AND au.COLUMN_KEY='PRI' AND au.TABLE_NAME = upper('" +
+                        genTable.getName().toUpperCase() + "')";
+                genTable.setPkList(mybatisBaseDaoImpl.selectStringBySql(findTablePKSql));
                 // 初始化列属性字段
                 GenUtils.initColumnField(genTable);
             }

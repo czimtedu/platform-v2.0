@@ -228,7 +228,7 @@ public class MybatisBaseDaoImpl {
         //拼接where语句
         DaoUtils.getWhereClauseBuf(jpql, page.getPropertyFilterList());
         //根据筛选条件查询总条数
-        List<String> listArray = sqlSession.selectList("com.platform.framework.common.MybatisBaseDao.selectListBySql", jpql.toString());
+        List<String> listArray = sqlSession.selectList("com.platform.framework.common.MybatisBaseDao.selectStringBySql", jpql.toString());
         int count = listArray.size();
         //计算总页数
         int i = count % page.getPageSize();
@@ -251,7 +251,7 @@ public class MybatisBaseDaoImpl {
             jpql.append(" limit ").append(start).append(",").append(page.getPageSize());
         }
         //当前筛选条件的分页后的总记录数
-        List<String> idList = sqlSession.selectList("com.platform.framework.common.MybatisBaseDao.selectListBySql", jpql.toString());
+        List<String> idList = sqlSession.selectList("com.platform.framework.common.MybatisBaseDao.selectStringBySql", jpql.toString());
         page.setDisplayCount(count);
         StringBuilder ids = new StringBuilder();
         for (String id : idList) {
@@ -473,12 +473,11 @@ public class MybatisBaseDaoImpl {
 
 
     /**
-     * 根据sql语句查询(无缓存)
+     * 根据sql语句查询对象数据集(无缓存)
      *
      * @param sql SQL语句
-     * @return 数据集
+     * @return 对象数据集
      */
-    @SuppressWarnings("unchecked")
     public List selectListBySql(Class entityClass, String sql) {
         if (entityClass == null) {
             throw new CommonException("entityClass is null");
@@ -494,14 +493,23 @@ public class MybatisBaseDaoImpl {
     }
 
     /**
-     * 根据sql语句查询(无缓存)
+     * 根据sql语句查询单列数据集(无缓存)
      *
      * @param sql SQL语句
-     * @return 数据集
+     * @return 单列数据集
      */
-    @SuppressWarnings("unchecked")
-    public List<String> selectBySql(String sql) {
-        return sqlSession.selectList("com.platform.framework.common.MybatisBaseDao.selectBySql", sql);
+    public List<String> selectStringBySql(String sql) {
+        return sqlSession.selectList("com.platform.framework.common.MybatisBaseDao.selectStringBySql", sql);
+    }
+
+    /**
+     * 根据sql语句查询Map数据级(无缓存)
+     *
+     * @param sql SQL语句
+     * @return Map数据集
+     */
+    public List<Map> selectMapBySql(String sql) {
+        return sqlSession.selectList("com.platform.framework.common.MybatisBaseDao.selectMapBySql", sql);
     }
 
     /**
