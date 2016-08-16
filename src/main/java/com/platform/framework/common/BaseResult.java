@@ -4,6 +4,11 @@
 
 package com.platform.framework.common;
 
+import com.platform.framework.util.DateUtils;
+import com.platform.framework.util.StringUtils;
+
+import java.util.Date;
+
 /**
  * 客户端返回消息基类
  *
@@ -13,6 +18,7 @@ package com.platform.framework.common;
 public abstract class BaseResult {
     protected String code;
     protected String message;
+    private String systime;
 
     public String getCode() {
         return code;
@@ -28,5 +34,16 @@ public abstract class BaseResult {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getSystime() {
+        if(StringUtils.isEmpty(systime)){
+            systime = DateUtils.formatDateTime(new Date());
+        }
+        return systime;
+    }
+
+    public void setSystime(String systime) {
+        this.systime = systime;
     }
 }
