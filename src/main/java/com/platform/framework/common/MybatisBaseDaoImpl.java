@@ -208,7 +208,6 @@ public class MybatisBaseDaoImpl {
      * @param page        分页参数
      * @return 数据集
      */
-    @SuppressWarnings("unchecked")
     public <T> List<T> selectPageByConditions(Class<T> clazz, String conditions, Page page) {
         if (clazz == null) {
             throw new CommonException("clazz is null");
