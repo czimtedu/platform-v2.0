@@ -4,7 +4,9 @@
 
 package com.platform.core.gen.action;
 
+import com.platform.core.gen.bean.GenScheme;
 import com.platform.core.gen.bean.GenTable;
+import com.platform.core.gen.service.GenSchemeService;
 import com.platform.core.gen.service.GenTableService;
 import com.platform.core.gen.utils.GenUtils;
 import com.platform.core.sys.bean.Param;
@@ -36,6 +38,8 @@ public class GenTableAction extends BaseAction<GenTable> {
 
     @Autowired
     private GenTableService genTableService;
+    @Autowired
+    private GenSchemeService genSchemeService;
 
     @ModelAttribute
     public GenTable get(@RequestParam(required = false) String id) throws Exception {
@@ -96,6 +100,39 @@ public class GenTableAction extends BaseAction<GenTable> {
     public String delete(Model model, GenTable genTable, Param param, RedirectAttributes redirectAttributes) throws Exception {
         genTableService.delete(param.getIds());
         addMessage(redirectAttributes, "删除业务表成功");
+        return "redirect:" + adminPath + "/gen/genTable/list?repage";
+    }
+
+    /**
+     * 生成代码表单页
+     * @param model Model
+     * @param genScheme GenScheme
+     * @return ModelAndView
+     */
+    @RequestMapping(value = "genCodeForm")
+    public String genCodeForm(Model model, GenScheme genScheme) throws Exception {
+        GenTable genTable = get(genScheme.getId());
+        genScheme.setId(genTable.getId());
+        genScheme.setName(genTable.getName());
+        model.addAttribute("genScheme", genScheme);
+        model.addAttribute("config", GenUtils.getConfig());
+        return "gen/genCodeForm";
+    }
+
+    /**
+     * 生成代码
+     * @param model Model
+     * @param genScheme GenScheme
+     * @param redirectAttributes RedirectAttributes
+     * @return 管理列表页
+     */
+    @RequestMapping(value = "genCode")
+    public String genCode(Model model, GenScheme genScheme, RedirectAttributes redirectAttributes) throws Exception {
+        if (!beanValidator(model, genScheme)) {
+            return genCodeForm(model, genScheme);
+        }
+        String result = genSchemeService.save(genScheme);
+        addMessage(redirectAttributes, "操作生成方案'" + genScheme.getName() + "'成功<br/>"+result);
         return "redirect:" + adminPath + "/gen/genTable/list?repage";
     }
 }

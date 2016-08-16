@@ -4,10 +4,21 @@
 <head>
 	<title>业务表管理</title>
 	<meta name="decorator" content="default"/>
-	<script type="text/javascript">
-		$(document).ready(function() {
-
-		});
+	<script>
+        function genCodeForm() {
+            var $contentTable = $("#contentTable");
+            var size = $contentTable.find("tbody tr td input.i-checks:checked").size();
+            if (size == 0) {
+                top.layer.alert('请至少选择一条数据!', {icon: 0, title: '警告'});
+                return;
+            }
+            if (size > 1) {
+                top.layer.alert('只能选择一条数据!', {icon: 0, title: '警告'});
+                return;
+            }
+            var id = $contentTable.find("tbody tr td input.i-checks:checkbox:checked").attr("id");
+            openDialog("生成代码", "${ctx}/gen/genTable/genCodeForm?id=" + id, "800px", "650px");
+        }
 	</script>
 </head>
 <body class="gray-bg">
@@ -52,6 +63,9 @@
                         <shiro:hasPermission name="sys:user:del">
                             <table:delRow url="${ctx}/gen/genTable/delete" id="contentTable"/><!-- 删除按钮 -->
                         </shiro:hasPermission>
+                        <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="genCodeForm()" title="生成代码">
+                            <i class="fa fa-folder-o"></i> 生成代码
+                        </button>
                         <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="sortOrRefresh()" title="刷新">
                             <i class="glyphicon glyphicon-repeat"></i> 刷新
                         </button>

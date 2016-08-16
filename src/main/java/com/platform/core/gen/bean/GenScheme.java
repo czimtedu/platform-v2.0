@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Length;
  * @author ThinkGem
  * @version 2013-10-15
  */
-public class GenScheme extends BaseEntity<GenScheme> {
+public class GenScheme {
 
     private static final long serialVersionUID = 1L;
     private String id;
@@ -38,7 +38,6 @@ public class GenScheme extends BaseEntity<GenScheme> {
         this.id = id;
     }
 
-    @Length(min = 1, max = 200)
     public String getName() {
         return name;
     }
