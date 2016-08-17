@@ -4,6 +4,7 @@
 
 package com.platform.core.gen.service;
 
+import com.platform.core.gen.bean.GenScheme;
 import com.platform.core.gen.bean.GenTable;
 import com.platform.core.gen.bean.GenTemplate;
 import com.platform.framework.common.BaseService;
@@ -23,4 +24,7 @@ public interface GenTableService extends BaseService<GenTable> {
     boolean checkTableName(String name);
 
     GenTable getTableFormDb(GenTable genTable);
+
+    String genCode(GenScheme genScheme) throws Exception;
+
 }

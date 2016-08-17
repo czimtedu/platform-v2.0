@@ -4,8 +4,7 @@
 
 package com.platform.core.gen.service.impl;
 
-import com.platform.core.gen.bean.GenTable;
-import com.platform.core.gen.bean.GenTableColumn;
+import com.platform.core.gen.bean.*;
 import com.platform.core.gen.service.GenTableService;
 import com.platform.core.gen.utils.GenUtils;
 import com.platform.framework.common.BaseServiceImpl;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 业务表Service实现类
@@ -181,6 +181,29 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
             }
         }
         return genTable;
+    }
+
+    /**
+     * 生成代码
+     * @param genScheme GenScheme
+     * @return String
+     * @throws Exception
+     */
+    public String genCode(GenScheme genScheme) throws Exception {
+        StringBuilder result = new StringBuilder();
+        // 查询主表及字段列
+        GenTable genTable = this.get(GenTable.class, genScheme.getId());
+        // 获取所有代码模板
+        GenConfig config = GenUtils.getConfig();
+        // 获取模板列表
+        List<GenTemplate> templateList = GenUtils.getTemplateList(config, genScheme.getCategory(), false);
+        // 生成主表模板代码
+        genScheme.setGenTable(genTable);
+        Map<String, Object> model = GenUtils.getDataModel(genScheme);
+        for (GenTemplate tpl : templateList) {
+            result.append(GenUtils.generateToFile(tpl, model, genScheme.getReplaceFile()));
+        }
+        return result.toString();
     }
 
 }

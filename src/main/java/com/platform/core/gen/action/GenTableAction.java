@@ -6,7 +6,6 @@ package com.platform.core.gen.action;
 
 import com.platform.core.gen.bean.GenScheme;
 import com.platform.core.gen.bean.GenTable;
-import com.platform.core.gen.service.GenSchemeService;
 import com.platform.core.gen.service.GenTableService;
 import com.platform.core.gen.utils.GenUtils;
 import com.platform.core.sys.bean.Param;
@@ -38,8 +37,6 @@ public class GenTableAction extends BaseAction<GenTable> {
 
     @Autowired
     private GenTableService genTableService;
-    @Autowired
-    private GenSchemeService genSchemeService;
 
     @ModelAttribute
     public GenTable get(@RequestParam(required = false) String id) throws Exception {
@@ -131,7 +128,7 @@ public class GenTableAction extends BaseAction<GenTable> {
         if (!beanValidator(model, genScheme)) {
             return genCodeForm(model, genScheme);
         }
-        String result = genSchemeService.save(genScheme);
+        String result = genTableService.genCode(genScheme);
         addMessage(redirectAttributes, "操作生成方案'" + genScheme.getName() + "'成功<br/>"+result);
         return "redirect:" + adminPath + "/gen/genTable/list?repage";
     }
