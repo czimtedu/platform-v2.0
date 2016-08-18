@@ -9,20 +9,8 @@
 			<template>curd/viewForm.xml</template>
 			<template>curd/viewList.xml</template>
 		</category>
-		<category value="curd_many" label="增删改查（一对多）">
-			<template>curd/controller.xml</template>
-			<template>curd/serviceMany.xml</template>
-			<template>category-ref:dao</template>
-			<template>curd/viewFormMany.xml</template>
-			<template>curd/viewList.xml</template>
-			<childTable>
-				<template>category-ref:dao</template>
-			</childTable>
-		</category>
-		<category value="dao" label="仅持久层（dao/entity/mapper）">
-			<template>dao/dao.xml</template>
+		<category value="dao" label="仅持久层（entity）">
 			<template>dao/entity.xml</template>
-			<template>dao/mapper.xml</template>
 		</category>
 		<category value="treeTable" label="树结构表（一体）">
 			<template>treetable/controller.xml</template>

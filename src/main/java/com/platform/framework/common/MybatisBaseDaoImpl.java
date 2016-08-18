@@ -51,15 +51,10 @@ public class MybatisBaseDaoImpl {
         }
         String name = StringUtils.substringAfterLast(clazz.getName(), ".");
         String tableName = BeanToTable.beanToTable(name);
-        // 检查是否缓存
-        DataCached dataCached = clazz.getAnnotation(DataCached.class);
-        DataCached.CachedType type = DataCached.CachedType.NO_CACHED;
-        if (dataCached != null) {
-            type = dataCached.type();
-        }
         List list = new ArrayList<>();
         String noneCacheIds = ids;
-        if (DataCached.CachedType.REDIS_CACHED.equals(type)) {
+        // 检查是否缓存
+        if (JedisCachedOrignal.isCached(clazz)) {
             //根据id通过cache查找对象
             Object[] objArray = JedisCachedOrignal.findListObject(clazz.getName(), ids);
             list = (List) objArray[0];
@@ -75,7 +70,7 @@ public class MybatisBaseDaoImpl {
                 for (Map map : listArray) {
                     //把map转换成对应的实体对象
                     Object obj = ObjectUtils.mapToObject(clazz, map);
-                    if (DataCached.CachedType.REDIS_CACHED.equals(type)) {
+                    if (JedisCachedOrignal.isCached(clazz)) {
                         //把cache中没有的对象保存到cache中
                         JedisCachedOrignal.saveObject(clazz.getName(), obj);
                     }

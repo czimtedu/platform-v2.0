@@ -156,26 +156,25 @@
         <constructor-arg index="1" value="${redis.hostname}" type="java.lang.String"/>
         <constructor-arg index="2" value="${redis.port}" type="int"/>
         <constructor-arg index="3" value="${redis.timeout}" type="int"/>
-        <constructor-arg index="4" value="${redis.password}" type="java.lang.String"/>
-        <constructor-arg index="5" value="0" type="int"/>
+        <constructor-arg index="4" value="#{'${redis.password}'?:null}" type="java.lang.String"/>
     </bean>
 
     <!-- Jedis ConnectionFactory spring-data-redis连接池配置 spring-session使用 -->
-    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+    <!--<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
           p:usePool="true">
         <property name="hostName" value="${redis.hostname}"/>
         <property name="port" value="${redis.port}"/>
         <property name="password" value="${redis.password}"/>
         <property name="poolConfig" ref="jedisPoolConfig"/>
         <property name="timeout" value="${redis.timeout}"/>
-    </bean>
+    </bean>-->
 
     <!-- redisTemplate配置，redisTemplate是对Jedis的对redis操作的扩展，有更多的操作，封装使操作更便捷 -->
-    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+    <!--<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
         <property name="connectionFactory" ref="jedisConnectionFactory"/>
         <property name="KeySerializer">
             <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
         </property>
-    </bean>
+    </bean>-->
 
 </beans>
