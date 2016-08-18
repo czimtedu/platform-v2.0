@@ -11,17 +11,14 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
-import com.platform.core.sys.bean.SysPermission;
-import com.platform.core.sys.bean.SysRole;
-import com.platform.core.sys.bean.SysUser;
-import com.platform.core.sys.service.PermissionService;
-import com.platform.core.sys.service.RoleService;
-import com.platform.core.sys.service.UserService;
-import com.platform.framework.cache.JedisUtils;
+import com.platform.modules.sys.bean.SysPermission;
+import com.platform.modules.sys.bean.SysRole;
+import com.platform.modules.sys.bean.SysUser;
+import com.platform.modules.sys.service.PermissionService;
+import com.platform.modules.sys.service.RoleService;
+import com.platform.modules.sys.service.UserService;
 import com.platform.framework.common.SpringContextHolder;
 import com.platform.framework.security.SecurityRealm.Principal;
-
-import static com.platform.core.sys.service.impl.LogServiceImpl.CACHE_PERMISSION_NAME_PATH_MAP;
 
 /**
  * 用户工具类

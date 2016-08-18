@@ -11,8 +11,8 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.platform.core.sys.bean.SysDict;
-import com.platform.core.sys.service.DictService;
+import com.platform.modules.sys.bean.SysDict;
+import com.platform.modules.sys.service.DictService;
 import com.platform.framework.cache.JedisUtils;
 import com.platform.framework.common.SpringContextHolder;
 

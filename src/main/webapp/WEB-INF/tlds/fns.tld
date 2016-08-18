@@ -45,7 +45,7 @@
         <description>根据ID获取用户信息</description>
         <name>getUserById</name>
         <function-class>com.platform.framework.security.UserUtils</function-class>
-        <function-signature>com.platform.core.sys.bean.SysUser get(int)</function-signature>
+        <function-signature>com.platform.modules.sys.bean.SysUser get(int)</function-signature>
         <example>${fns:getUser(id)}</example>
     </function>
 
@@ -53,7 +53,7 @@
         <description>获取当前用户对象</description>
         <name>getUser</name>
         <function-class>com.platform.framework.security.UserUtils</function-class>
-        <function-signature>com.platform.core.sys.bean.SysUser getUser()</function-signature>
+        <function-signature>com.platform.modules.sys.bean.SysUser getUser()</function-signature>
         <example>${fns:getUser()}</example>
     </function>
 

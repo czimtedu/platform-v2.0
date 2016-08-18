@@ -3,8 +3,8 @@ package com.platform.framework.test.service;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.platform.core.sys.bean.SysUser;
-import com.platform.core.sys.service.UserService;
+import com.platform.modules.sys.bean.SysUser;
+import com.platform.modules.sys.service.UserService;
 import com.platform.framework.test.common.TestSupport;
 
 import java.util.List;

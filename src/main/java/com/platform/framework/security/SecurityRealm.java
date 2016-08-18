@@ -4,13 +4,13 @@
 
 package com.platform.framework.security;
 
-import com.platform.core.sys.bean.SysPermission;
-import com.platform.core.sys.bean.SysRole;
-import com.platform.core.sys.bean.SysUser;
-import com.platform.core.sys.action.LoginAction;
-import com.platform.core.sys.service.PermissionService;
-import com.platform.core.sys.service.RoleService;
-import com.platform.core.sys.service.UserService;
+import com.platform.modules.sys.bean.SysPermission;
+import com.platform.modules.sys.bean.SysRole;
+import com.platform.modules.sys.bean.SysUser;
+import com.platform.modules.sys.action.LoginAction;
+import com.platform.modules.sys.service.PermissionService;
+import com.platform.modules.sys.service.RoleService;
+import com.platform.modules.sys.service.UserService;
 import com.platform.framework.security.shiro.session.SessionDAO;
 import com.platform.framework.servlet.ValidateCodeServlet;
 import com.platform.framework.util.Encodes;

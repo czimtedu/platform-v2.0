@@ -4,7 +4,7 @@
 
 package com.platform.framework.common;
 
-import com.platform.core.sys.bean.NoDbColumn;
+import com.platform.modules.sys.bean.NoDbColumn;
 import com.platform.framework.exception.CommonException;
 import com.platform.framework.util.BeanToTable;
 import com.platform.framework.util.DaoUtils;

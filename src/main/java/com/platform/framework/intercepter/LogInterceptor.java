@@ -16,7 +16,7 @@ import org.springframework.core.NamedThreadLocal;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.platform.core.sys.service.LogService;
+import com.platform.modules.sys.service.LogService;
 import com.platform.framework.util.DateUtils;
 
 /**

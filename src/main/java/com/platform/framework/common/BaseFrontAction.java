@@ -4,7 +4,6 @@
 
 package com.platform.framework.common;
 
-import com.platform.core.sys.bean.Param;
 import com.platform.framework.util.BeanValidators;
 import com.platform.framework.util.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -19,7 +18,6 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;

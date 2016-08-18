@@ -11,8 +11,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.platform.core.sys.bean.NoDbColumn;
-import com.platform.framework.cache.DataCached;
+import com.platform.modules.sys.bean.NoDbColumn;
 import com.platform.framework.cache.JedisCachedOrignal;
 import com.platform.framework.exception.CommonException;
 import com.platform.framework.security.UserUtils;
