@@ -1,3 +1,7 @@
+/*
+ * Copyright &copy; <a href="https://www.zlgx.com">zlgx</a> All rights reserved.
+ */
+
 package com.platform.framework.test.common;
 
 public class Attribute {

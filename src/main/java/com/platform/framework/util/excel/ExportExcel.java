@@ -1,3 +1,7 @@
+/*
+ * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
+ */
+
 package com.platform.framework.util.excel;
 
 import com.google.common.collect.Lists;

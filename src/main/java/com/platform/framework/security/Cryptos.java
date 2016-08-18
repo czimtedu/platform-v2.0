@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2012 springside.org.cn
+ * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
  */
 
 package com.platform.framework.security;

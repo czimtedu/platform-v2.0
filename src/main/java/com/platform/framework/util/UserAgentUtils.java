@@ -1,6 +1,7 @@
 /*
- * Copyright &copy; <a href="https://www.zlgx.com">zlgx</a> All rights reserved.
+ * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
  */
+
 package com.platform.framework.util;
 
 import eu.bitwalker.useragentutils.Browser;

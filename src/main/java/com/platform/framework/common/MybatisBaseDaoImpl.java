@@ -1,5 +1,5 @@
 /*
- * Copyright &copy; <a href="https://www.bjldwx.cn">bjldwx</a> All rights reserved.
+ * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
  */
 
 package com.platform.framework.common;
@@ -202,7 +202,7 @@ public class MybatisBaseDaoImpl {
      * @param page        分页参数
      * @return 数据集
      */
-    public <T> List<T> selectPageByConditions(Class<T> clazz, String conditions, Page page) {
+    public <T> List<T> selectPageByConditions(Class<T> clazz, String conditions, Page<?> page) {
         if (clazz == null) {
             throw new CommonException("clazz is null");
         }

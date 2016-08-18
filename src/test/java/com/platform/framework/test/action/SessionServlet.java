@@ -1,3 +1,7 @@
+/*
+ * Copyright &copy; <a href="https://www.zlgx.com">zlgx</a> All rights reserved.
+ */
+
 /**
  * 文件名：SessionServlet.java
  *    包：com.platform.framework.test.action
