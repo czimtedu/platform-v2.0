@@ -124,12 +124,13 @@ public class GenTableAction extends BaseAction<GenTable> {
      * @return 管理列表页
      */
     @RequestMapping(value = "genCode")
-    public String genCode(Model model, GenScheme genScheme, RedirectAttributes redirectAttributes) throws Exception {
+    public String genCode(Model model, GenScheme genScheme, GenTable genTable, RedirectAttributes redirectAttributes) throws Exception {
         if (!beanValidator(model, genScheme)) {
             return genCodeForm(model, genScheme);
         }
+        genScheme.setGenTable(genTable);
         String result = genTableService.genCode(genScheme);
-        addMessage(redirectAttributes, "操作生成方案'" + genScheme.getName() + "'成功<br/>"+result);
+        addMessage(redirectAttributes, "'" + genScheme.getName() + "'数据表生成代码成功<br/>"+result);
         return "redirect:" + adminPath + "/gen/genTable/list?repage";
     }
 }

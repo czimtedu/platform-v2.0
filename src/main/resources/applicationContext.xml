@@ -99,6 +99,7 @@
             <tx:method name="update*" propagation="REQUIRED" rollback-for="java.lang.Throwable"/>
             <tx:method name="delete*" propagation="REQUIRED" rollback-for="java.lang.Throwable"/>
             <tx:method name="add*" propagation="REQUIRED" rollback-for="java.lang.Throwable"/>
+            <tx:method name="gen*" propagation="REQUIRED" rollback-for="java.lang.Throwable"/>
             <!-- select,count开头的方法,开启只读,提高数据库访问性能 -->
             <tx:method name="select*" read-only="true"/>
             <tx:method name="get*" read-only="true"/>

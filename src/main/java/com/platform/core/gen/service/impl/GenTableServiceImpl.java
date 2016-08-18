@@ -27,7 +27,6 @@ import java.util.Map;
  * @date 2016/7/29 0:33
  */
 @Service
-@Transactional(readOnly = true)
 public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements GenTableService {
 
     @Autowired
@@ -43,7 +42,6 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
     }
 
     @Override
-    @Transactional
     public String save(GenTable object) throws Exception {
         if (StringUtils.isBlank(object.getId())) {
             object.setId(Encodes.uuid());
@@ -65,7 +63,6 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
     }
 
     @Override
-    @Transactional
     public String delete(String ids) throws Exception {
         mybatisBaseDaoImpl.deleteByIds(GenTable.class, ids);
         String deleteSql = "delete from gen_table_column where gen_table_id in (" + ids + ")";
@@ -191,14 +188,11 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
      */
     public String genCode(GenScheme genScheme) throws Exception {
         StringBuilder result = new StringBuilder();
-        // 查询主表及字段列
-        GenTable genTable = this.get(GenTable.class, genScheme.getId());
         // 获取所有代码模板
         GenConfig config = GenUtils.getConfig();
         // 获取模板列表
         List<GenTemplate> templateList = GenUtils.getTemplateList(config, genScheme.getCategory(), false);
         // 生成主表模板代码
-        genScheme.setGenTable(genTable);
         Map<String, Object> model = GenUtils.getDataModel(genScheme);
         for (GenTemplate tpl : templateList) {
             result.append(GenUtils.generateToFile(tpl, model, genScheme.getReplaceFile()));

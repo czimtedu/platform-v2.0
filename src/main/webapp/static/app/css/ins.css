@@ -2091,6 +2091,7 @@ table.dataTable thead .sorting:after {
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     width: 100%;
     font-size: 14px;
+    height:30px;
 }
 .form-control:focus,
 .single-line:focus {
@@ -7803,7 +7804,7 @@ body.skin-3 {
 
 .sort-column{color:#0663A2;cursor:pointer;}
 .supcan {border:1px #d3d3d3 solid;height:300px;}
-.control-group {padding-bottom:8px;margin-bottom:0;border-bottom:1px dotted #dddddd;} legend + .control-group {margin-top:8px;}
+/*.control-group {padding-bottom:8px;margin-bottom:0;border-bottom:1px dotted #dddddd;} legend + .control-group {margin-top:8px;}*/
 .controls .lbl {display:inline-block;padding-top:5px;margin-bottom:0;vertical-align:middle;}
 .measure-input {background:url("../images/ruler.gif") repeat-x scroll 0 bottom transparent;}
 .input-min{width:30px;} .input-mini{width:90px;} .input-small{width:120px;} .input-medium {width:163px;}.input-xxlarge {width:460px;}
@@ -7819,7 +7820,7 @@ body.skin-3 {
 .form-search .ul-form li.btns{padding-left:10px;}
 .form-search .ul-form li.btns .btn{margin-right:5px;}
 
-.form-horizontal {margin:0 10px;} .form-horizontal .control-group {margin-bottom:8px;}
+.form-horizontal {margin:0 10px;}
 .form-horizontal .control-label {padding-top:3px;} .form-horizontal .controls {text-align:left;overflow-x:auto;overflow-y:hidden;}
 .form-horizontal .controls label.error {background-position:0 2px;}
 .form-horizontal .table-form{width:100%;border-color:#dddddd;}
@@ -7903,17 +7904,12 @@ body.skin-3 {
 }
 
 .control-group {
-    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 legend + .control-group {
     margin-top: 20px;
     -webkit-margin-top-collapse: separate;
-}
-
-.form-horizontal .control-group {
-    margin-bottom: 20px;
-    *zoom: 1;
 }
 
 .form-horizontal .control-group:before,

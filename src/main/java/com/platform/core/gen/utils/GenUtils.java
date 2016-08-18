@@ -182,7 +182,7 @@ public class GenUtils {
 	public static <T> T fileToObject(String fileName, Class<?> clazz){
 		try {
 			String pathName = "/templates/gen/" + fileName;
-//			logger.debug("File to object: {}", pathName);
+			logger.debug("File to object: {}", pathName);
 			Resource resource = new ClassPathResource(pathName);
 			InputStream is = resource.getInputStream();
 			BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
@@ -194,27 +194,13 @@ public class GenUtils {
 				}
 				sb.append(line).append("\r\n");
 			}
-			if (is != null) {
-				is.close();
-			}
-			if (br != null) {
-				br.close();
-			}
-//			logger.debug("Read file content: {}", sb.toString());
+			is.close();
+			br.close();
+			logger.debug("Read file content: {}", sb.toString());
 			return (T) JaxbMapper.fromXml(sb.toString(), clazz);
 		} catch (IOException e) {
 			logger.warn("Error file convert: {}", e.getMessage());
 		}
-//		String pathName = StringUtils.replace(getTemplatePath() + "/" + fileName, "/", File.separator);
-//		logger.debug("file to object: {}", pathName);
-//		String content = "";
-//		try {
-//			content = FileUtils.readFileToString(new File(pathName), "utf-8");
-////			logger.debug("read config content: {}", content);
-//			return (T) JaxbMapper.fromXml(content, clazz);
-//		} catch (IOException e) {
-//			logger.warn("error convert: {}", e.getMessage());
-//		}
 		return null;
 	}
 	
@@ -238,12 +224,7 @@ public class GenUtils {
 		if (config !=null && config.getCategoryList() != null && category !=  null){
 			for (GenCategory e : config.getCategoryList()){
 				if (category.equals(e.getValue())){
-					List<String> list = null;
-					if (!isChildTable){
-						list = e.getTemplate();
-					}else{
-						list = e.getChildTableTemplate();
-					}
+					List<String> list = e.getTemplate();
 					if (list != null){
 						for (String s : list){
 							if (StringUtils.startsWith(s, GenCategory.CATEGORY_REF)){

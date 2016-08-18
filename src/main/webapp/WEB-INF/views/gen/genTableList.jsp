@@ -5,18 +5,21 @@
 	<title>业务表管理</title>
 	<meta name="decorator" content="default"/>
 	<script>
-        function genCodeForm() {
-            var $contentTable = $("#contentTable");
-            var size = $contentTable.find("tbody tr td input.i-checks:checked").size();
-            if (size == 0) {
-                top.layer.alert('请至少选择一条数据!', {icon: 0, title: '警告'});
-                return;
+        //打开生成代码配置表单
+        function genCodeForm(id) {
+            if(!id){
+                var $contentTable = $("#contentTable");
+                var size = $contentTable.find("tbody tr td input.i-checks:checked").size();
+                if (size == 0) {
+                    top.layer.alert('请至少选择一条数据!', {icon: 0, title: '警告'});
+                    return;
+                }
+                if (size > 1) {
+                    top.layer.alert('只能选择一条数据!', {icon: 0, title: '警告'});
+                    return;
+                }
+                id = $contentTable.find("tbody tr td input.i-checks:checkbox:checked").attr("id");
             }
-            if (size > 1) {
-                top.layer.alert('只能选择一条数据!', {icon: 0, title: '警告'});
-                return;
-            }
-            var id = $contentTable.find("tbody tr td input.i-checks:checkbox:checked").attr("id");
             openDialog("生成代码", "${ctx}/gen/genTable/genCodeForm?id=" + id, "800px", "650px");
         }
 	</script>
@@ -103,6 +106,9 @@
                                class="btn btn-link btn-xs"><i class="fa fa-search-plus"></i> 查看
                             </a>
                             <shiro:hasPermission name="sys:user:edit">
+                                <a href="#" onclick="genCodeForm('${bean.id}')" class="btn btn-link btn-xs">
+                                    <i class="fa fa-folder-o"></i> 生成代码
+                                </a>
                                 <a href="#"
                                    onclick="openDialog('修改', '${ctx}/gen/genTable/form?id=${bean.id}','1200px', '650px')"
                                    class="btn btn-link btn-xs"><i class="fa fa-edit"></i> 修改
