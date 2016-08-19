@@ -28,7 +28,7 @@ import com.platform.framework.util.StringUtils;
  * @date 2016-01-15 09:56:22
  */
 @Repository
-public class MybatisBaseDaoImpl {
+public class MybatisDao {
 
     @Autowired
     private SqlSessionTemplate sqlSession;

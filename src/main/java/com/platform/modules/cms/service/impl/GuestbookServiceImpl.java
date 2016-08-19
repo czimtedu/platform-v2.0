@@ -7,7 +7,7 @@ package com.platform.modules.cms.service.impl;
 import com.platform.modules.cms.bean.CmsGuestbook;
 import com.platform.modules.cms.service.GuestbookService;
 import com.platform.framework.common.BaseServiceImpl;
-import com.platform.framework.common.MybatisBaseDaoImpl;
+import com.platform.framework.common.MybatisDao;
 import com.platform.framework.util.Encodes;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +25,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class GuestbookServiceImpl extends BaseServiceImpl<CmsGuestbook> implements GuestbookService {
 
     @Autowired
-    private MybatisBaseDaoImpl mybatisBaseDaoImpl;
+    private MybatisDao mybatisDao;
 
 
     @Override
     @Transactional()
     public String save(CmsGuestbook object) throws Exception {
         if (StringUtils.isNotEmpty(object.getId())) {
-            mybatisBaseDaoImpl.update(object);
+            mybatisDao.update(object);
         } else {
             object.setId(Encodes.uuid());
-            mybatisBaseDaoImpl.insert(object);
+            mybatisDao.insert(object);
         }
         return object.getId();
     }

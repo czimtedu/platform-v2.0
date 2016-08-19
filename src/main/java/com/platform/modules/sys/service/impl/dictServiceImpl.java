@@ -8,7 +8,7 @@ import com.platform.modules.sys.bean.SysDict;
 import com.platform.modules.sys.service.DictService;
 import com.platform.framework.cache.JedisUtils;
 import com.platform.framework.common.BaseServiceImpl;
-import com.platform.framework.common.MybatisBaseDaoImpl;
+import com.platform.framework.common.MybatisDao;
 import com.platform.framework.util.DictUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class dictServiceImpl extends BaseServiceImpl<SysDict> implements DictService {
     @Autowired
-    private MybatisBaseDaoImpl mybatisBaseDaoImpl;
+    private MybatisDao mybatisDao;
 
     @Override
     @Transactional()
@@ -32,9 +32,9 @@ public class dictServiceImpl extends BaseServiceImpl<SysDict> implements DictSer
         String id;
         if (object.getId() != null) {
             id = object.getId().toString();
-            mybatisBaseDaoImpl.update(object);
+            mybatisDao.update(object);
         } else {
-            id = mybatisBaseDaoImpl.insert(object);
+            id = mybatisDao.insert(object);
         }
         JedisUtils.delObject(DictUtils.CACHE_DICT_MAP);
         return id;
@@ -43,7 +43,7 @@ public class dictServiceImpl extends BaseServiceImpl<SysDict> implements DictSer
     @Override
     @Transactional()
     public String delete(String ids) throws Exception {
-        mybatisBaseDaoImpl.deleteByIds(SysDict.class, ids);
+        mybatisDao.deleteByIds(SysDict.class, ids);
         JedisUtils.delObject(DictUtils.CACHE_DICT_MAP);
         return "";
     }

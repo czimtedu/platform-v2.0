@@ -26,7 +26,7 @@ import java.util.List;
 public abstract class BaseServiceImpl<T> implements BaseService<T> {
 
     @Autowired
-    private MybatisBaseDaoImpl mybatisBaseDaoImpl;
+    private MybatisDao mybatisDao;
 
     /**
      * 日志对象
@@ -42,7 +42,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
      * @throws Exception
      */
     public T get(Class<T> clazz, String id) throws Exception {
-        List<T> list = mybatisBaseDaoImpl.selectListByIds(clazz, id);
+        List<T> list = mybatisDao.selectListByIds(clazz, id);
         T entity = null;
         if (list != null && list.size() > 0) {
             entity = list.get(0);
@@ -90,7 +90,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
         if (index > 0) {
             conditionStr = conditions.substring(index + 6, conditions.length());
         }
-        return (List<T>) mybatisBaseDaoImpl.selectListByConditions(object.getClass(), conditionStr);
+        return (List<T>) mybatisDao.selectListByConditions(object.getClass(), conditionStr);
     }
 
     /**
@@ -126,7 +126,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
             }
         }
         page.setPropertyFilterList(propertyFilterList);
-        List<T> list = (List<T>) mybatisBaseDaoImpl.selectPageByConditions(object.getClass(), conditions, page);
+        List<T> list = (List<T>) mybatisDao.selectPageByConditions(object.getClass(), conditions, page);
         page.setList(list);
         return page;
     }

@@ -8,7 +8,7 @@ import com.platform.modules.sys.bean.AddressCity;
 import com.platform.modules.sys.bean.AddressCounty;
 import com.platform.modules.sys.bean.AddressProvince;
 import com.platform.modules.sys.service.AddressService;
-import com.platform.framework.common.MybatisBaseDaoImpl;
+import com.platform.framework.common.MybatisDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +25,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class addressServiceImpl implements AddressService {
     @Autowired
-    private MybatisBaseDaoImpl mybatisBaseDaoImpl;
+    private MybatisDao mybatisDao;
 
     /**
      * 获取省份列表
@@ -33,7 +33,7 @@ public class addressServiceImpl implements AddressService {
      * @return List
      */
     public List<AddressProvince> getProvinceList() {
-        return mybatisBaseDaoImpl.selectListByConditions(AddressProvince.class, "");
+        return mybatisDao.selectListByConditions(AddressProvince.class, "");
     }
 
     /**
@@ -43,7 +43,7 @@ public class addressServiceImpl implements AddressService {
      * @return List
      */
     public List<AddressCity> getCityList(String provinceId) {
-        return mybatisBaseDaoImpl.selectListByConditions(AddressCity.class, "province_id = " + provinceId);
+        return mybatisDao.selectListByConditions(AddressCity.class, "province_id = " + provinceId);
     }
 
     /**
@@ -53,6 +53,6 @@ public class addressServiceImpl implements AddressService {
      * @return List
      */
     public List<AddressCounty> getCountyList(String cityId) {
-        return mybatisBaseDaoImpl.selectListByConditions(AddressCounty.class, "city_id = " + cityId);
+        return mybatisDao.selectListByConditions(AddressCounty.class, "city_id = " + cityId);
     }
 }

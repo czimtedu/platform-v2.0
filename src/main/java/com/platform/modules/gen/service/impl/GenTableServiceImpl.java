@@ -9,7 +9,7 @@ import com.platform.modules.gen.service.GenTableService;
 import com.platform.modules.gen.utils.GenUtils;
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.Global;
-import com.platform.framework.common.MybatisBaseDaoImpl;
+import com.platform.framework.common.MybatisDao;
 import com.platform.framework.util.BeanToTable;
 import com.platform.framework.util.Encodes;
 import com.platform.framework.util.StringUtils;
@@ -29,12 +29,12 @@ import java.util.Map;
 public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements GenTableService {
 
     @Autowired
-    private MybatisBaseDaoImpl mybatisBaseDaoImpl;
+    private MybatisDao mybatisDao;
 
     @Override
     public GenTable get(Class<GenTable> clazz, String id) throws Exception {
         GenTable genTable = super.get(clazz, id);
-        List<GenTableColumn> columnList = mybatisBaseDaoImpl.selectListByConditions(GenTableColumn.class,
+        List<GenTableColumn> columnList = mybatisDao.selectListByConditions(GenTableColumn.class,
                 "gen_table_id='" + genTable.getId() + "'");
         genTable.setColumnList(columnList);
         return genTable;
@@ -44,18 +44,18 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
     public String save(GenTable object) throws Exception {
         if (StringUtils.isBlank(object.getId())) {
             object.setId(Encodes.uuid());
-            mybatisBaseDaoImpl.insert(object);
+            mybatisDao.insert(object);
         } else {
-            mybatisBaseDaoImpl.update(object);
+            mybatisDao.update(object);
         }
         // 保存列
         for (GenTableColumn column : object.getColumnList()) {
             column.setGenTable(object);
             if (StringUtils.isBlank(column.getId())) {
                 column.setId(Encodes.uuid());
-                mybatisBaseDaoImpl.insert(column);
+                mybatisDao.insert(column);
             } else {
-                mybatisBaseDaoImpl.update(column);
+                mybatisDao.update(column);
             }
         }
         return object.getId();
@@ -63,9 +63,9 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
 
     @Override
     public String delete(String ids) throws Exception {
-        mybatisBaseDaoImpl.deleteByIds(GenTable.class, ids);
+        mybatisDao.deleteByIds(GenTable.class, ids);
         String deleteSql = "delete from gen_table_column where gen_table_id in (" + ids + ")";
-        mybatisBaseDaoImpl.deleteBySql(deleteSql, GenTableColumn.class);
+        mybatisDao.deleteBySql(deleteSql, GenTableColumn.class);
         return "";
     }
 
@@ -83,7 +83,7 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
             sql += "AND t.TABLE_NAME = '" + genTable.getName().toUpperCase() + "' ";
         }
         sql += "ORDER BY t.TABLE_NAME";
-        List<GenTable> list = mybatisBaseDaoImpl.selectListBySql(GenTable.class, sql);
+        List<GenTable> list = mybatisDao.selectListBySql(GenTable.class, sql);
         //return genDataBaseDictDao.findTableList(genTable);
         return list;
     }
@@ -100,7 +100,7 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
         }
         GenTable genTable = new GenTable();
         genTable.setName(tableName);
-        List<GenTable> list = mybatisBaseDaoImpl.selectListByConditions(GenTable.class, "name=" + tableName);
+        List<GenTable> list = mybatisDao.selectListByConditions(GenTable.class, "name=" + tableName);
         //List<GenTable> list = genTableDao.findList(genTable);
         return list.size() == 0;
     }
@@ -138,7 +138,7 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
                     sql += "AND t.TABLE_NAME = '" + genTable.getName().toUpperCase() + "' ";
                 }
                 sql += "ORDER BY t.ORDINAL_POSITION";
-                List<GenTableColumn> columnList = mybatisBaseDaoImpl.selectListBySql(GenTableColumn.class, sql);
+                List<GenTableColumn> columnList = mybatisDao.selectListBySql(GenTableColumn.class, sql);
                 // 同步已存在的表的最新列数据到genTableColumn中
                 // 添加表中已存在 数据中不存在的列
                 for (GenTableColumn column : columnList) {
@@ -171,7 +171,7 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
                         "WHERE au.TABLE_SCHEMA = (select database())  " +
                         "AND au.COLUMN_KEY='PRI' AND au.TABLE_NAME = upper('" +
                         genTable.getName().toUpperCase() + "')";
-                genTable.setPkList(mybatisBaseDaoImpl.selectStringBySql(findTablePKSql));
+                genTable.setPkList(mybatisDao.selectStringBySql(findTablePKSql));
                 // 初始化列属性字段
                 GenUtils.initColumnField(genTable);
             }

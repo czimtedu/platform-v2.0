@@ -8,7 +8,7 @@ import com.platform.modules.cms.bean.CmsArticle;
 import com.platform.modules.cms.bean.CmsArticleData;
 import com.platform.modules.cms.service.ArticleService;
 import com.platform.framework.common.BaseServiceImpl;
-import com.platform.framework.common.MybatisBaseDaoImpl;
+import com.platform.framework.common.MybatisDao;
 import com.platform.framework.util.Encodes;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ import java.util.List;
 public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements ArticleService {
 
     @Autowired
-    private MybatisBaseDaoImpl mybatisBaseDaoImpl;
+    private MybatisDao mybatisDao;
 
     /**
      * 保存
@@ -40,14 +40,14 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
     @Transactional()
     public String save(CmsArticle object, CmsArticleData articleData) throws Exception {
         if (StringUtils.isNotEmpty(object.getId())) {
-            mybatisBaseDaoImpl.update(object);
-            mybatisBaseDaoImpl.update(articleData);
+            mybatisDao.update(object);
+            mybatisDao.update(articleData);
         } else {
             String uuid = Encodes.uuid();
             object.setId(uuid);
             articleData.setId(uuid);
-            mybatisBaseDaoImpl.insert(object);
-            mybatisBaseDaoImpl.insert(articleData);
+            mybatisDao.insert(object);
+            mybatisDao.insert(articleData);
         }
         return object.getId();
     }
@@ -60,7 +60,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
     @Override
     public String getContent(String id) {
         String content;
-        List<CmsArticleData> list = mybatisBaseDaoImpl.selectFieldByIds(CmsArticleData.class, id, "content");
+        List<CmsArticleData> list = mybatisDao.selectFieldByIds(CmsArticleData.class, id, "content");
         if(list != null && list.size() > 0){
             content = list.get(0).getContent();
         } else {
@@ -76,7 +76,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
     @Override
     @Transactional()
     public void updateArticle(CmsArticle object) {
-        mybatisBaseDaoImpl.update(object);
+        mybatisDao.update(object);
     }
 
     /**
@@ -88,8 +88,8 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
     @Override
     @Transactional()
     public String delete(String ids) throws Exception {
-        mybatisBaseDaoImpl.deleteByIds(CmsArticle.class, ids);
-        mybatisBaseDaoImpl.deleteByIds(CmsArticleData.class, ids);
+        mybatisDao.deleteByIds(CmsArticle.class, ids);
+        mybatisDao.deleteByIds(CmsArticleData.class, ids);
         return "";
     }
 

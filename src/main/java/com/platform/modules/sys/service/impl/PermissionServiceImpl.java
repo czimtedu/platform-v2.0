@@ -9,7 +9,7 @@ import com.platform.modules.sys.bean.SysRolePermission;
 import com.platform.modules.sys.service.PermissionService;
 import com.platform.framework.cache.JedisUtils;
 import com.platform.framework.common.BaseServiceImpl;
-import com.platform.framework.common.MybatisBaseDaoImpl;
+import com.platform.framework.common.MybatisDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +26,7 @@ import java.util.List;
 public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implements PermissionService {
 
     @Autowired
-    private MybatisBaseDaoImpl mybatisBaseDaoImpl;
+    private MybatisDao mybatisDao;
 
     /**
      * 根据角色ID获取权限
@@ -37,7 +37,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
     @Override
     public List<SysPermission> getByRoleId(Integer roleId) {
         String sql = "select * from sys_role_permission where role_id = " + roleId;
-        List<SysRolePermission> sysRolePermissionList = mybatisBaseDaoImpl.selectListBySql(SysRolePermission.class, sql);
+        List<SysRolePermission> sysRolePermissionList = mybatisDao.selectListBySql(SysRolePermission.class, sql);
         StringBuilder ids = new StringBuilder();
         for (SysRolePermission sysRolePermission : sysRolePermissionList) {
             if(ids.length() == 0){
@@ -46,7 +46,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
                 ids.append(",").append(sysRolePermission.getPermissionId());
             }
         }
-        return mybatisBaseDaoImpl.selectListByIds(SysPermission.class, ids.toString());
+        return mybatisDao.selectListByIds(SysPermission.class, ids.toString());
     }
 
     /**
@@ -61,7 +61,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
                 " FROM sys_role_permission rp" +
                 " JOIN sys_user_role ur ON ur.role_id = rp.role_id" +
                 " AND ur.user_id = " + userId;
-        List<SysRolePermission> sysRolePermissionList = mybatisBaseDaoImpl.selectListBySql(SysRolePermission.class, sql);
+        List<SysRolePermission> sysRolePermissionList = mybatisDao.selectListBySql(SysRolePermission.class, sql);
         StringBuilder ids = new StringBuilder();
         for (SysRolePermission sysRolePermission : sysRolePermissionList) {
             if(ids.length() == 0){
@@ -70,7 +70,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
                 ids.append(",").append(sysRolePermission.getPermissionId());
             }
         }
-        return mybatisBaseDaoImpl.selectListByIds(SysPermission.class, ids.toString());
+        return mybatisDao.selectListByIds(SysPermission.class, ids.toString());
     }
 
     /**
@@ -81,7 +81,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
      */
     @Override
     public List<SysPermission> getByParentId(int parentId) {
-        return mybatisBaseDaoImpl.selectListByConditions(
+        return mybatisDao.selectListByConditions(
                 SysPermission.class, "parent_id = " + parentId + "");
     }
 
@@ -104,19 +104,19 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
             object.setParentIds(SysPermission.getRootId().toString());
         }
         if (object.getId() != null) {
-            mybatisBaseDaoImpl.update(object);
+            mybatisDao.update(object);
             id = object.getId().toString();
             // 更新子节点parentIds
-            List<SysPermission> list = mybatisBaseDaoImpl.selectListByConditions(SysPermission.class,
+            List<SysPermission> list = mybatisDao.selectListByConditions(SysPermission.class,
                     "parent_id like '%," + object.getId() + ",%'");
             if(list != null && list.size() > 0){
                 for (SysPermission p : list) {
                     p.setParentIds(p.getParentIds().replace(oldParentIds, object.getParentIds()));
-                    mybatisBaseDaoImpl.update(p);
+                    mybatisDao.update(p);
                 }
             }
         } else {
-            id = mybatisBaseDaoImpl.insert(object);
+            id = mybatisDao.insert(object);
         }
         // 清除日志相关缓存
         JedisUtils.delObject(LogServiceImpl.CACHE_PERMISSION_NAME_PATH_MAP);
@@ -132,9 +132,9 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
     @Override
     @Transactional()
     public String delete(String ids) throws Exception {
-        mybatisBaseDaoImpl.deleteByIds(SysPermission.class, ids);
+        mybatisDao.deleteByIds(SysPermission.class, ids);
         String sql = "delete from sys_role_permission where permission_id in (" + ids + ")";
-        mybatisBaseDaoImpl.deleteBySql(sql, null);
+        mybatisDao.deleteBySql(sql, null);
         // 清除日志相关缓存
         JedisUtils.delObject(LogServiceImpl.CACHE_PERMISSION_NAME_PATH_MAP);
         return "";
