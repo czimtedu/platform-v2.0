@@ -191,7 +191,7 @@ public class RoleAction extends BaseAction<SysRole> {
     public String selectUser(SysRole role, SysUser user, Model model, HttpServletRequest request,
                              HttpServletResponse response) throws Exception {
         user.setId(null);
-        Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), user, "status <> 3");
+        Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), user, null, "status <> 3");
         model.addAttribute("page", page);
         return "modules/sys/selectUser";
     }

@@ -4,6 +4,7 @@
 
 package com.platform.modules.cms.action;
 
+import com.platform.framework.common.PropertyFilter;
 import com.platform.modules.cms.bean.CmsArticle;
 import com.platform.modules.cms.bean.CmsArticleData;
 import com.platform.modules.cms.service.ArticleService;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 
 /**
  * 网站Controller
@@ -66,7 +68,7 @@ public class ArticleAction extends BaseAction<CmsArticle> {
     @Override
     @RequestMapping(value = {"list", ""})
     public String list(Model model, CmsArticle object, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response), object, "");
+        Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response), object, null, "");
         model.addAttribute("page", page);
         return "modules/cms/articleList";
     }

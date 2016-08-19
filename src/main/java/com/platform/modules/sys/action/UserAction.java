@@ -92,7 +92,7 @@ public class UserAction extends BaseAction<SysUser> {
     @RequestMapping(value = {"list", ""})
     public String list(Model model, SysUser object, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), object, "status <> 3");
+        Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), object, null, "status <> 3");
         model.addAttribute("page", page);
         return "modules/sys/userList";
     }
@@ -179,7 +179,7 @@ public class UserAction extends BaseAction<SysUser> {
     public String exportFile(SysUser user, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
         try {
             String fileName = "用户数据" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
-            Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), user, "status <> 3");
+            Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), user, null, "status <> 3");
             new ExportExcel("用户数据", SysUser.class).setDataList(page.getList()).write(response, fileName).dispose();
             return null;
         } catch (Exception e) {

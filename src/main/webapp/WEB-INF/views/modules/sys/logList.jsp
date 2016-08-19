@@ -11,7 +11,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-                $("#daterangepicker").daterangepicker({
+                $("#createTimeRange").daterangepicker({
                     autoApply: false,
                     autoUpdateInput: false,
                     dateLimit : {
@@ -67,13 +67,13 @@
                         <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
                         <table:sortColumn id="orderBy" name="orderBy" value="${page.orderBy}" callback="sortOrRefresh();"/><!-- 支持排序 -->
                         <div class="form-group">
-                            <label>操作菜单：<input id="title" name="title" type="text" maxlength="50" class="form-control input-sm"/></label>
-                            <label>用户ID：<input id="createBy" name="createBy" type="text" maxlength="50" class="form-control input-sm"/></label>
-                            <label>URI：<input id="requestUri" name="requestUri" type="text" maxlength="50" class="form-control input-sm"/></label>
-                            <label>操作日期：<input id="daterangepicker" name="createTimeRange" type="text" class="form-control input-sm"></label>
+                            <label>操作菜单：<form:input path="title" htmlEscape="false" maxlength="50" class="form-control"/></label>
+                            <label>用户ID：<form:input path="createName" htmlEscape="false" maxlength="50" class="form-control"/></label>
+                            <label>URI：<form:input path="requestUri" htmlEscape="false" maxlength="50" class="form-control"/></label>
+                            <label>操作日期：<form:input path="createTimeRange" htmlEscape="false" maxlength="50" class="form-control"/></label>
                             <label><input id="type" name="type" class="i-checks" type="checkbox"/>只查询异常信息</label>
-                            <button  class="btn btn-primary btn-outline btn-sm " onclick="searchAll()" ><i class="fa fa-search"></i> 查询</button>
-                            <button  class="btn btn-primary btn-outline btn-sm " onclick="resetAll()" ><i class="fa fa-refresh"></i> 重置</button>
+                            <button class="btn btn-primary btn-outline btn-sm" onclick="searchAll()" ><i class="fa fa-search"></i> 查询</button>
+                            <button class="btn btn-primary btn-outline btn-sm" onclick="resetAll()" ><i class="fa fa-refresh"></i> 重置</button>
                         </div>
                     </form:form>
                     <br/>

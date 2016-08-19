@@ -254,9 +254,9 @@ public abstract class BaseAction<T> extends AbstractController implements Applic
      *
      * @return view
      */
-    @ExceptionHandler({BindException.class, ConstraintViolationException.class, ValidationException.class})
+    @ExceptionHandler({BindException.class, ConstraintViolationException.class, ValidationException.class, NumberFormatException.class})
     public String bindException() {
-        return "error/500";
+        return "error/400";
     }
 
     /**
@@ -266,7 +266,7 @@ public abstract class BaseAction<T> extends AbstractController implements Applic
      */
     @ExceptionHandler({AuthenticationException.class})
     public String authenticationException() {
-        return "error/401";
+        return "error/403";
     }
 
     /**

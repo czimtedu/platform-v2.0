@@ -71,7 +71,7 @@ public class dictAction extends BaseAction<SysDict> {
             typeList.add(dict.getEnName());
         }
         model.addAttribute("typeList", typeList);
-        Page<SysDict> page = dictService.getPage(new Page<SysDict>(request, response), object, "");
+        Page<SysDict> page = dictService.getPage(new Page<SysDict>(request, response), object, null, "");
         model.addAttribute("page", page);
         return "modules/sys/dictList";
     }

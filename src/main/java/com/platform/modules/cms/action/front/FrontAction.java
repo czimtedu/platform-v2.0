@@ -44,7 +44,7 @@ public class FrontAction extends BaseFrontAction {
      */
     @RequestMapping
     public String index(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response, 1000), new CmsArticle(), "");
+        Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response, 1000), new CmsArticle(), null, "");
         model.addAttribute("page", page);
         return "modules/cms/front/pages/index";
     }
@@ -54,7 +54,7 @@ public class FrontAction extends BaseFrontAction {
      */
     @RequestMapping("article")
     public String article(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response), new CmsArticle(), "");
+        Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response), new CmsArticle(), null, "");
         model.addAttribute("page", page);
         return "modules/cms/front/pages/article-list";
     }
@@ -89,7 +89,7 @@ public class FrontAction extends BaseFrontAction {
      */
     @RequestMapping(value = "guestbook", method = RequestMethod.GET)
     public String guestbook(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Page<CmsGuestbook> page = guestbookService.getPage(new Page<CmsGuestbook>(request, response), new CmsGuestbook(), "");
+        Page<CmsGuestbook> page = guestbookService.getPage(new Page<CmsGuestbook>(request, response), new CmsGuestbook(), null, "");
         model.addAttribute("page", page);
         return "modules/cms/front/pages/guestbook";
     }
@@ -120,7 +120,7 @@ public class FrontAction extends BaseFrontAction {
      */
     @RequestMapping("grz")
     public String grz(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response, 1000), new CmsArticle(), "status=1 and type=2");
+        Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response, 1000), new CmsArticle(), null, "status=1 and type=2");
         model.addAttribute("page", page);
         return "modules/cms/front/pages/grz";
     }

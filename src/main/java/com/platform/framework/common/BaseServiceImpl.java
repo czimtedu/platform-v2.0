@@ -98,13 +98,16 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
      *
      * @param page   分页信息
      * @param object 分页对象
+     * @param propertyFilterList
      * @return Page
      * @throws Exception
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Page<T> getPage(Page<T> page, T object, String conditions) throws Exception {
-        List<PropertyFilter> propertyFilterList = new ArrayList<>();
+    public Page<T> getPage(Page<T> page, T object, List<PropertyFilter> propertyFilterList, String conditions) throws Exception {
+        if(propertyFilterList == null){
+            propertyFilterList = new ArrayList<>();
+        }
         PropertyFilter propertyFilter;
         String column;
         Field[] fields = Reflections.getField(object.getClass(), null);

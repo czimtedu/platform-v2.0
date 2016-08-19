@@ -29,9 +29,11 @@ public class SysLog extends BaseEntity<SysLog> {
 	private String params; 		// 操作提交的数据
 	private String userAgent;	// 操作用户代理信息
 	private String exception; 	// 异常信息
-	
-	private Date beginDate;		// 开始日期
-	private Date endDate;		// 结束日期
+
+	@NoDbColumn
+	private String createName;		// 用户名称查询条件
+	@NoDbColumn
+	private String createTimeRange;		// 时间范围查询条件
 
 	// 日志类型（1：接入日志；2：错误日志）
 	@NoDbColumn
@@ -115,22 +117,22 @@ public class SysLog extends BaseEntity<SysLog> {
 		this.exception = exception;
 	}
 
-	public Date getBeginDate() {
-		return beginDate;
+	public String getCreateName() {
+		return createName;
 	}
 
-	public void setBeginDate(Date beginDate) {
-		this.beginDate = beginDate;
+	public void setCreateName(String createName) {
+		this.createName = createName;
 	}
 
-	public Date getEndDate() {
-		return endDate;
+	public String getCreateTimeRange() {
+		return createTimeRange;
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setCreateTimeRange(String createTimeRange) {
+		this.createTimeRange = createTimeRange;
 	}
-	
+
 	/**
 	 * 设置请求参数
 	 * @param paramMap
