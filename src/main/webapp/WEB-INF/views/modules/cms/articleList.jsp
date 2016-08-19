@@ -100,8 +100,6 @@
                 </tbody>
             </table>
             <table:page page="${page}"/>
-            <br/>
-            <br/>
         </div>
     </div>
 </div>

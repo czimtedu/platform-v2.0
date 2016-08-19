@@ -4,6 +4,10 @@
 <head>
     <title>日志管理</title>
     <meta name="decorator" content="default"/>
+    <link rel="stylesheet" href="${ctxStatic}/static/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="${ctxStatic}/static/plugins/bootstrap-daterangepicker/daterangepicker.css">
+    <script src="${ctxStatic}/static/plugins/bootstrap-daterangepicker/moment.min.js"></script>
+    <script src="${ctxStatic}/static/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -63,13 +67,13 @@
                         <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
                         <table:sortColumn id="orderBy" name="orderBy" value="${page.orderBy}" callback="sortOrRefresh();"/><!-- 支持排序 -->
                         <div class="form-group">
-                            <label>操作菜单：<input id="title" name="title" type="text" maxlength="50" class="form-control input-sm" value="${sysLog.title}"/></label>
-                            <label>用户ID：<input id="createBy" name="createBy" type="text" maxlength="50" class="form-control input-sm" value="${sysLog.createBy}"/></label>
-                            <label>URI：<input id="requestUri" name="requestUri" type="text" maxlength="50" class="form-control input-sm" value="${sysLog.requestUri}"/></label>
+                            <label>操作菜单：<input id="title" name="title" type="text" maxlength="50" class="form-control input-sm"/></label>
+                            <label>用户ID：<input id="createBy" name="createBy" type="text" maxlength="50" class="form-control input-sm"/></label>
+                            <label>URI：<input id="requestUri" name="requestUri" type="text" maxlength="50" class="form-control input-sm"/></label>
                             <label>操作日期：<input id="daterangepicker" name="createTimeRange" type="text" class="form-control input-sm"></label>
-                            <label><input id="exception" name="exception" class="i-checks" type="checkbox"${sysLog.exception eq '1' ? ' checked' : ''} value="1"/>只查询异常信息</label>
-                            <button  class="btn btn-primary btn-outline btn-sm " onclick="search()" ><i class="fa fa-search"></i> 查询</button>
-                            <button  class="btn btn-primary btn-outline btn-sm " onclick="reset()" ><i class="fa fa-refresh"></i> 重置</button>
+                            <label><input id="type" name="type" class="i-checks" type="checkbox"/>只查询异常信息</label>
+                            <button  class="btn btn-primary btn-outline btn-sm " onclick="searchAll()" ><i class="fa fa-search"></i> 查询</button>
+                            <button  class="btn btn-primary btn-outline btn-sm " onclick="resetAll()" ><i class="fa fa-refresh"></i> 重置</button>
                         </div>
                     </form:form>
                     <br/>
@@ -127,8 +131,6 @@
                 </tbody>
             </table>
             <table:page page="${page}"/>
-            <br/>
-            <br/>
         </div>
     </div>
 </div>

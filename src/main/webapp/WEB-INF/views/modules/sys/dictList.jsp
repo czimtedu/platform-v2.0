@@ -58,7 +58,7 @@
 
             <!-- 数据表 -->
             <table:check id="contentTable"/>
-            <table id="contentTable" class="table table-striped table-bordered table-hover table-condensed dataTables-example dataTable">
+            <table id="contentTable" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th><input type="checkbox" class="i-checks"></th>
@@ -107,8 +107,6 @@
                 </tbody>
             </table>
             <table:page page="${page}"/>
-            <br/>
-            <br/>
         </div>
     </div>
 </div>

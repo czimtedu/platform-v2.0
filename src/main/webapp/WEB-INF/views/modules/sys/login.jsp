@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="${ctxStatic}/static/app/image/favicon.ico">
     <link rel="stylesheet" href="${ctxStatic}/static/plugins/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="${ctxStatic}/static/plugins/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="${ctxStatic}/static/plugins/animate.css">
+    <link rel="stylesheet" href="${ctxStatic}/static/plugins/animate.min.css">
     <link rel="stylesheet" href="${ctxStatic}/static/plugins/icheck/custom.css">
     <link rel="stylesheet" href="${ctxStatic}/static/app/css/login.css">
 

@@ -112,7 +112,7 @@
 
     <!-- 事务 aop 配置 -->
     <aop:config>
-        <aop:pointcut id="serviceMethods" expression="execution(* com.platform.modules.sys.service..*(..))"/>
+        <aop:pointcut id="serviceMethods" expression="execution(* com.platform.modules.*.service..*(..))"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods"/>
     </aop:config>
 

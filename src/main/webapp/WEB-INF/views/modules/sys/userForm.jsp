@@ -4,6 +4,7 @@
 <head>
 	<title>用户管理</title>
 	<meta name="decorator" content="default"/>
+	<script src="${ctxStatic}/static/plugins/ajaxfileupload.js"></script>
 	<script type="text/javascript">
 		var validateForm;
 		function doSubmit(){//回调函数，在编辑和保存动作时，供openDialog调用提交表单。

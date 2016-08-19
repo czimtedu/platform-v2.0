@@ -5,6 +5,9 @@
 ${page}
 <!-- pagination的css样式设定-->
 <style>
+    .fixed-table-pagination {
+        padding-bottom: 30px;
+    }
     .fixed-table-pagination div.pagination,
     .fixed-table-pagination div.pagination-roll,
     .fixed-table-pagination .pagination-detail {
