@@ -6,16 +6,16 @@ package com.platform.modules.sys.service.impl;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.platform.modules.sys.bean.SysLog;
-import com.platform.modules.sys.bean.SysPermission;
-import com.platform.modules.sys.bean.SysUser;
-import com.platform.modules.sys.service.LogService;
 import com.platform.framework.cache.JedisUtils;
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisDao;
 import com.platform.framework.security.UserUtils;
 import com.platform.framework.util.Exceptions;
 import com.platform.framework.util.StringUtils;
+import com.platform.modules.sys.bean.SysLog;
+import com.platform.modules.sys.bean.SysPermission;
+import com.platform.modules.sys.bean.SysUser;
+import com.platform.modules.sys.service.LogService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -112,7 +112,7 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
             }
             // 如果有异常，设置异常信息
             String exception = Exceptions.getStackTraceAsString(ex);
-            if(exception != null){
+            if (exception != null) {
                 exception = exception.replaceAll("'", "\"");
             }
             log.setException(exception);
@@ -141,7 +141,7 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
         href = href.substring(1, href.length());
         @SuppressWarnings("unchecked")
         Map<String, String> permissionMap = (Map<String, String>) JedisUtils.getObject(CACHE_PERMISSION_NAME_PATH_MAP);
-        if(permissionMap == null){
+        if (permissionMap == null) {
             permissionMap = Maps.newHashMap();
             List<SysPermission> permissions = mybatisDao.selectListByConditions(SysPermission.class, "");
             for (SysPermission bean : permissions) {
@@ -183,7 +183,7 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
                 return "";
             }
         }
-        return menuNamePath;
+        return menuNamePath;\
     }
 
     @Override
@@ -193,6 +193,7 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
 
     /**
      * 删除日志信息
+     *
      * @param ids 删除的ID
      * @throws Exception
      */
