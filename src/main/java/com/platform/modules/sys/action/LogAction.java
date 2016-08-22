@@ -46,7 +46,7 @@ public class LogAction extends BaseAction<SysLog> {
     @Override
     @ModelAttribute
     public SysLog get(@RequestParam(required = false) String id) throws Exception {
-        if (id != null) {
+        if (StringUtils.isNotEmpty(id)) {
             return logService.get(SysLog.class, id);
         } else {
             return new SysLog();

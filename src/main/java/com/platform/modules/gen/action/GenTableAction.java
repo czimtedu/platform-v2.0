@@ -40,7 +40,7 @@ public class GenTableAction extends BaseAction<GenTable> {
 
     @ModelAttribute
     public GenTable get(@RequestParam(required = false) String id) throws Exception {
-        if (StringUtils.isNotBlank(id)) {
+        if (StringUtils.isNotEmpty(id)) {
             return genTableService.get(GenTable.class, id);
         } else {
             return new GenTable();

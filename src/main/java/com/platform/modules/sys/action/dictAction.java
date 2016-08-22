@@ -4,6 +4,7 @@
 
 package com.platform.modules.sys.action;
 
+import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.Param;
 import com.platform.modules.sys.bean.SysDict;
 import com.platform.modules.sys.service.DictService;
@@ -49,7 +50,7 @@ public class dictAction extends BaseAction<SysDict> {
     @ModelAttribute
     protected SysDict get(@RequestParam(required = false) String id) throws Exception {
         SysDict sysDict;
-        if (id != null) {
+        if (StringUtils.isNotEmpty(id)) {
             sysDict = dictService.get(SysDict.class, id);
         } else {
             sysDict = new SysDict();

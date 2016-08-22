@@ -98,15 +98,15 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
      *
      * @param page   分页信息
      * @param object 分页对象
-     * @param propertyFilterList
+     * @param propertyFilters
      * @return Page
      * @throws Exception
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Page<T> getPage(Page<T> page, T object, List<PropertyFilter> propertyFilterList, String conditions) throws Exception {
-        if(propertyFilterList == null){
-            propertyFilterList = new ArrayList<>();
+    public Page<T> getPage(Page<T> page, T object, List<PropertyFilter> propertyFilters, String conditions) throws Exception {
+        if(propertyFilters == null){
+            propertyFilters = new ArrayList<>();
         }
         PropertyFilter propertyFilter;
         String column;
@@ -125,10 +125,10 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
                 propertyFilter.setMatchType(PropertyFilter.MatchType.LIKE);
                 propertyFilter.setPropertyName(column);
                 propertyFilter.setMatchValue(value);
-                propertyFilterList.add(propertyFilter);
+                propertyFilters.add(propertyFilter);
             }
         }
-        page.setPropertyFilterList(propertyFilterList);
+        page.setPropertyFilterList(propertyFilters);
         List<T> list = (List<T>) mybatisDao.selectPageByConditions(object.getClass(), conditions, page);
         page.setList(list);
         return page;
