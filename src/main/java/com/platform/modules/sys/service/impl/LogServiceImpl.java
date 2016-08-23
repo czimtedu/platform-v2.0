@@ -183,7 +183,7 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
                 return "";
             }
         }
-        return menuNamePath;\
+        return menuNamePath;
     }
 
     @Override

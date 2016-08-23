@@ -3,14 +3,12 @@
 	<!-- 生成分类 -->
 	<category>
 		<category value="curd" label="增删改查（单表）">
-			<template>curd/controller.xml</template>
+			<template>curd/action.xml</template>
 			<template>curd/service.xml</template>
-			<template>category-ref:dao</template>
+			<template>curd/serviceImpl.xml</template>
+			<template>curd/bean.xml</template>
 			<template>curd/viewForm.xml</template>
 			<template>curd/viewList.xml</template>
-		</category>
-		<category value="dao" label="仅持久层（entity）">
-			<template>dao/entity.xml</template>
 		</category>
 		<category value="treeTable" label="树结构表（一体）">
 			<template>treetable/controller.xml</template>

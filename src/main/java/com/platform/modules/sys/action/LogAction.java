@@ -4,17 +4,16 @@
 
 package com.platform.modules.sys.action;
 
+import com.platform.framework.common.BaseAction;
+import com.platform.framework.common.Page;
 import com.platform.framework.common.PropertyFilter;
 import com.platform.framework.security.UserUtils;
-import com.platform.framework.util.BeanToTable;
 import com.platform.framework.util.DateUtils;
 import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.Param;
 import com.platform.modules.sys.bean.SysLog;
 import com.platform.modules.sys.bean.SysUser;
 import com.platform.modules.sys.service.LogService;
-import com.platform.framework.common.BaseAction;
-import com.platform.framework.common.Page;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +26,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,7 +56,7 @@ public class LogAction extends BaseAction<SysLog> {
      *
      * @param model    model
      * @param object   object
-     * @param request HttpServletRequest
+     * @param request  HttpServletRequest
      * @param response @return String
      * @throws Exception
      */
@@ -70,11 +68,11 @@ public class LogAction extends BaseAction<SysLog> {
 
         //用户名称查询条件
         String createName = object.getCreateName();
-        if(StringUtils.isNotEmpty(createName)){
+        if (StringUtils.isNotEmpty(createName)) {
             List<SysUser> userList = UserUtils.getByRealName(createName);
             String ids = "";
             for (SysUser sysUser : userList) {
-                if(StringUtils.isEmpty(ids)) {
+                if (StringUtils.isEmpty(ids)) {
                     ids += sysUser.getId();
                 } else {
                     ids += sysUser.getId() + ",";
@@ -85,11 +83,11 @@ public class LogAction extends BaseAction<SysLog> {
 
         //时间范围查询条件
         String createTimeRange = object.getCreateTimeRange();
-        if(StringUtils.isNotEmpty(createTimeRange)){
+        if (StringUtils.isNotEmpty(createTimeRange)) {
             String[] split = createTimeRange.split(" - ");
             String start = DateUtils.formatDate(DateUtils.parseDate(split[0])) + " 00:00:00";
             String end = DateUtils.formatDate(DateUtils.parseDate(split[1])) + " 23:59:59";
-            if(StringUtils.isNotEmpty(conditions)){
+            if (StringUtils.isNotEmpty(conditions)) {
                 conditions += " and ";
             }
             conditions += "create_time >= '" + start + "' and create_time <= '" + end + "'";
@@ -150,7 +148,7 @@ public class LogAction extends BaseAction<SysLog> {
     public String empty(RedirectAttributes redirectAttributes) {
         logService.empty();
         addMessage(redirectAttributes, "清空日志成功");
-        return "redirect:"+ adminPath +"/sys/log/?repage";
+        return "redirect:" + adminPath + "/sys/log/?repage";
     }
 
 }

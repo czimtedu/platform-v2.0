@@ -40,7 +40,7 @@
 <form:form id="inputForm" modelAttribute="sysRole" action="${ctx}/sys/role/save" method="post" class="form-horizontal">
     <form:hidden path="id"/>
     <sys:message content="${message}"/>
-    <table class="table table-bordered table-condensed dataTables-example dataTable no-footer">
+    <table class="table">
         <tbody>
         <tr>
             <td class="active"><label class="pull-right"><span style="color: red; ">*</span>角色名称:</label></td>
