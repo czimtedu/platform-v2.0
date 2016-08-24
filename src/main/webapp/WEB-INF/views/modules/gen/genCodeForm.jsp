@@ -44,8 +44,8 @@
             <div class="control-group">
                 <label class="control-label">业务表名:</label>
                 <div class="controls">
-                    <form:input path="name" htmlEscape="false" maxlength="500" class="form-control required"/>
-                    <span class="help-inline">功能开发者</span>
+                    <form:input path="name" htmlEscape="false" maxlength="500" class="form-control required" readonly="true"/>
+                    <span class="help-inline">要生成基础代码的数据表</span>
                 </div>
             </div>
             <div class="control-group">
@@ -62,42 +62,42 @@
             <div class="control-group">
                 <label class="control-label">生成包路径:</label>
                 <div class="controls">
-                    <form:input path="packageName" htmlEscape="false" maxlength="500" class="form-control required"/>
-                    <span class="help-inline">建议模块包：com.thinkgem.jeesite.modules</span>
+                    <input type="text" name="packageName" class="form-control required" value="com.platform.modules">
+                    <span class="help-inline">建议模块包：com.platform.modules</span>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">生成模块名:</label>
                 <div class="controls">
-                    <form:input path="moduleName" htmlEscape="false" maxlength="500" class="form-control required"/>
+                    <input type="text" name="moduleName" class="form-control required" value="test">
                     <span class="help-inline">可理解为子系统名，例如 sys</span>
                 </div>
             </div>
             <div class="control-group hide">
                 <label class="control-label">生成子模块名:</label>
                 <div class="controls">
-                    <form:input path="subModuleName" htmlEscape="false" maxlength="500" class="form-control"/>
+                    <input type="text" name="subModuleName" class="form-control required" value="">
                     <span class="help-inline">可选，分层下的文件夹，例如 </span>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">生成功能描述:</label>
                 <div class="controls">
-                    <form:input path="functionName" htmlEscape="false" maxlength="500" class="form-control required"/>
+                    <input type="text" name="functionName" class="form-control required" value="测试">
                     <span class="help-inline">将设置到类描述</span>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">生成功能名:</label>
                 <div class="controls">
-                    <form:input path="functionNameSimple" htmlEscape="false" maxlength="500" class="form-control required"/>
+                    <input type="text" name="functionNameSimple" class="form-control required" value="测试">
                     <span class="help-inline">用作功能提示，如：保存“某某”成功</span>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">生成功能作者:</label>
                 <div class="controls">
-                    <form:input path="functionAuthor" htmlEscape="false" maxlength="500" class="form-control required"/>
+                    <input type="text" name="functionAuthor" class="form-control required" value="lufengc">
                     <span class="help-inline">功能开发者</span>
                 </div>
             </div>

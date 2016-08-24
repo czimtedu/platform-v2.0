@@ -3,7 +3,7 @@
 <div class="theme-config">
     <div class="theme-config-box">
         <div class="spin-icon">
-            <i class="fa fa-cog fa-spin"></i>
+            <i class="fa fa-cog"></i>
         </div>
         <div class="skin-setttings">
             <div class="title">主题设置</div>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <template>
-	<name>controller</name>
+	<name>action</name>
 	<filePath>src/main/java/${packageName}/${moduleName}/web/${subModuleName}</filePath>
 	<fileName>${ClassName}Action.java</fileName>
 	<content><![CDATA[
@@ -25,7 +25,7 @@ import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.Param;
 import com.platform.framework.common.Page;
 import com.platform.framework.common.BaseAction;
-import ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
+import ${packageName}.${moduleName}.bean<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
 
 /**
@@ -35,7 +35,7 @@ import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModule
  */
 @Controller
 @RequestMapping(value = "${r"${adminPath}"}/${urlPrefix}")
-public class ${ClassName}Action extends BaseAction {
+public class ${ClassName}Action extends BaseAction<${ClassName}> {
 
 	@Autowired
 	private ${ClassName}Service ${className}Service;
@@ -49,10 +49,10 @@ public class ${ClassName}Action extends BaseAction {
      */
 	@Override
 	@ModelAttribute
-	public ${ClassName} get(@RequestParam(required=false) String id) {
+	public ${ClassName} get(@RequestParam(required=false) String id) throws Exception {
 		${ClassName} entity = null;
 		if (StringUtils.isNotBlank(id)){
-			entity = ${className}Service.get(SysLog.class, id);
+			entity = ${className}Service.get(${ClassName}.class, id);
 		}
 		if (entity == null){
 			entity = new ${ClassName}();
@@ -114,7 +114,7 @@ public class ${ClassName}Action extends BaseAction {
 	@RequestMapping(value = "delete")
 	@RequiresPermissions("${permissionPrefix}:del")
 	public String delete(Model model, ${ClassName} object, Param param, RedirectAttributes redirectAttributes) throws Exception {
-		${className}Service.delete(${className});
+		${className}Service.delete(param.getIds());
 		addMessage(redirectAttributes, "删除${functionNameSimple}成功");
 		return "redirect:" + adminPath + "/${viewPrefix}/?repage";
 	}

@@ -87,16 +87,16 @@ public class GenUtils {
 			// 编辑字段
 			if (!StringUtils.equalsIgnoreCase(column.getName(), "id")
 					&& !StringUtils.equalsIgnoreCase(column.getName(), "create_by")
-					&& !StringUtils.equalsIgnoreCase(column.getName(), "create_date")
-					&& !StringUtils.equalsIgnoreCase(column.getName(), "del_flag")){
+					&& !StringUtils.equalsIgnoreCase(column.getName(), "create_time")
+					&& !StringUtils.equalsIgnoreCase(column.getName(), "status")){
 				column.setIsEdit("1");
 			}
 
 			// 列表字段
 			if (StringUtils.equalsIgnoreCase(column.getName(), "name")
 					|| StringUtils.equalsIgnoreCase(column.getName(), "title")
-					|| StringUtils.equalsIgnoreCase(column.getName(), "remarks")
-					|| StringUtils.equalsIgnoreCase(column.getName(), "update_date")){
+					|| StringUtils.equalsIgnoreCase(column.getName(), "description")
+					|| StringUtils.equalsIgnoreCase(column.getName(), "update_time")){
 				column.setIsList("1");
 			}
 			
@@ -116,8 +116,8 @@ public class GenUtils {
 			
 			// 用户
 			if (StringUtils.startsWithIgnoreCase(column.getName(), "user_id")){
-				column.setJavaType(SysUser.class.getName());
-				column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
+				//column.setJavaType(SysUser.class.getName());
+				//column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
 				column.setShowType("userselect");
 			}
 			// 创建者、更新者
@@ -127,19 +127,19 @@ public class GenUtils {
 				column.setJavaField(column.getJavaField() + ".id");
 			}
 			// 创建时间、更新时间
-			else if (StringUtils.startsWithIgnoreCase(column.getName(), "create_date")
-					|| StringUtils.startsWithIgnoreCase(column.getName(), "update_date")){
+			else if (StringUtils.startsWithIgnoreCase(column.getName(), "create_time")
+					|| StringUtils.startsWithIgnoreCase(column.getName(), "update_time")){
 				column.setShowType("dateselect");
 			}
 			// 备注、内容
-			else if (StringUtils.equalsIgnoreCase(column.getName(), "remarks")
+			else if (StringUtils.equalsIgnoreCase(column.getName(), "description")
 					|| StringUtils.equalsIgnoreCase(column.getName(), "content")){
 				column.setShowType("textarea");
 			}
 			// 父级ID
 			else if (StringUtils.equalsIgnoreCase(column.getName(), "parent_id")){
-				column.setJavaType("This");
-				column.setJavaField("parent.id|name");
+				//column.setJavaType("This");
+				//column.setJavaField("parent.id|name");
 				column.setShowType("treeselect");
 			}
 			// 所有父级ID
@@ -147,9 +147,9 @@ public class GenUtils {
 				column.setQueryType("like");
 			}
 			// 删除标记
-			else if (StringUtils.equalsIgnoreCase(column.getName(), "del_flag")){
+			else if (StringUtils.equalsIgnoreCase(column.getName(), "status")){
 				column.setShowType("radiobox");
-				column.setDictType("del_flag");
+				column.setDictType("status");
 			}
 		}
 	}

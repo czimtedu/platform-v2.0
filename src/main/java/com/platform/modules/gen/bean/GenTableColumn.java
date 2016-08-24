@@ -58,7 +58,6 @@ public class GenTableColumn extends BaseEntity<GenTableColumn> {
         this.genTable = genTable;
     }
 
-    @Length(min = 1, max = 200)
     public String getName() {
         return StringUtils.lowerCase(name);
     }
@@ -251,11 +250,9 @@ public class GenTableColumn extends BaseEntity<GenTableColumn> {
     public String[][] getJavaFieldAttrs() {
         String[] ss = StringUtils.split(StringUtils.substringAfter(getJavaField(), "|"), "|");
         String[][] sss = new String[ss.length][2];
-        if (ss != null) {
-            for (int i = 0; i < ss.length; i++) {
-                sss[i][0] = ss[i];
-                sss[i][1] = BeanToTable.beanToTable(ss[i]);
-            }
+        for (int i = 0; i < ss.length; i++) {
+            sss[i][0] = ss[i];
+            sss[i][1] = BeanToTable.beanToTable(ss[i]);
         }
         return sss;
     }
@@ -306,13 +303,13 @@ public class GenTableColumn extends BaseEntity<GenTableColumn> {
      * @return
      */
     public Boolean getIsNotBaseField() {
-        return !StringUtils.equals(getSimpleJavaField(), "id")
-                && !StringUtils.equals(getSimpleJavaField(), "remarks")
-                && !StringUtils.equals(getSimpleJavaField(), "createBy")
-                && !StringUtils.equals(getSimpleJavaField(), "createDate")
+        return !StringUtils.equals(getSimpleJavaField(), "createBy")
+                && !StringUtils.equals(getSimpleJavaField(), "createTime")
                 && !StringUtils.equals(getSimpleJavaField(), "updateBy")
-                && !StringUtils.equals(getSimpleJavaField(), "updateDate")
-                && !StringUtils.equals(getSimpleJavaField(), "delFlag");
+                && !StringUtils.equals(getSimpleJavaField(), "updateTime")
+                && !StringUtils.equals(getSimpleJavaField(), "status")
+                && !StringUtils.equals(getSimpleJavaField(), "type")
+                && !StringUtils.equals(getSimpleJavaField(), "description");
     }
 
 }

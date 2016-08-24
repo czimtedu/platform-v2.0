@@ -6998,12 +6998,13 @@ body.rtls.top-navigation .footer.fixed {
     position: absolute;
     padding: 7px 10px 7px 13px;
     border-radius: 20px 0px 0px 20px;
-    font-size: 18px;
-    top: -3px;
+    font-size: 16px;
+    top: -1px;
     left: 0px;
     width: 40px;
-    color: #1ab394;
+    color: #999;
     cursor: pointer;
+    background-color: #fff;
 }
 
 .skin-setttings {
