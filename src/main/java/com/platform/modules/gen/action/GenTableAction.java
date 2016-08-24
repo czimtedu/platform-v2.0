@@ -93,7 +93,7 @@ public class GenTableAction extends BaseAction<GenTable> {
 
     @Override
     @RequestMapping(value = "delete")
-    @RequiresPermissions("gen:genTable:del")
+    @RequiresPermissions("gen:genTable:edit")
     public String delete(Model model, GenTable genTable, Param param, RedirectAttributes redirectAttributes) throws Exception {
         genTableService.delete(param.getIds());
         addMessage(redirectAttributes, "删除业务表成功");

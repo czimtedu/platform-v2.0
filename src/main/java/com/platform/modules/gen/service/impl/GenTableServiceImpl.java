@@ -100,9 +100,9 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
         }
         GenTable genTable = new GenTable();
         genTable.setName(tableName);
-        List<GenTable> list = mybatisDao.selectListByConditions(GenTable.class, "name=" + tableName);
+        List<GenTable> list = mybatisDao.selectListByConditions(GenTable.class, "name='" + tableName + "'");
         //List<GenTable> list = genTableDao.findList(genTable);
-        return list.size() == 0;
+        return !(list != null && list.size() > 0);
     }
 
     /**

@@ -47,14 +47,13 @@
             <div class="control-group">
                 <label class="control-label">表名:</label>
                 <div class="controls">
-                    <form:select path="name" class="input-xxlarge">
+                    <form:select path="name" class="form-control required">
                         <form:options items="${tableList}" itemLabel="nameAndComments" itemValue="name" htmlEscape="false"/>
                     </form:select>
                 </div>
-                <div class="form-actions">
-                    <input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步"/>&nbsp;
-                    <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
-                </div>
+            </div>
+            <div class="form-actions m-t-xs">
+                <input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步"/>
             </div>
         </form:form>
     </c:when>
@@ -82,7 +81,7 @@
                         <form:input path="className" htmlEscape="false" maxlength="200" class="form-control required"/>
                     </div>
                 </div>
-                <div class="control-group">
+                <%--<div class="control-group">
                     <label class="control-label">父表表名:</label>
                     <div class="controls">
                         <form:select path="parentTable" class="form-control">
@@ -90,7 +89,7 @@
                             <form:options items="${tableList}" itemLabel="nameAndComments" itemValue="name" htmlEscape="false"/>
                         </form:select>
                     </div>
-                </div>
+                </div>--%>
                 <%--<div class="control-group">
                     <label class="control-label">当前表外键:</label>
                     <div class="controls">
@@ -101,12 +100,12 @@
                         <span class="help-inline">如果有父表，请指定父表表名和外键</span>
                     </div>
                 </div>--%>
-                <div class="control-group hide">
+                <%--<div class="control-group">
                     <label class="control-label">备注:</label>
                     <div class="controls">
                         <form:textarea path="description" htmlEscape="false" rows="4" maxlength="200" class="form-control"/>
                     </div>
-                </div>
+                </div>--%>
                 <legend>字段列表</legend>
                 <div class="control-group">
                     <table id="contentTable" class="table table-striped table-bordered table-condensed">
