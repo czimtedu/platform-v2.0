@@ -53,6 +53,7 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
             column.setGenTable(object);
             if (StringUtils.isBlank(column.getId())) {
                 column.setId(Encodes.uuid());
+                column.setGenTableId(object.getId());
                 mybatisDao.insert(column);
             } else {
                 mybatisDao.update(column);
@@ -72,8 +73,8 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
     /**
      * 获取物理数据表列表
      *
-     * @param genTable
-     * @return
+     * @param genTable GenTable
+     * @return List<GenTable>
      */
     public List<GenTable> findTableListFormDb(GenTable genTable) {
         String sql = "SELECT t.table_name AS name,t.TABLE_COMMENT AS comments " +
@@ -83,16 +84,14 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
             sql += "AND t.TABLE_NAME = '" + genTable.getName().toUpperCase() + "' ";
         }
         sql += "ORDER BY t.TABLE_NAME";
-        List<GenTable> list = mybatisDao.selectListBySql(GenTable.class, sql);
-        //return genDataBaseDictDao.findTableList(genTable);
-        return list;
+        return mybatisDao.selectListBySql(GenTable.class, sql);
     }
 
     /**
-     * 验证表名是否可用，如果已存在，则返回false
+     * 验证表名是否可用
      *
-     * @param tableName
-     * @return
+     * @param tableName 表名
+     * @return boolean 如果已存在，则返回false
      */
     public boolean checkTableName(String tableName) {
         if (StringUtils.isBlank(tableName)) {
@@ -101,15 +100,14 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
         GenTable genTable = new GenTable();
         genTable.setName(tableName);
         List<GenTable> list = mybatisDao.selectListByConditions(GenTable.class, "name='" + tableName + "'");
-        //List<GenTable> list = genTableDao.findList(genTable);
         return !(list != null && list.size() > 0);
     }
 
     /**
      * 获取物理数据表列表
      *
-     * @param genTable
-     * @return
+     * @param genTable GenTable
+     * @return GenTable
      */
     public GenTable getTableFormDb(GenTable genTable) {
         // 如果有表名，则获取物理表

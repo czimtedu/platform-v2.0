@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/3fe80d95-7ef5-4eeb-9a26-815785ce9ffd/console.sql" charset="GBK" />
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/platform/framework/intercepter/LogInterceptor.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/static/app/image/favicon.ico" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/static/app/image/favicon.ico" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>

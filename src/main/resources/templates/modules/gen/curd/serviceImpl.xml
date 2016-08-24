@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisDao;
+import com.platform.framework.util.Encodes;
+import com.platform.framework.util.StringUtils;
 import ${packageName}.${moduleName}.bean<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
 
@@ -33,14 +35,13 @@ public class ${ClassName}ServiceImpl extends BaseServiceImpl<${ClassName}> imple
     @Override
 	@Transactional()
 	public String save(${ClassName} object) throws Exception {
-		String id;
-        if (object.getId() != null) {
-            id = object.getId().toString();
-            mybatisDao.update(object);
+        if (StringUtils.isBlank(object.getId())) {
+            object.setId(Encodes.uuid());
+            mybatisDao.insert(object);
         } else {
-            id = mybatisDao.insert(object);
+            mybatisDao.update(object);
         }
-        return id;
+        return object.getId().toString();
 	}
 
 	@Override

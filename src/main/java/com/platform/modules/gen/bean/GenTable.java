@@ -141,47 +141,6 @@ public class GenTable extends BaseEntity<GenTable> {
         return importList;
     }
 
-    /**
-     * 是否存在create_date列
-     *
-     * @return
-     */
-    public Boolean getCreateDateExists() {
-        for (GenTableColumn c : columnList) {
-            if ("create_time".equals(c.getName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 是否存在update_date列
-     *
-     * @return
-     */
-    public Boolean getUpdateDateExists() {
-        for (GenTableColumn c : columnList) {
-            if ("update_time".equals(c.getName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 是否存在del_flag列
-     *
-     * @return
-     */
-    public Boolean getDelFlagExists() {
-        for (GenTableColumn c : columnList) {
-            if ("del_flag".equals(c.getName())) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
 
 

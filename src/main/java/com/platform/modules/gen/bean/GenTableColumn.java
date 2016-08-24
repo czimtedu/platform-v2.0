@@ -23,6 +23,7 @@ public class GenTableColumn extends BaseEntity<GenTableColumn> {
 
     private static final long serialVersionUID = 1L;
     private String id;
+    private String genTableId;
     private String name;        // 列名
     private String comments;    // 描述
     private String jdbcType;    // JDBC类型
@@ -48,6 +49,14 @@ public class GenTableColumn extends BaseEntity<GenTableColumn> {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getGenTableId() {
+        return genTableId;
+    }
+
+    public void setGenTableId(String genTableId) {
+        this.genTableId = genTableId;
     }
 
     public GenTable getGenTable() {
