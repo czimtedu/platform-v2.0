@@ -34,9 +34,9 @@
 						<#if c.isQuery?? && c.isQuery == "1">
 							<span>${c.comments}：</span>
 						<#if c.showType == "input" || c.showType == "textarea">
-							<form:input path="${c.javaFieldId}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="input-medium"/>
+							<form:input path="${c.javaFieldId}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="form-control"/>
 						<#elseif c.showType == "select">
-							<form:select path="${c.javaFieldId}" class="input-medium">
+							<form:select path="${c.javaFieldId}" class="form-control">
 								<form:option value="" label=""/>
 								<form:options items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 							</form:select>
@@ -45,14 +45,14 @@
 						<#elseif c.showType == "radiobox">
 							<form:radiobuttons path="${c.javaFieldId}" items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 						<#elseif c.showType == "dateselect" && c.queryType == "between">
-							<input name="begin${c.simpleJavaField?cap_first}" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+							<input name="begin${c.simpleJavaField?cap_first}" type="text" readonly="readonly" maxlength="20" class="form-control Wdate"
 								value="<fmt:formatDate value="${"$"}{${className}.begin${c.simpleJavaField?cap_first}}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -
-							<input name="end${c.simpleJavaField?cap_first}" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+							<input name="end${c.simpleJavaField?cap_first}" type="text" readonly="readonly" maxlength="20" class="form-control Wdate"
 								value="<fmt:formatDate value="${"$"}{${className}.end${c.simpleJavaField?cap_first}}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 						<#elseif c.showType == "dateselect">
-							<input name="${c.javaFieldId}" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+							<input name="${c.javaFieldId}" type="text" readonly="readonly" maxlength="20" class="form-control Wdate"
 								value="<fmt:formatDate value="${"$"}{${className}.${c.javaFieldId}}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 								onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 						<#elseif c.showType == "userselect">
@@ -80,10 +80,7 @@
                 <div class="col-sm-12">
                     <div class="pull-left">
                         <shiro:hasPermission name="${permissionPrefix}:edit">
-                            <table:addRow url="${r"${ctx}"}/${urlPrefix}/form" title="用户" width="800px" height="650px"/><!-- 增加按钮 -->
-                            <table:editRow url="${r"${ctx}"}/${urlPrefix}/form" title="用户" width="800px" height="680px" id="contentTable"/><!-- 编辑按钮 -->
-                        </shiro:hasPermission>
-                        <shiro:hasPermission name="${permissionPrefix}:del">
+                            <table:addRow url="${r"${ctx}"}/${urlPrefix}/form" title="${functionNameSimple}" width="800px" height="650px"/><!-- 增加按钮 -->
                             <table:delRow url="${r"${ctx}"}/${urlPrefix}/delete" id="contentTable"/><!-- 删除按钮 -->
                         </shiro:hasPermission>
                         <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="sortOrRefresh()" title="刷新">
@@ -120,26 +117,26 @@
                         <#elseif c.showType == "select" || c.showType == "checkbox" || c.showType == "radiobox">
                             ${"$"}{fns:getDictLabel(bean.${c.javaFieldId}, '${c.dictType}', '')}
                         <#elseif c.showType == "userselect" || c.showType == "officeselect" || c.showType == "areaselect">
-                            ${"$"}{bean.${c.javaFieldName}}
+                            ${"$"}{fns:getUserById(bean.${c.javaFieldId}).realName}
                         <#else>
                             ${"$"}{bean.${c.javaFieldId}}
                         </#if>
                         <#if firstListField></a></#if></td>
-                                <#assign firstListField = false>
+                        <#assign firstListField = false>
                             </#if>
                         </#list>
-                        <shiro:hasPermission name="${permissionPrefix}:edit"><td>
-                            <a href="#"
-                               onclick="openDialog('修改', '${r"${ctx}"}/${urlPrefix}/form?id=${"$"}{bean.id}','800px', '680px')"
-                               class="btn btn-link btn-xs">
+                        <shiro:hasPermission name="${permissionPrefix}:edit">
+                        <td>
+                            <a href="${r"${ctx}"}/${urlPrefix}/form?id=${"$"}{bean.id}"
+                                onclick="openDialog('修改', this.href, '800px', '680px')" class="btn btn-link btn-xs">
                                 <i class="fa fa-edit"></i> 修改
                             </a>
-                             <a href=""
-                                onclick="return confirmx('确认要删除该${functionNameSimple}吗？', '${r"${ctx}"}/${urlPrefix}/delete?ids=${"$"}{bean.id}"
-                                class="btn btn-link btn-xs">
-                                 <i class="fa fa-trash"></i> 删除
+                             <a href="${r"${ctx}"}/${urlPrefix}/delete?ids=${"$"}{bean.id}"
+                                onclick="return confirmx('确认要删除该${functionNameSimple}吗？', this.href)" class="btn btn-link btn-xs">
+                                <i class="fa fa-trash"></i> 删除
                              </a>
-                        </td></shiro:hasPermission>
+                        </td>
+                        </shiro:hasPermission>
                     </tr>
                 </c:forEach>
                 </tbody>

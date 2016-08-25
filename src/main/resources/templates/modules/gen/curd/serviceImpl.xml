@@ -26,14 +26,12 @@ import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModule
  * @version ${functionVersion}
  */
 @Service
-@Transactional(readOnly = true)
 public class ${ClassName}ServiceImpl extends BaseServiceImpl<${ClassName}> implements ${ClassName}Service {
 
 	@Autowired
     private MybatisDao mybatisDao;
 
     @Override
-	@Transactional()
 	public String save(${ClassName} object) throws Exception {
         if (StringUtils.isBlank(object.getId())) {
             object.setId(Encodes.uuid());
@@ -45,7 +43,6 @@ public class ${ClassName}ServiceImpl extends BaseServiceImpl<${ClassName}> imple
 	}
 
 	@Override
-	@Transactional()
 	public String delete(String ids) throws Exception {
 		mybatisDao.deleteByIds(${ClassName}.class, ids);
         return "";

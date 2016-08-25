@@ -33,8 +33,8 @@ public class MybatisDao {
     @Autowired
     private SqlSessionTemplate sqlSession;
 
-    private final String[] basicTypes = {"int", "String", "long", "date", "BigDecimal"};
-    private final String[] objectTypes = {"java.lang.Integer", "java.lang.String", "java.lang.Long", "java.util.Date", "java.math.BigDecimal"};
+    private final String[] basicTypes = {"int", "String", "long", "date", "BigDecimal", "BigInteger"};
+    private final String[] objectTypes = {"java.lang.Integer", "java.lang.String", "java.lang.Long", "java.util.Date", "java.math.BigDecimal", "java.math.BigInteger"};
 
     /**
      * 根据指定表名实体类、id获取数据集

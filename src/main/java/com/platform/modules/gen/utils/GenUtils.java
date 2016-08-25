@@ -67,7 +67,7 @@ public class GenUtils {
 					column.setJavaType("Double");
 				}
 				// 如果是整形
-				else if (ss != null && ss.length == 1 && Integer.parseInt(ss[0])<=10){
+				else if (ss != null && ss.length == 1 && Integer.parseInt(ss[0])<=11){
 					column.setJavaType("Integer");
 				}
 				// 长整形
@@ -118,8 +118,8 @@ public class GenUtils {
 			
 			// 用户
 			if (StringUtils.startsWithIgnoreCase(column.getName(), "user_id")){
-				column.setJavaType(SysUser.class.getName());
-				column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
+				//column.setJavaType(SysUser.class.getName());
+				//column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
 				column.setShowType("userselect");
 			}
 			// 创建者、更新者
@@ -140,8 +140,8 @@ public class GenUtils {
 			}
 			// 父级ID
 			else if (StringUtils.equalsIgnoreCase(column.getName(), "parent_id")){
-				column.setJavaType("This");
-				column.setJavaField("parent.id|name");
+				//column.setJavaType("This");
+				//column.setJavaField("parent.id|name");
 				column.setShowType("treeselect");
 			}
 			// 所有父级ID

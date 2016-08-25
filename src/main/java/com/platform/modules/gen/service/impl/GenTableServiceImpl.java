@@ -35,7 +35,7 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
     public GenTable get(Class<GenTable> clazz, String id) throws Exception {
         GenTable genTable = super.get(clazz, id);
         List<GenTableColumn> columnList = mybatisDao.selectListByConditions(GenTableColumn.class,
-                "gen_table_id='" + genTable.getId() + "'");
+                "gen_table_id='" + genTable.getId() + "' order by sort_id asc");
         genTable.setColumnList(columnList);
         return genTable;
     }
@@ -65,7 +65,7 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
     @Override
     public String delete(String ids) throws Exception {
         mybatisDao.deleteByIds(GenTable.class, ids);
-        String deleteSql = "delete from gen_table_column where gen_table_id in (" + ids + ")";
+        String deleteSql = "delete from gen_table_column where gen_table_id in (" + StringUtils.idsToString(ids) + ")";
         mybatisDao.deleteBySql(deleteSql, GenTableColumn.class);
         return "";
     }
@@ -127,7 +127,7 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
                 //List<GenTableColumn> columnList = genDataBaseDictDao.findTableColumnList(genTable);
                 String sql = "SELECT t.COLUMN_NAME AS name, " +
                         "(CASE WHEN t.IS_NULLABLE = 'YES' THEN '1' ELSE '0' END) AS is_null," +
-                        "(t.ORDINAL_POSITION * 10) AS sort," +
+                        "(t.ORDINAL_POSITION * 10) AS sort_id," +
                         "t.COLUMN_COMMENT AS comments," +
                         "t.COLUMN_TYPE AS jdbc_type " +
                         "FROM information_schema.`COLUMNS` t " +
