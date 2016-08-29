@@ -45,8 +45,6 @@
                             <form:input path="name" htmlEscape="false" maxlength="50" class="form-control"/>
                             <span>说明：</span>
                             <form:input path="comments" htmlEscape="false" maxlength="50" class="form-control"/>
-                            <span>父表表名：</span>
-                            <form:input path="parentTable" htmlEscape="false" maxlength="50" class="form-control"/>
                             <button  class="btn btn-primary btn-outline btn-sm " onclick="searchAll()" ><i class="fa fa-search"></i> 查询</button>
                             <button  class="btn btn-primary btn-outline btn-sm " onclick="resetAll()" ><i class="fa fa-refresh"></i> 重置</button>
                         </div>
