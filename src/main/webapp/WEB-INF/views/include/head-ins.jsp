@@ -17,20 +17,17 @@
 
 
 <script src="${ctxStatic}/static/plugins/jquery/jquery-2.1.4.min.js"></script>
-<script src="${ctxStatic}/static/plugins/jquery/jquery-migrate-1.1.1.min.js"></script>
-<script src="${ctxStatic}/static/plugins/TableDnD/jquery.tablednd.js"></script>
+<script src="${ctxStatic}/static/plugins/jquery/jquery-migrate-1.2.1.min.js"></script>
 <script src="${ctxStatic}/static/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="${ctxStatic}/static/plugins/jquery-validation/1.14.0/jquery.validate.min.js"></script>
 <script src="${ctxStatic}/static/plugins/jquery-validation/1.14.0/localization/messages_zh.min.js"></script>
 <script src="${ctxStatic}/static/plugins/jquery-jbox/2.3/jquery.jBox-2.3.min.js"></script>
-<script src="${ctxStatic}/static/plugins/pace/pace.min.js"></script>
+<script src="${ctxStatic}/static/plugins/pace/pace.min.js"></script><%--网页自动加载进度条--%>
 <script src="${ctxStatic}/static/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="${ctxStatic}/static/plugins/icheck/icheck.min.js"></script>
 <script src="${ctxStatic}/static/plugins/icheck/icheck-init.js"></script>
-<script src="${ctxStatic}/static/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="${ctxStatic}/static/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="${ctxStatic}/static/plugins/layer/layer.js"></script>
-<script src="${ctxStatic}/static/app/js/mustache.min.js"></script>
 
 <script src="${ctxStatic}/static/app/js/common.js"></script>
 <script src="${ctxStatic}/static/app/js/contabs.js"></script>
