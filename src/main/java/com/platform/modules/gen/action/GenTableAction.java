@@ -107,6 +107,7 @@ public class GenTableAction extends BaseAction<GenTable> {
      * @return ModelAndView
      */
     @RequestMapping(value = "genCodeForm")
+    @RequiresPermissions("gen:genTable:edit")
     public String genCodeForm(Model model, GenScheme genScheme) throws Exception {
         GenTable genTable = get(genScheme.getId());
         genScheme.setId(genTable.getId());
@@ -124,6 +125,7 @@ public class GenTableAction extends BaseAction<GenTable> {
      * @return 管理列表页
      */
     @RequestMapping(value = "genCode")
+    @RequiresPermissions("gen:genTable:edit")
     public String genCode(Model model, GenScheme genScheme, GenTable genTable, RedirectAttributes redirectAttributes) throws Exception {
         if (!beanValidator(model, genScheme)) {
             return genCodeForm(model, genScheme);

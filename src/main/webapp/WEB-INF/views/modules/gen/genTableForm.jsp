@@ -70,13 +70,13 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">说明:</label>
+                    <label class="control-label"><span style="color: red; ">*</span>说明:</label>
                     <div class="controls">
                         <form:input path="comments" htmlEscape="false" maxlength="200" class="form-control required"/>
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">类名:</label>
+                    <label class="control-label"><span style="color: red; ">*</span>类名:</label>
                     <div class="controls">
                         <form:input path="className" htmlEscape="false" maxlength="200" class="form-control required"/>
                     </div>

@@ -112,7 +112,7 @@ public class ${ClassName}Action extends BaseAction<${ClassName}> {
      */
     @Override
 	@RequestMapping(value = "delete")
-	@RequiresPermissions("${permissionPrefix}:del")
+	@RequiresPermissions("${permissionPrefix}:edit")
 	public String delete(Model model, ${ClassName} object, Param param, RedirectAttributes redirectAttributes) throws Exception {
 		${className}Service.delete(param.getIds());
 		addMessage(redirectAttributes, "删除${functionNameSimple}成功");

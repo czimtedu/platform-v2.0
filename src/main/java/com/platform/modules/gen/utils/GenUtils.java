@@ -120,7 +120,7 @@ public class GenUtils {
 			if (StringUtils.startsWithIgnoreCase(column.getName(), "user_id")){
 				//column.setJavaType(SysUser.class.getName());
 				//column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
-				column.setShowType("userselect");
+				//column.setShowType("userselect");
 			}
 			// 创建者、更新者
 			else if (StringUtils.startsWithIgnoreCase(column.getName(), "create_by")
@@ -142,7 +142,7 @@ public class GenUtils {
 			else if (StringUtils.equalsIgnoreCase(column.getName(), "parent_id")){
 				//column.setJavaType("This");
 				//column.setJavaField("parent.id|name");
-				column.setShowType("treeselect");
+				//column.setShowType("treeselect");
 			}
 			// 所有父级ID
 			else if (StringUtils.equalsIgnoreCase(column.getName(), "parent_ids")){
