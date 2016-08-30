@@ -144,7 +144,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
     @Override
     @Transactional()
     public String delete(String ids) throws Exception {
-        mybatisDao.updateByConditions(SysUser.class, "status=3", "id in(" + ids + ")");
+        mybatisDao.updateByConditions(SysUser.class, "status=0", "id in(" + ids + ")");
         return "";
     }
 

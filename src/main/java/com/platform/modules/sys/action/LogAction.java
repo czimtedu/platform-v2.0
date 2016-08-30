@@ -6,8 +6,7 @@ package com.platform.modules.sys.action;
 
 import com.platform.framework.common.BaseAction;
 import com.platform.framework.common.Page;
-import com.platform.framework.common.PropertyFilter;
-import com.platform.framework.security.UserUtils;
+import com.platform.modules.sys.utils.UserUtils;
 import com.platform.framework.util.DateUtils;
 import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.Param;
@@ -25,7 +24,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,22 +61,25 @@ public class LogAction extends BaseAction<SysLog> {
     @Override
     @RequestMapping(value = {"list", ""})
     public String list(Model model, SysLog object, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ArrayList<PropertyFilter> propertyFilters = new ArrayList<>();
         String conditions = "";
 
         //用户名称查询条件
         String createName = object.getCreateName();
         if (StringUtils.isNotEmpty(createName)) {
             List<SysUser> userList = UserUtils.getByRealName(createName);
-            String ids = "";
-            for (SysUser sysUser : userList) {
-                if (StringUtils.isEmpty(ids)) {
-                    ids += sysUser.getId();
-                } else {
-                    ids += sysUser.getId() + ",";
+            if(userList != null && userList.size() > 0){
+                String ids = "";
+                for (SysUser sysUser : userList) {
+                    if (StringUtils.isEmpty(ids)) {
+                        ids += sysUser.getId();
+                    } else {
+                        ids += sysUser.getId() + ",";
+                    }
                 }
+                conditions = "create_by in(" + ids + ")";
+            } else {
+                return "modules/sys/logList";
             }
-            conditions = "create_by in(" + ids + ")";
         }
 
         //时间范围查询条件
@@ -133,7 +134,7 @@ public class LogAction extends BaseAction<SysLog> {
      */
     @Override
     @RequestMapping(value = "delete")
-    @RequiresPermissions("sys:log:del")
+    @RequiresPermissions("sys:log:edit")
     public String delete(Model model, SysLog object, Param param, RedirectAttributes redirectAttributes) throws Exception {
         logService.delete(param.getIds());
         addMessage(redirectAttributes, "删除成功");
@@ -143,8 +144,8 @@ public class LogAction extends BaseAction<SysLog> {
     /**
      * 清空
      */
-    @RequiresPermissions("sys:log:del")
     @RequestMapping(value = "empty")
+    @RequiresPermissions("sys:log:edit")
     public String empty(RedirectAttributes redirectAttributes) {
         logService.empty();
         addMessage(redirectAttributes, "清空日志成功");

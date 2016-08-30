@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.platform.modules.sys.bean.NoDbColumn;
 import com.platform.framework.cache.JedisCachedOrignal;
 import com.platform.framework.exception.CommonException;
-import com.platform.framework.security.UserUtils;
+import com.platform.modules.sys.utils.UserUtils;
 import com.platform.framework.util.BeanToTable;
 import com.platform.framework.util.DaoUtils;
 import com.platform.framework.util.ObjectUtils;

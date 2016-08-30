@@ -44,7 +44,7 @@
     <function>
         <description>根据ID获取用户信息</description>
         <name>getUserById</name>
-        <function-class>com.platform.framework.security.UserUtils</function-class>
+        <function-class>com.platform.modules.sys.utils.UserUtils</function-class>
         <function-signature>com.platform.modules.sys.bean.SysUser get(int)</function-signature>
         <example>${fns:getUser(id)}</example>
     </function>
@@ -52,7 +52,7 @@
     <function>
         <description>获取当前用户对象</description>
         <name>getUser</name>
-        <function-class>com.platform.framework.security.UserUtils</function-class>
+        <function-class>com.platform.modules.sys.utils.UserUtils</function-class>
         <function-signature>com.platform.modules.sys.bean.SysUser getUser()</function-signature>
         <example>${fns:getUser()}</example>
     </function>
@@ -60,7 +60,7 @@
     <function>
         <description>获取当前用户的角色列表</description>
         <name>getRoleList</name>
-        <function-class>com.platform.framework.security.UserUtils</function-class>
+        <function-class>com.platform.modules.sys.utils.UserUtils</function-class>
         <function-signature>java.util.List getRoleList()</function-signature>
         <example>${fns:getRoleList()}</example>
     </function>
@@ -68,7 +68,7 @@
     <function>
         <description>获取当前用户授权菜单</description>
         <name>getMenuList</name>
-        <function-class>com.platform.framework.security.UserUtils</function-class>
+        <function-class>com.platform.modules.sys.utils.UserUtils</function-class>
         <function-signature>java.util.List getMenuList()</function-signature>
         <example>${fns:getMenuList()}</example>
     </function>
@@ -77,7 +77,7 @@
     <function>
         <description>获取字典标签</description>
         <name>getDictLabel</name>
-        <function-class>com.platform.framework.util.DictUtils</function-class>
+        <function-class>com.platform.modules.sys.utils.DictUtils</function-class>
         <function-signature>java.lang.String getDictLabel(java.lang.String, java.lang.String, java.lang.String)</function-signature>
         <example>${fns:getDictLabel(value, type, defaultValue)}</example>
     </function>
@@ -85,7 +85,7 @@
     <function>
         <description>获取字典标签(多个)</description>
         <name>getDictLabels</name>
-        <function-class>com.platform.framework.util.DictUtils</function-class>
+        <function-class>com.platform.modules.sys.utils.DictUtils</function-class>
         <function-signature>java.lang.String getDictLabels(java.lang.String, java.lang.String, java.lang.String)</function-signature>
         <example>${fns:getDictLabels(values, type, defaultValue)}</example>
     </function>
@@ -93,7 +93,7 @@
     <function>
         <description>获取字典值</description>
         <name>getDictValue</name>
-        <function-class>com.platform.framework.util.DictUtils</function-class>
+        <function-class>com.platform.modules.sys.utils.DictUtils</function-class>
         <function-signature>java.lang.String getDictValue(java.lang.String, java.lang.String, java.lang.String)</function-signature>
         <example>${fns:getDictValue(label, type, defaultValue)}</example>
     </function>
@@ -101,7 +101,7 @@
     <function>
         <description>获取字典对象列表</description>
         <name>getDictList</name>
-        <function-class>com.platform.framework.util.DictUtils</function-class>
+        <function-class>com.platform.modules.sys.utils.DictUtils</function-class>
         <function-signature>java.util.List getDictList(java.lang.String)</function-signature>
         <example>${fns:getDictList(type)}</example>
     </function>
@@ -109,7 +109,7 @@
     <function>
         <description>获取字典对象列表</description>
         <name>getDictListJson</name>
-        <function-class>com.platform.framework.util.DictUtils</function-class>
+        <function-class>com.platform.modules.sys.utils.DictUtils</function-class>
         <function-signature>java.lang.String getDictListJson(java.lang.String)</function-signature>
         <example>${fns:getDictListJson(type)}</example>
     </function>
@@ -117,7 +117,7 @@
     <function>
         <description>获取字典对象MAP</description>
         <name>getDictMapJson</name>
-        <function-class>com.platform.framework.util.DictUtils</function-class>
+        <function-class>com.platform.modules.sys.utils.DictUtils</function-class>
         <function-signature>java.lang.String getDictMapJson()</function-signature>
         <example>${fns:getDictMapJson()}</example>
     </function>

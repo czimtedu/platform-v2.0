@@ -9,7 +9,7 @@ import com.platform.modules.sys.service.DictService;
 import com.platform.framework.cache.JedisUtils;
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisDao;
-import com.platform.framework.util.DictUtils;
+import com.platform.modules.sys.utils.DictUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

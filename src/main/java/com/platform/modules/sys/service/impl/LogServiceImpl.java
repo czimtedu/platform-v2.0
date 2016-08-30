@@ -9,7 +9,7 @@ import com.google.common.collect.Maps;
 import com.platform.framework.cache.JedisUtils;
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisDao;
-import com.platform.framework.security.UserUtils;
+import com.platform.modules.sys.utils.UserUtils;
 import com.platform.framework.util.Exceptions;
 import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.SysLog;

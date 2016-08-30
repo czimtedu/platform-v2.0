@@ -12,7 +12,7 @@ import com.platform.framework.common.SysConfigManager;
 import com.platform.framework.security.FormAuthenticationFilter;
 import com.platform.framework.security.SecurityRealm;
 import com.platform.framework.security.SecurityRealm.Principal;
-import com.platform.framework.security.UserUtils;
+import com.platform.modules.sys.utils.UserUtils;
 import com.platform.framework.security.shiro.session.SessionDAO;
 import com.platform.framework.servlet.ValidateCodeServlet;
 import com.platform.framework.util.CookieUtils;
@@ -170,9 +170,9 @@ public class LoginAction {
         // 如果已登录，再次访问主页，则退出原账号。
         if (Global.TRUE.equals(SysConfigManager.getConfig("notAllowRefreshIndex"))) {
             String logined = CookieUtils.getCookie(request, "LOGINED");
-            if (StringUtils.isBlank(logined) || "false".equals(logined)) {
-                CookieUtils.setCookie(response, "LOGINED", "true");
-            } else if (StringUtils.equals(logined, "true")) {
+            if (StringUtils.isBlank(logined) || Global.FALSE.equals(logined)) {
+                CookieUtils.setCookie(response, "LOGINED", Global.TRUE);
+            } else if (StringUtils.equals(logined, Global.TRUE)) {
                 UserUtils.getSubject().logout();
                 return "redirect:" + adminPath + "/login";
             }

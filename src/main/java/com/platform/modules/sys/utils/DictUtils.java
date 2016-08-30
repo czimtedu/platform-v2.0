@@ -2,7 +2,7 @@
  * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
  */
 
-package com.platform.framework.util;
+package com.platform.modules.sys.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.SysDict;
 import com.platform.modules.sys.service.DictService;
 import com.platform.framework.cache.JedisUtils;

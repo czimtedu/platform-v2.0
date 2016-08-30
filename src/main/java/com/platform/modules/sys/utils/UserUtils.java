@@ -2,7 +2,7 @@
  * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
  */
 
-package com.platform.framework.security;
+package com.platform.modules.sys.utils;
 
 import java.util.ArrayList;
 import java.util.List;

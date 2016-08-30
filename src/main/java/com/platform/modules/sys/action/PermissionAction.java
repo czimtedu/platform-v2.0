@@ -143,7 +143,7 @@ public class PermissionAction extends BaseAction<SysPermission> {
      */
     @Override
     @RequestMapping(value = "delete")
-    @RequiresPermissions("sys:permission:del")
+    @RequiresPermissions("sys:permission:edit")
     public String delete(Model model, SysPermission object, Param param, RedirectAttributes redirectAttributes) throws Exception {
         permissionService.delete(param.getIds());
         addMessage(redirectAttributes, "删除成功");

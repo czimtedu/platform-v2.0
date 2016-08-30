@@ -9,7 +9,6 @@
         $(document).ready(function() {
 
             $("#createTimeRange").daterange();
-            $('#datetimepicker').datetime();
 
         });
     </script>
@@ -37,7 +36,6 @@
                             <label>URI：<form:input path="requestUri" htmlEscape="false" maxlength="50" class="form-control"/></label>
                             <label>操作日期：<form:input path="createTimeRange" htmlEscape="false" maxlength="50" class="form-control" readonly="true"/></label>
                             <label><input id="type" name="type" class="i-checks" type="checkbox"/>只查询异常信息</label>
-                            <label>时间选择：<input type="text" id="datetimepicker" name="datetimepicker" class="form-control" readonly/></label>
                             <button class="btn btn-primary btn-outline btn-sm" onclick="searchAll()" ><i class="fa fa-search"></i> 查询</button>
                             <button class="btn btn-primary btn-outline btn-sm" onclick="resetAll()" ><i class="fa fa-refresh"></i> 重置</button>
                         </div>

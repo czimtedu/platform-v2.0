@@ -10,7 +10,7 @@ import com.platform.modules.sys.bean.SysDict;
 import com.platform.modules.sys.service.DictService;
 import com.platform.framework.common.BaseAction;
 import com.platform.framework.common.Page;
-import com.platform.framework.util.DictUtils;
+import com.platform.modules.sys.utils.DictUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -128,7 +128,7 @@ public class dictAction extends BaseAction<SysDict> {
      */
     @Override
     @RequestMapping(value = "delete")
-    @RequiresPermissions("sys:dict:delete")
+    @RequiresPermissions("sys:dict:edit")
     protected String delete(Model model, SysDict object, Param param, RedirectAttributes redirectAttributes) throws Exception {
         dictService.delete(param.getIds());
         addMessage(redirectAttributes, "删除字典成功");

@@ -12,7 +12,7 @@ import com.platform.modules.sys.service.RoleService;
 import com.platform.modules.sys.service.UserService;
 import com.platform.framework.common.BaseAction;
 import com.platform.framework.common.Page;
-import com.platform.framework.security.UserUtils;
+import com.platform.modules.sys.utils.UserUtils;
 import com.platform.framework.util.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,7 +145,7 @@ public class RoleAction extends BaseAction<SysRole> {
      */
     @Override
     @RequestMapping(value = "delete")
-    @RequiresPermissions("sys:role:del")
+    @RequiresPermissions("sys:role:edit")
     public String delete(Model model, SysRole object, Param param, RedirectAttributes redirectAttributes) throws Exception {
         roleService.delete(param.getIds());
         addMessage(redirectAttributes, "删除角色成功");
@@ -191,7 +191,7 @@ public class RoleAction extends BaseAction<SysRole> {
     public String selectUser(SysRole role, SysUser user, Model model, HttpServletRequest request,
                              HttpServletResponse response) throws Exception {
         user.setId(null);
-        Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), user, null, "status <> 3");
+        Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), user, null, "status <> 0");
         model.addAttribute("page", page);
         return "modules/sys/selectUser";
     }

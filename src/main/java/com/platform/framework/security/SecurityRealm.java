@@ -15,6 +15,7 @@ import com.platform.framework.security.shiro.session.SessionDAO;
 import com.platform.framework.servlet.ValidateCodeServlet;
 import com.platform.framework.util.Encodes;
 import com.platform.framework.util.StringUtils;
+import com.platform.modules.sys.utils.UserUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
