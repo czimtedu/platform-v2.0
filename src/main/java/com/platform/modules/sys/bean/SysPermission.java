@@ -19,30 +19,17 @@ import java.util.Objects;
  */
 @DataCached(type = DataCached.CachedType.REDIS_CACHED)
 public class SysPermission extends BaseEntity<SysPermission> {
-	
-    /**
-	 * 参数： serialVersionUID
-	 */
+
 	private static final long serialVersionUID = 1L;
-
 	private Integer id;
-
     private String permissionName;
-
     private String permissionSign;
-
     private Integer parentId;
-
     private String thumbImg;
-
     private String funUrl;
-
     private Integer isMenu;
-
     private Integer sortId;
-
     private Integer isShow;
-    
     private String parentIds;
 
 	@NoDbColumn

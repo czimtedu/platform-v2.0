@@ -4,19 +4,16 @@
 
 package com.platform.modules.sys.utils;
 
+import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.platform.modules.sys.bean.*;
+import com.platform.modules.sys.service.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
-import com.platform.modules.sys.bean.SysPermission;
-import com.platform.modules.sys.bean.SysRole;
-import com.platform.modules.sys.bean.SysUser;
-import com.platform.modules.sys.service.PermissionService;
-import com.platform.modules.sys.service.RoleService;
-import com.platform.modules.sys.service.UserService;
 import com.platform.framework.common.SpringContextHolder;
 import com.platform.framework.security.SecurityRealm.Principal;
 
@@ -31,9 +28,14 @@ public class UserUtils {
     private static UserService userService = SpringContextHolder.getBean(UserService.class);
     private static RoleService roleService = SpringContextHolder.getBean(RoleService.class);
     private static PermissionService permissionService = SpringContextHolder.getBean(PermissionService.class);
+    private static AreaService areaService = SpringContextHolder.getBean(AreaService.class);
+    private static OfficeService officeService = SpringContextHolder.getBean(OfficeService.class);
 
     private static final String CACHE_ROLE_LIST = "roleList";
     private static final String CACHE_PERMISSION_LIST = "permissionList";
+    private static final String CACHE_AREA_LIST = "areaList";
+    private static final String CACHE_OFFICE_LIST = "officeList";
+    private static final String CACHE_OFFICE_ALL_LIST = "officeAllList";
 
 
     /**
@@ -141,6 +143,64 @@ public class UserUtils {
     }
 
     /**
+     * 获取当前用户授权的区域
+     * @return
+     */
+    public static List<SysArea> getAreaList(){
+        @SuppressWarnings("unchecked")
+        List<SysArea> areaList = (List<SysArea>)getCache(CACHE_AREA_LIST);
+        try {
+            if (areaList == null){
+                areaList = areaService.getList(new SysArea());
+                putCache(CACHE_AREA_LIST, areaList);
+            }
+        } catch (Exception e) {
+            areaList = new ArrayList<>();
+        }
+        return areaList;
+    }
+
+    /**
+     * 获取当前用户有权限访问的部门
+     * @return
+     */
+    public static List<SysOffice> getOfficeList(){
+        @SuppressWarnings("unchecked")
+        List<SysOffice> officeList = (List<SysOffice>)getCache(CACHE_OFFICE_LIST);
+        try {
+            if (officeList == null){
+                SysUser user = getUser();
+                if (user.isAdmin()){
+                    officeList = officeService.getList(new SysOffice());
+                }else{
+                    officeList = officeService.getByUserId(getUserId());
+                }
+                putCache(CACHE_OFFICE_LIST, officeList);
+            }
+        } catch (Exception e) {
+            officeList = new ArrayList<>();
+        }
+        return officeList;
+    }
+
+    /**
+     * 获取所有部门列表
+     * @return
+     */
+    public static List<SysOffice> getOfficeAllList(){
+        @SuppressWarnings("unchecked")
+        List<SysOffice> officeList = (List<SysOffice>)getCache(CACHE_OFFICE_ALL_LIST);
+        try {
+            if (officeList == null){
+                officeList = officeService.getList(new SysOffice());
+            }
+        } catch (Exception e) {
+            officeList = new ArrayList<>();
+        }
+        return officeList;
+    }
+
+    /**
      * 获取授权主要对象
      */
     public static Subject getSubject() {
@@ -191,6 +251,9 @@ public class UserUtils {
     public static void clearCache() {
         removeCache(CACHE_ROLE_LIST);
         removeCache(CACHE_PERMISSION_LIST);
+        removeCache(CACHE_AREA_LIST);
+        removeCache(CACHE_OFFICE_LIST);
+        removeCache(CACHE_OFFICE_ALL_LIST);
     }
 
     public static Object getCache(String key) {

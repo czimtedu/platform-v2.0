@@ -11,9 +11,7 @@
     <div class="ibox">
         <div class="ibox-title">
             <h5>字典列表</h5>
-            <div class="ibox-tools">
-
-            </div>
+            <div class="ibox-tools"></div>
         </div>
         <div class="ibox-content">
             <sys:message content="${message}"/>

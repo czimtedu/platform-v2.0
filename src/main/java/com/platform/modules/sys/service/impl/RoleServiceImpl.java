@@ -130,7 +130,6 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
         //删除角色权限关联表
         String deleteRelSql = "delete from sys_role_permission where role_id in (" + ids + ")";
         mybatisDao.deleteBySql(deleteRelSql, null);
-        // TODO: 2016/7/30 无缓存的更新删除操作需要手动清空缓存 ,可以在mybatis封装中清空该类的所有缓存
         return "";
     }
 

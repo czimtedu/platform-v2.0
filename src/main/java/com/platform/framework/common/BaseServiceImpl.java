@@ -75,7 +75,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
             }
             column = BeanToTable.beanToTable(field.getName());
             Object value = field.get(object);
-            if (!"serialVersionUID".equals(field.getName()) && value != null) {
+            if (!"serialVersionUID".equals(field.getName()) && value != null && !"".equals(value)) {
                 propertyFilter = new PropertyFilter();
                 propertyFilter.setPropertyClass(field.getType());
                 propertyFilter.setMatchType(PropertyFilter.MatchType.EQ);
@@ -98,7 +98,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
      *
      * @param page   分页信息
      * @param object 分页对象
-     * @param propertyFilters
+     * @param propertyFilters List<PropertyFilter>
      * @return Page
      * @throws Exception
      */

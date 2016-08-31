@@ -2,13 +2,13 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <%@ attribute name="id" type="java.lang.String" required="true" description="编号"%>
 <%@ attribute name="name" type="java.lang.String" required="true" description="隐藏域名称（ID）"%>
-<%@ attribute name="value" type="java.lang.Integer" required="true" description="隐藏域值（ID）"%>
+<%@ attribute name="value" type="java.lang.String" required="true" description="隐藏域值（ID）"%>
 <%@ attribute name="labelName" type="java.lang.String" required="true" description="输入框名称（Name）"%>
 <%@ attribute name="labelValue" type="java.lang.String" required="true" description="输入框值（Name）"%>
 <%@ attribute name="title" type="java.lang.String" required="true" description="选择框标题"%>
 <%@ attribute name="url" type="java.lang.String" required="true" description="树结构数据地址"%>
 <%@ attribute name="checked" type="java.lang.Boolean" required="false" description="是否显示复选框，如果不需要返回父节点，请设置notAllowSelectParent为true"%>
-<%@ attribute name="extId" type="java.lang.Integer" required="false" description="排除掉的编号（不能选择的编号）"%>
+<%@ attribute name="extId" type="java.lang.String" required="false" description="排除掉的编号（不能选择的编号）"%>
 <%@ attribute name="isAll" type="java.lang.Boolean" required="false" description="是否列出全部数据，设置true则不进行数据权限过滤（目前仅对Office有效）"%>
 <%@ attribute name="notAllowSelectRoot" type="java.lang.Boolean" required="false" description="不允许选择根节点"%>
 <%@ attribute name="notAllowSelectParent" type="java.lang.Boolean" required="false" description="不允许选择父节点"%>

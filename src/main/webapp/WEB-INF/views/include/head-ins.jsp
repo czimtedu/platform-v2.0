@@ -29,6 +29,7 @@
 <script src="${ctxStatic}/static/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="${ctxStatic}/static/plugins/layer/layer.js"></script>
 
+<script src="${ctxStatic}/static/app/js/mustache.min.js"></script>
 <script src="${ctxStatic}/static/app/js/common.js"></script>
 <script src="${ctxStatic}/static/app/js/contabs.js"></script>
 

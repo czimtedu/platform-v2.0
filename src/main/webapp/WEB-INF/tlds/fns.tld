@@ -212,4 +212,13 @@
         <example>${fns:pastDays(date)}</example>
     </function>
 
+    <!-- JsonMapper -->
+    <function>
+        <description>对象转换JSON字符串</description>
+        <name>toJson</name>
+        <function-class>com.platform.framework.mapper.JsonMapper</function-class>
+        <function-signature>java.lang.String toJsonString(java.lang.Object)</function-signature>
+        <example>${fns:toJson(object)}</example>
+    </function>
+
 </taglib>
