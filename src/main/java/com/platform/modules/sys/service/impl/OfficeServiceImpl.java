@@ -48,11 +48,10 @@ public class OfficeServiceImpl extends BaseServiceImpl<SysOffice> implements Off
 
     @Override
     public List<SysOffice> getByParentId(String parentId) throws Exception {
-        return treeList(UserUtils.getOfficeList(), parentId);
+        List<SysOffice> childList = new ArrayList<>();
+       treeList(childList, UserUtils.getOfficeList(), parentId);
+        return childList;
     }
-
-    //子节点
-    private static List<SysOffice> childList = new ArrayList<>();
 
     /**
      * 获取某个父节点下面的所有子节点
@@ -60,14 +59,13 @@ public class OfficeServiceImpl extends BaseServiceImpl<SysOffice> implements Off
      * @param parentId parentId
      * @return List<SysOffice>
      */
-    private static List<SysOffice> treeList(List<SysOffice> officeList, String parentId){
+    private void treeList(List<SysOffice> childList, List<SysOffice> officeList, String parentId){
         for(SysOffice office: officeList){
             if(parentId.equals(office.getParentId())){
-                treeList(officeList, office.getId());
                 childList.add(office);
+                treeList(officeList, childList, office.getId());
             }
         }
-        return childList;
     }
 
     @Override
