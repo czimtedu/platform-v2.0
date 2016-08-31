@@ -12,6 +12,7 @@ import com.platform.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,8 +47,27 @@ public class OfficeServiceImpl extends BaseServiceImpl<SysOffice> implements Off
     }
 
     @Override
-    public List<SysOffice> getByParentId(String parentId) {
-        return mybatisDao.selectListByConditions(SysOffice.class, "parent_id = '" + parentId + "'");
+    public List<SysOffice> getByParentId(String parentId) throws Exception {
+        return treeList(UserUtils.getOfficeList(), parentId);
+    }
+
+    //子节点
+    private static List<SysOffice> childList = new ArrayList<>();
+
+    /**
+     * 获取某个父节点下面的所有子节点
+     * @param officeList List<SysOffice>
+     * @param parentId parentId
+     * @return List<SysOffice>
+     */
+    private static List<SysOffice> treeList(List<SysOffice> officeList, String parentId){
+        for(SysOffice office: officeList){
+            if(parentId.equals(office.getParentId())){
+                treeList(officeList, office.getId());
+                childList.add(office);
+            }
+        }
+        return childList;
     }
 
     @Override

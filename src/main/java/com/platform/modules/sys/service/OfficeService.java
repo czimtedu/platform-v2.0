@@ -23,5 +23,5 @@ public interface OfficeService extends BaseService<SysOffice> {
 
     List<SysOffice> getByParentIdsLike(String parentIds);
 
-    List<SysOffice> getByParentId(String parentId);
+    List<SysOffice> getByParentId(String parentId) throws Exception;
 }

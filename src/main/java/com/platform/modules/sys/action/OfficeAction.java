@@ -59,7 +59,7 @@ public class OfficeAction extends BaseAction<SysOffice> {
     @Override
     @RequestMapping(value = {"list"})
     protected String list(Model model, SysOffice office, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (office == null || office.getParentIds() == null) {
+        if (office == null || StringUtils.isEmpty(office.getParentIds()) || StringUtils.isEmpty(office.getId())) {
             model.addAttribute("list", officeService.getList(false));
         } else {
             model.addAttribute("list", officeService.getByParentId(office.getId()));
