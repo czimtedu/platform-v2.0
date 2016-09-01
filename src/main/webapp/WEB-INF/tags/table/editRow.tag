@@ -28,6 +28,6 @@
             return;
         }
         var id = $("#${id} tbody tr td input.i-checks:checkbox:checked").attr("id");
-        openDialog("修改" + '${title}', "${url}?id=" + id, "${width==null?'800px':width}", "${height==null?'500px':height}", "${target}");
+        openDialog("修改" + '${title}', "${url}?id=" + id, "${width==null?'800px':width}", "${height==null?'600px':height}", "${target}");
     }
 </script>

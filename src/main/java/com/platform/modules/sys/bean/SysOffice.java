@@ -35,6 +35,15 @@ public class SysOffice extends BaseEntity<SysOffice> {
 	private Integer deputyPerson;   //副负责人
 	private List<String> childDeptList; //快速添加子部门
 
+    @NoDbColumn
+    private String parentName;
+    @NoDbColumn
+    private String areaName;
+    @NoDbColumn
+    private String deputyPersonName;
+    @NoDbColumn
+    private String primaryPersonName;
+
     public String getId() {
         return id;
     }
@@ -187,5 +196,37 @@ public class SysOffice extends BaseEntity<SysOffice> {
 
     public void setChildDeptList(List<String> childDeptList) {
         this.childDeptList = childDeptList;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setDeputyPersonName(String deputyPersonName) {
+        this.deputyPersonName = deputyPersonName;
+    }
+
+    public String getDeputyPersonName() {
+        return deputyPersonName;
+    }
+
+    public void setPrimaryPersonName(String primaryPersonName) {
+        this.primaryPersonName = primaryPersonName;
+    }
+
+    public String getPrimaryPersonName() {
+        return primaryPersonName;
     }
 }

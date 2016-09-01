@@ -7,8 +7,9 @@
     <%@ include file="/WEB-INF/views/include/treetable.jsp" %>
     <script type="text/javascript">
         $(document).ready(function () {
-            var tpl = $("#treeTableTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
-            var data = ${fns:toJson(list)}, rootId = "${not empty office.id ? office.id : '0'}";
+            var tpl = $("#treeTableTpl").html().replace(/(\/\/<!\-\-)|(\/\/\-\->)/g, "");
+            var data = ${fns:toJson(list)};
+            var rootId = "${not empty office.parentId ? office.parentId : '0'}";
             addRow("#treeTableList", tpl, data, rootId, true);
             $("#treeTable").treeTable({expandLevel: 5});
         });
@@ -37,7 +38,7 @@
     <div class="col-sm-12">
         <div class="pull-left">
             <shiro:hasPermission name="sys:office:edit">
-                <table:addRow url="${ctx}/sys/office/form?parentId=${office.id}" title="机构" target="officeContent"/><!-- 增加按钮 -->
+                <table:addRow url="${ctx}/sys/office/form?parentId=${office.id}" title="机构"/><!-- 增加按钮 -->
             </shiro:hasPermission>
             <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="refresh()" title="刷新">
                 <i class="glyphicon glyphicon-repeat"></i> 刷新
@@ -62,7 +63,7 @@
 </table>
 <script type="text/template" id="treeTableTpl">
     <tr id="{{row.id}}" pId="{{pid}}">
-        <td><a href="#" onclick="openDialogView('查看机构', '${ctx}/sys/office/form?id={{row.id}}','800px', '620px')">{{row.name}}</a></td>
+        <td><a href="#" onclick="openDialogView('查看机构', '${ctx}/sys/office/form?id={{row.id}}')">{{row.name}}</a></td>
         <td>{{row.areaId}}</td>
         <td>{{row.code}}</td>
         <td>{{dict.type}}</td>
@@ -70,12 +71,12 @@
         <shiro:hasPermission name="sys:office:edit">
         <td>
             <a href="#"
-               onclick="openDialog('修改机构', '${ctx}/sys/office/form?id={{row.id}}','800px', '620px', 'officeContent')"
+               onclick="openDialog('修改机构', '${ctx}/sys/office/form?id={{row.id}}')"
                class="btn btn-link btn-xs"><i class="fa fa-edit"></i> 修改</a>
             <a href="${ctx}/sys/office/delete?id={{row.id}}" onclick="return confirmx('要删除该机构及所有子机构项吗？', this.href)"
                class="btn btn-link btn-xs"><i class="fa fa-trash"></i> 删除</a>
             <a href="#"
-               onclick="openDialog('添加下级机构', '${ctx}/sys/office/form?parent.id={{row.id}}','800px', '620px', 'officeContent')"
+               onclick="openDialog('添加下级机构', '${ctx}/sys/office/form?parent.id={{row.id}}')"
                class="btn  btn-link btn-xs"><i class="fa fa-plus"></i> 添加下级机构</a>
         </td>
         </shiro:hasPermission>

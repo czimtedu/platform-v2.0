@@ -8,6 +8,7 @@ import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.*;
 import com.platform.modules.sys.service.*;
 import org.apache.shiro.SecurityUtils;
@@ -44,15 +45,17 @@ public class UserUtils {
      * @param id 用户ID
      * @return 取不到返回null
      */
-    public static SysUser get(int id) {
+    public static SysUser get(Integer id) {
         SysUser user = null;
-        try {
-            user = userService.get(SysUser.class, id + "");
-            if(user != null){
-                user.setRoleList(roleService.getByUserId(id));
+        if(id != null){
+            try {
+                user = userService.get(SysUser.class, id + "");
+                if(user != null){
+                    user.setRoleList(roleService.getByUserId(id));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return user;
     }

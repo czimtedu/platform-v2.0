@@ -145,7 +145,7 @@ public class PermissionAction extends BaseAction<SysPermission> {
     @RequestMapping(value = "delete")
     @RequiresPermissions("sys:permission:edit")
     public String delete(Model model, SysPermission object, Param param, RedirectAttributes redirectAttributes) throws Exception {
-        permissionService.delete(param.getIds());
+        permissionService.delete(object.getId().toString());
         addMessage(redirectAttributes, "删除成功");
         return "redirect:" + adminPath + "/sys/permission/";
     }

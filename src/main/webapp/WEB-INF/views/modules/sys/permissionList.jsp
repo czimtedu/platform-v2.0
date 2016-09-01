@@ -35,14 +35,6 @@
                     <div class="pull-left">
                         <shiro:hasPermission name="sys:permission:edit">
                             <table:addRow url="${ctx}/sys/permission/form" title="菜单"/><!-- 增加按钮 -->
-                        </shiro:hasPermission>
-                        <shiro:hasPermission name="sys:permission:edit">
-                            <table:editRow url="${ctx}/sys/permission/form" id="treeTable" title="菜单"/><!-- 编辑按钮 -->
-                        </shiro:hasPermission>
-                        <shiro:hasPermission name="sys:permission:del">
-                            <table:delRow url="${ctx}/sys/permission/delete" id="treeTable"/><!-- 删除按钮 -->
-                        </shiro:hasPermission>
-                        <shiro:hasPermission name="sys:permission:edit">
                             <button id="btnSubmit" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left"
                                     onclick="updateSort()"><i class="fa fa-save"></i> 保存排序</button>
                         </shiro:hasPermission>
@@ -93,7 +85,7 @@
                                     <a href="#" onclick="openDialog('修改菜单', '${ctx}/sys/permission/form?id=${bean.id}','800px', '500px')" class="btn btn-link btn-xs" ><i class="fa fa-edit"></i> 修改</a>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="sys:permission:del">
-                                    <a href="#" onclick="return confirmx('要删除该菜单及所有子菜单项吗？', '${ctx}/sys/permission/delete?ids=${bean.id}')" class="btn btn-link btn-xs" ><i class="fa fa-trash"></i> 删除</a>
+                                    <a href="#" onclick="return confirmx('要删除该菜单及所有子菜单项吗？', '${ctx}/sys/permission/delete?id=${bean.id}')" class="btn btn-link btn-xs" ><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="sys:permission:edit">
                                     <a href="#" onclick="openDialog('添加下级菜单', '${ctx}/sys/permission/form?parentId=${bean.id}','800px', '500px')" class="btn btn-link btn-xs" ><i class="fa fa-plus"></i> 添加下级菜单</a>

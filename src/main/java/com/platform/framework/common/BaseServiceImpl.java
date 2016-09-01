@@ -4,6 +4,7 @@
 
 package com.platform.framework.common;
 
+import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.NoDbColumn;
 import com.platform.framework.exception.CommonException;
 import com.platform.framework.util.BeanToTable;
@@ -42,10 +43,12 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
      * @throws Exception
      */
     public T get(Class<T> clazz, String id) throws Exception {
-        List<T> list = mybatisDao.selectListByIds(clazz, id);
         T entity = null;
-        if (list != null && list.size() > 0) {
-            entity = list.get(0);
+        if(StringUtils.isNotEmpty(id)){
+            List<T> list = mybatisDao.selectListByIds(clazz, id);
+            if (list != null && list.size() > 0) {
+                entity = list.get(0);
+            }
         }
         return entity;
     }

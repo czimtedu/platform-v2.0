@@ -4,16 +4,19 @@
 
 package com.platform.modules.sys.service.impl;
 
+import com.platform.modules.sys.bean.SysOffice;
 import com.platform.modules.sys.bean.SysPermission;
 import com.platform.modules.sys.bean.SysRolePermission;
 import com.platform.modules.sys.service.PermissionService;
 import com.platform.framework.cache.JedisUtils;
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisDao;
+import com.platform.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -126,13 +129,22 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
     /**
      * 删除权限信息
      *
-     * @param ids 删除的ID
+     * @param id 删除的ID
      * @throws Exception
      */
     @Override
     @Transactional()
-    public String delete(String ids) throws Exception {
+    public String delete(String id) throws Exception {
+        String ids = id;
+        //获取子节点集合
+        List<SysPermission> childList = new ArrayList<>();
+        getChildList(childList, UserUtils.getMenuList(), Integer.valueOf(id));
+        for (SysPermission sysPermission : childList) {
+            ids += "," + sysPermission.getId();
+        }
+        //删除该菜单及所有子菜单
         mybatisDao.deleteByIds(SysPermission.class, ids);
+        //删除角色权限关联表
         String sql = "delete from sys_role_permission where permission_id in (" + ids + ")";
         mybatisDao.deleteBySql(sql, null);
         // 清除日志相关缓存
@@ -140,5 +152,19 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
         return "";
     }
 
+    /**
+     * 获取某个父节点下面的所有子节点
+     * @param childList 用户保存子节点的集合
+     * @param allList 总数据结合
+     * @param parentId 父ID
+     */
+    private void getChildList(List<SysPermission> childList, List<SysPermission> allList, Integer parentId){
+        for(SysPermission object: allList){
+            if(parentId.equals(object.getParentId())){
+                getChildList(childList, allList, object.getId());
+                childList.add(object);
+            }
+        }
+    }
 
 }

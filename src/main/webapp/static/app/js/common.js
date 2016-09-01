@@ -381,6 +381,12 @@ function abbr(name, maxLength) {
 
 //打开对话框(添加修改)
 function openDialog(title, url, width, height, target) {
+    if (typeof(width) == "undefined") {
+        width = "800px";
+    }
+    if (typeof(height) == "undefined") {
+        height = "600px";
+    }
     top.layer.open({
         type: 2,
         area: [width, height],
@@ -413,6 +419,12 @@ function openDialog(title, url, width, height, target) {
 
 //打开对话框(查看)
 function openDialogView(title, url, width, height) {
+    if (typeof(width) == "undefined") {
+        width = "800px";
+    }
+    if (typeof(height) == "undefined") {
+        height = "600px";
+    }
     top.layer.open({
         type: 2,
         area: [width, height],

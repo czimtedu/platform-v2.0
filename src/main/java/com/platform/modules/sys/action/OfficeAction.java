@@ -9,9 +9,13 @@ import com.platform.framework.common.BaseAction;
 import com.platform.framework.common.Global;
 import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.Param;
+import com.platform.modules.sys.bean.SysArea;
 import com.platform.modules.sys.bean.SysOffice;
+import com.platform.modules.sys.bean.SysUser;
+import com.platform.modules.sys.service.AreaService;
 import com.platform.modules.sys.service.OfficeService;
 import com.platform.modules.sys.utils.DictUtils;
+import com.platform.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,10 +43,11 @@ public class OfficeAction extends BaseAction<SysOffice> {
 
     @Autowired
     private OfficeService officeService;
-
+    @Autowired
+    private AreaService areaService;
 
     @Override
-    @ModelAttribute("office")
+    @ModelAttribute
     protected SysOffice get(@RequestParam(required = false) String id) throws Exception {
         if (StringUtils.isNotBlank(id)) {
             return officeService.get(SysOffice.class, id);
@@ -91,7 +96,27 @@ public class OfficeAction extends BaseAction<SysOffice> {
             }
             office.setCode(office.getParent().getCode() + StringUtils.leftPad(String.valueOf(size > 0 ? size+1 : 1), 3, "0"));
         }*/
-        model.addAttribute("office", office);
+
+        if(office.getId() != null){
+            SysOffice parent = officeService.get(SysOffice.class, office.getParentId());
+            if(parent != null){
+                office.setParentName(parent.getName());
+            }
+            SysArea area = areaService.get(SysArea.class, office.getAreaId());
+            if(area != null){
+                office.setAreaName(area.getName());
+            }
+            SysUser primaryPerson = UserUtils.get(office.getPrimaryPerson());
+            if(primaryPerson != null){
+                office.setPrimaryPersonName(primaryPerson.getRealName());
+            }
+            SysUser deputyPerson = UserUtils.get(office.getDeputyPerson());
+            if(deputyPerson != null){
+                office.setDeputyPersonName(deputyPerson.getRealName());
+            }
+        }
+
+        model.addAttribute("sysOffice", office);
         return "modules/sys/officeForm";
     }
 
@@ -119,17 +144,16 @@ public class OfficeAction extends BaseAction<SysOffice> {
         }
 
         addMessage(redirectAttributes, "保存机构'" + office.getName() + "'成功");
-        String id = "0".equals(office.getParentId()) ? "" : office.getParentId();
-        return "redirect:" + adminPath + "/sys/office/list?id=" + id + "&parentIds=" + office.getParentIds();
+        return "redirect:" + adminPath + "/sys/office/list?id=" + office.getId() + "&parentIds=" + office.getParentIds();
     }
 
     @Override
     @RequestMapping(value = "delete")
     @RequiresPermissions("sys:office:edit")
     protected String delete(Model model, SysOffice office, Param param, RedirectAttributes redirectAttributes) throws Exception {
-        officeService.delete(param.getIds());
+        officeService.delete(office.getId());
         addMessage(redirectAttributes, "删除机构成功");
-        return "redirect:" + adminPath + "/sys/office/list?id=" + office.getParentId() + "&parentIds=" + office.getParentIds();
+        return "redirect:" + adminPath + "/sys/office/list?id=" + office.getId()+ "&parentIds=" + office.getParentIds();
     }
 
     /**

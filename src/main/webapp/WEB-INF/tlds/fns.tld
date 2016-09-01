@@ -45,7 +45,7 @@
         <description>根据ID获取用户信息</description>
         <name>getUserById</name>
         <function-class>com.platform.modules.sys.utils.UserUtils</function-class>
-        <function-signature>com.platform.modules.sys.bean.SysUser get(int)</function-signature>
+        <function-signature>com.platform.modules.sys.bean.SysUser get(java.lang.Integer)</function-signature>
         <example>${fns:getUser(id)}</example>
     </function>
 
