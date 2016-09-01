@@ -95,6 +95,11 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
         mybatisDao.update(currentUser);
     }
 
+    @Override
+    public List<SysUser> getUserByOfficeId(String officeId) {
+        return mybatisDao.selectListByConditions(SysUser.class, "office_id='" + officeId + "'");
+    }
+
     /**
      * 保存用户信息
      *

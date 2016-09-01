@@ -55,4 +55,11 @@ public interface UserService extends BaseService<SysUser> {
      * @param currentUser 当前用户
      */
     void updateUserInfo(SysUser currentUser);
+
+    /**
+     * 根据机构ID查询用户列表
+     * @param officeId
+     * @return
+     */
+    List<SysUser> getUserByOfficeId(String officeId);
 }

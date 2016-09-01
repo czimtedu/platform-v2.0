@@ -6,6 +6,7 @@ package com.platform.modules.sys.action;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.platform.modules.sys.bean.Param;
 import com.platform.modules.sys.bean.SysRole;
 import com.platform.modules.sys.bean.SysUser;
@@ -34,6 +35,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -329,6 +331,23 @@ public class UserAction extends BaseAction<SysUser> {
         SysUser currentUser = UserUtils.getUser();
         model.addAttribute("sysUser", currentUser);
         return "modules/sys/userInfo";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "treeData")
+    public List<Map<String, Object>> treeData(@RequestParam(required=false) String officeId, HttpServletResponse response) {
+        List<Map<String, Object>> mapList = Lists.newArrayList();
+        List<SysUser> list = userService.getUserByOfficeId(officeId);
+        if(list != null && list.size() > 0){
+            for (SysUser e : list) {
+                Map<String, Object> map = Maps.newHashMap();
+                map.put("id", "u_" + e.getId());
+                map.put("pId", officeId);
+                map.put("name", StringUtils.replace(e.getRealName(), " ", ""));
+                mapList.add(map);
+            }
+        }
+        return mapList;
     }
 
     /**************************

@@ -97,11 +97,13 @@ public class OfficeAction extends BaseAction<SysOffice> {
             office.setCode(office.getParent().getCode() + StringUtils.leftPad(String.valueOf(size > 0 ? size+1 : 1), 3, "0"));
         }*/
 
-        if(office.getId() != null){
+        if(office.getParentId() != null){
             SysOffice parent = officeService.get(SysOffice.class, office.getParentId());
             if(parent != null){
                 office.setParentName(parent.getName());
             }
+        }
+        if(office.getId() != null){
             SysArea area = areaService.get(SysArea.class, office.getAreaId());
             if(area != null){
                 office.setAreaName(area.getName());

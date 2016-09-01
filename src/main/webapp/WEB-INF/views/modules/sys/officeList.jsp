@@ -76,7 +76,7 @@
             <a href="${ctx}/sys/office/delete?id={{row.id}}" onclick="return confirmx('要删除该机构及所有子机构项吗？', this.href)"
                class="btn btn-link btn-xs"><i class="fa fa-trash"></i> 删除</a>
             <a href="#"
-               onclick="openDialog('添加下级机构', '${ctx}/sys/office/form?parent.id={{row.id}}')"
+               onclick="openDialog('添加下级机构', '${ctx}/sys/office/form?parentId={{row.id}}')"
                class="btn  btn-link btn-xs"><i class="fa fa-plus"></i> 添加下级机构</a>
         </td>
         </shiro:hasPermission>
