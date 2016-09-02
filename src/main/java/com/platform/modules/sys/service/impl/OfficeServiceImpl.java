@@ -45,7 +45,7 @@ public class OfficeServiceImpl extends BaseServiceImpl<SysOffice> implements Off
 
     @Override
     public List<SysOffice> getByParentIdsLike(String parentIds) {
-        return mybatisDao.selectListByConditions(SysOffice.class, "parent_ids LIKE '" + parentIds + "%'");
+        return mybatisDao.selectListByConditions(SysOffice.class, "parent_ids LIKE '%" + parentIds + "%'");
     }
 
     @Override

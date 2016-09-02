@@ -7,9 +7,12 @@ package com.platform.modules.sys.action;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.platform.framework.common.PropertyFilter;
 import com.platform.modules.sys.bean.Param;
+import com.platform.modules.sys.bean.SysOffice;
 import com.platform.modules.sys.bean.SysRole;
 import com.platform.modules.sys.bean.SysUser;
+import com.platform.modules.sys.service.OfficeService;
 import com.platform.modules.sys.service.RoleService;
 import com.platform.modules.sys.service.UserService;
 import com.platform.framework.common.BaseAction;
@@ -33,10 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 用户管理
@@ -52,6 +52,8 @@ public class UserAction extends BaseAction<SysUser> {
     private UserService userService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private OfficeService officeService;
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -84,6 +86,11 @@ public class UserAction extends BaseAction<SysUser> {
         return sysUser;
     }
 
+    @RequestMapping(value = {""})
+    public String index(SysOffice office, Model model) {
+        return "modules/sys/userIndex";
+    }
+
     /**
      * 用户列表
      *
@@ -91,10 +98,27 @@ public class UserAction extends BaseAction<SysUser> {
      * @throws Exception
      */
     @Override
-    @RequestMapping(value = {"list", ""})
+    @RequestMapping(value = {"list"})
     public String list(Model model, SysUser object, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), object, null, "status <> 0");
+        //String conditions = "status <> 0";
+        List<PropertyFilter> propertyFilters = new ArrayList<>();
+        if(StringUtils.isNotEmpty(object.getOfficeId())){
+            String ids = object.getOfficeId();
+            List<SysOffice> offices = officeService.getByParentIdsLike(object.getOfficeId());
+            if(offices != null && offices.size() > 0){
+                for (SysOffice office : offices) {
+                    ids += "," + office.getId();
+                }
+            }
+            //conditions += " AND office_id in(" + StringUtils.idsToString(ids) + ")";
+            PropertyFilter propertyFilter = new PropertyFilter();
+            propertyFilter.setMatchType(PropertyFilter.MatchType.IN);
+            propertyFilter.setPropertyName("office_id");
+            propertyFilter.setMatchValue(StringUtils.idsToString(ids));
+            propertyFilters.add(propertyFilter);
+        }
+        Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), new SysUser(), propertyFilters, "status <> 0");
         model.addAttribute("page", page);
         return "modules/sys/userList";
     }

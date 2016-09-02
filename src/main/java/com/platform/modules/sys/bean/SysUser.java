@@ -26,6 +26,8 @@ public class SysUser extends BaseEntity<SysUser> {
 
     private static final long serialVersionUID = 1L;
     private Integer id;
+    private String companyId;
+    private String officeId;
     private String username;
     private String realName;
     private String mobile;
@@ -34,6 +36,8 @@ public class SysUser extends BaseEntity<SysUser> {
     private String password;
     private Integer deviceId;
     private String token;
+    private String loginIp;
+    private String loginDate;
     @NoDbColumn
     private List<Integer> roleIdList;
     @NoDbColumn
@@ -47,6 +51,22 @@ public class SysUser extends BaseEntity<SysUser> {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getOfficeId() {
+        return officeId;
+    }
+
+    public void setOfficeId(String officeId) {
+        this.officeId = officeId;
     }
 
     @Length(min = 1, max = 20, message = "用户名长度必须介于 1 和 20 之间")
@@ -119,36 +139,20 @@ public class SysUser extends BaseEntity<SysUser> {
         this.token = token == null ? null : token.trim();
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getLoginIp() {
+        return loginIp;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setLoginIp(String loginIp) {
+        this.loginIp = loginIp;
     }
 
-    public Integer getCreateBy() {
-        return createBy;
+    public String getLoginDate() {
+        return loginDate;
     }
 
-    public void setCreateBy(Integer createBy) {
-        this.createBy = createBy;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(Integer updateBy) {
-        this.updateBy = updateBy;
+    public void setLoginDate(String loginDate) {
+        this.loginDate = loginDate;
     }
 
     public List<Integer> getRoleIdList() {

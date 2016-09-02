@@ -2,30 +2,30 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <html>
 <head>
-    <title>机构管理</title>
+    <title>用户管理</title>
     <meta name="decorator" content="default"/>
     <%@ include file="/WEB-INF/views/include/treeview.jsp" %>
     <script type="text/javascript">
         function refresh() {//刷新
-            window.location = "${ctx}/sys/office/";
+            window.location = "${ctx}/sys/user/index";
         }
     </script>
 </head>
 <body class="gray-bg">
-
 <div class="wrapper wrapper-content">
     <div class="ibox">
         <div class="ibox-content">
             <sys:message content="${message}"/>
             <div id="content" class="row">
-                <div id="left" style="background-color:#e7eaec" class="col-sm-1">
+                <div id="left" style="background-color:#e7eaec" class="leftBox col-sm-1">
                     <a onclick="refresh()" class="pull-right">
                         <i class="fa fa-refresh"></i>
                     </a>
-                    <div id="ztree" class="ztree"></div>
+                    <div id="ztree" class="ztree leftBox-content"></div>
                 </div>
                 <div id="right" class="col-sm-11 animated fadeInRight">
-                    <iframe id="officeContent" name="officeContent" src="${ctx}/sys/office/list?id=&parentIds=" width="100%" height="91%" frameborder="0"></iframe>
+                    <iframe id="officeContent" name="officeContent" src="${ctx}/sys/user/list" width="100%" height="91%"
+                            frameborder="0"></iframe>
                 </div>
             </div>
         </div>
@@ -36,8 +36,7 @@
         data: {simpleData: {enable: true, idKey: "id", pIdKey: "pId", rootPId: '0'}},
         callback: {
             onClick: function (event, treeId, treeNode) {
-                //var parentId = treeNode.pId == '0' ? '' : treeNode.pId;
-                $('#officeContent').attr("src", "${ctx}/sys/office/list?id=" + treeNode.id + "&parentIds=" + treeNode.pIds);
+                $('#officeContent').attr("src", "${ctx}/sys/user/list?officeId=" + treeNode.id + "&officeName=" + treeNode.name);
             }
         }
     };

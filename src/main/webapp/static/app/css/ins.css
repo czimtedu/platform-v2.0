@@ -7975,3 +7975,5 @@ tr.myDragClass td:last-child {
 textarea {
     resize: none;
 }
+
+.ztree {overflow:auto;}

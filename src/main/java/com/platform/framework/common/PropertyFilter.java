@@ -112,13 +112,8 @@ public class PropertyFilter {
         if (StringUtils.isEmpty(filterProperty)) {
             throw new CommonException("filter属性" + filterProperty + "没有按规则编写,无法得到属性值类型.");
         }
-        String firstPart = StringUtils.substringBefore(filterProperty, ":$");
-        this.filterProperty = firstPart;
-        //String[] tableProertyName = firstPart.split(".");
-        //tableName = StringUtils.substringBefore(firstPart, ".");
-        //propertyName = StringUtils.substringAfter(firstPart, ".");
-        //if(StringUtils.isBlank(tableName) || StringUtils.isBlank(propertyName))
-        //	throw new CommonException("filter属性" + filterProperty + "没有按规则编写,无法得到属性值类型.");
+
+        this.filterProperty = StringUtils.substringBefore(filterProperty, ":$");
         String lastPart = StringUtils.substringAfter(filterProperty, ":$");
         String matchTypeCode = StringUtils.substring(lastPart, 0, lastPart.length() - 1);
         String propertyTypeCode = StringUtils.substring(lastPart, lastPart.length() - 1, lastPart.length());

@@ -151,7 +151,7 @@ public class DaoUtils {
             case GT:
                 sb.append(" " + fieldRelationType.toString() + " " + filterProperty + " > " + matchValue);
             case IN:
-                sb.append(" " + fieldRelationType.toString() + " " + filterProperty + " in " + matchValue);
+                sb.append(" " + fieldRelationType.toString() + " " + filterProperty + " in (" + matchValue + ")");
         }
         return sb;
     }
