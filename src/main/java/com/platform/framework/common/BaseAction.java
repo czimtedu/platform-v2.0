@@ -41,7 +41,7 @@ import java.util.List;
  * @author lufengcheng
  * @date 2016-01-15 09:56:22
  */
-public abstract class BaseAction<T> extends AbstractController implements ApplicationContextAware {
+public abstract class BaseAction<T> {
 
     /**
      * 日志的记录
@@ -302,16 +302,5 @@ public abstract class BaseAction<T> extends AbstractController implements Applic
 			}
         });*/
     }
-
-    @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return null;
-    }
-
-    @Override
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return super.handleRequest(request, response);
-    }
-
 
 }

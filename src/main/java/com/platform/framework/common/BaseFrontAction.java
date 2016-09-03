@@ -37,7 +37,7 @@ import java.util.List;
  * @author lufengcheng
  * @date 2016-01-15 09:56:22
  */
-public abstract class BaseFrontAction extends AbstractController implements ApplicationContextAware {
+public abstract class BaseFrontAction {
 
     /**
      * 日志的记录
@@ -220,16 +220,5 @@ public abstract class BaseFrontAction extends AbstractController implements Appl
 			}*//*
         });*/
     }
-
-    @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return null;
-    }
-
-    @Override
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return super.handleRequest(request, response);
-    }
-
 
 }
