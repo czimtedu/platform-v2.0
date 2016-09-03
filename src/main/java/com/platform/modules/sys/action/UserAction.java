@@ -114,7 +114,7 @@ public class UserAction extends BaseAction<SysUser> {
             //conditions += " AND office_id in(" + StringUtils.idsToString(ids) + ")";
             PropertyFilter propertyFilter = new PropertyFilter();
             propertyFilter.setMatchType(PropertyFilter.MatchType.IN);
-            propertyFilter.setPropertyName("office_id");
+            propertyFilter.setPropertyName("officeId");
             propertyFilter.setMatchValue(StringUtils.idsToString(ids));
             propertyFilters.add(propertyFilter);
         }

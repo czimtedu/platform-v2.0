@@ -109,7 +109,6 @@ public class DaoUtils {
         // 则由于1=1筛选条件的存在导致OR语句之后的查询逻辑出现未预期错误
         // 因为需要在SQL语句前，进行语句修正，变更为以下格式:SELECT *  FROM TABLENAME  WHERE 1=1 AND FIELDNAME=FIELDVALUE
         // (1)修正SQL语句中多个空格为一个空格。
-        // (2)转换为大写形式
         // (3)执行语句替换
         String sqlCommand = sb.toString().replaceAll("\\s+", " ").replaceAll("WHERE 1=1 OR", "WHERE 1=1 AND");
         sb.setLength(0);
@@ -121,37 +120,38 @@ public class DaoUtils {
      * 拼接SQL 筛选条件语句
      *
      * @param sb                StringBuffer对象用以保存SQL语句
-     * @param filterProperty    字段名称
+     * @param propertyName      要过滤的属性名称
      * @param matchType         匹配类型 <code>PropertyFilter.MatchType </code>
-     * @param matchValue        值
+     * @param matchValue        匹配值
      * @param fieldRelationType 当前字段的匹配规则<code>PropertyFilter.FieldRelationType</code>
      * @return StringBuffer
      */
-    private static StringBuffer buildWhereClause(StringBuffer sb, String filterProperty, MatchType matchType,
+    private static StringBuffer buildWhereClause(StringBuffer sb, String propertyName, MatchType matchType,
                                                   Object matchValue, PropertyFilter.FieldRelationType fieldRelationType) {
+        String column = BeanToTable.beanToTable(propertyName);
         switch (matchType) {
             case EQ:
-                sb.append(" " + fieldRelationType.toString() + " " + filterProperty + " = " + matchValue);
+                sb.append(" " + fieldRelationType.toString() + " " + column + " = '" + matchValue + "'");
                 break;
             case NEQ:
-                sb.append(" " + fieldRelationType.toString() + " " + filterProperty + " <> " + matchValue);
+                sb.append(" " + fieldRelationType.toString() + " " + column + " <> '" + matchValue + "'");
                 break;
             case LIKE:
-                sb.append(" " + fieldRelationType.toString() + " " + filterProperty + " like '%" + matchValue + "%'");
+                sb.append(" " + fieldRelationType.toString() + " " + column + " like '%" + matchValue + "%'");
                 break;
             case LE:
-                sb.append(" " + fieldRelationType.toString() + " " + filterProperty + " <= '" + matchValue + "'");
+                sb.append(" " + fieldRelationType.toString() + " " + column + " <= '" + matchValue + "'");
                 break;
             case LT:
-                sb.append(" " + fieldRelationType.toString() + " " + filterProperty + " < " + matchValue);
+                sb.append(" " + fieldRelationType.toString() + " " + column + " < '" + matchValue + "'");
                 break;
             case GE:
-                sb.append(" " + fieldRelationType.toString() + " " + filterProperty + " >= '" + matchValue + "'");
+                sb.append(" " + fieldRelationType.toString() + " " + column + " >= '" + matchValue + "'");
                 break;
             case GT:
-                sb.append(" " + fieldRelationType.toString() + " " + filterProperty + " > " + matchValue);
+                sb.append(" " + fieldRelationType.toString() + " " + column + " > '" + matchValue + "'");
             case IN:
-                sb.append(" " + fieldRelationType.toString() + " " + filterProperty + " in (" + matchValue + ")");
+                sb.append(" " + fieldRelationType.toString() + " " + column + " in (" + matchValue + ")");
         }
         return sb;
     }

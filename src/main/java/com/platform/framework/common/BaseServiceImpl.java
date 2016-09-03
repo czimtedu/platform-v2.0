@@ -68,7 +68,6 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
         StringBuffer conditions = new StringBuffer();
         List<PropertyFilter> propertyFilterList = new ArrayList<>();
         PropertyFilter propertyFilter;
-        String column;
         Field[] fields = Reflections.getField(object.getClass(), null);
         for (Field field : fields) {
             field.setAccessible(true);
@@ -76,13 +75,12 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
             if (annotation != null) {
                 continue;
             }
-            column = BeanToTable.beanToTable(field.getName());
             Object value = field.get(object);
             if (!"serialVersionUID".equals(field.getName()) && value != null && !"".equals(value)) {
                 propertyFilter = new PropertyFilter();
                 propertyFilter.setPropertyClass(field.getType());
                 propertyFilter.setMatchType(PropertyFilter.MatchType.EQ);
-                propertyFilter.setPropertyName(column);
+                propertyFilter.setPropertyName(field.getName());
                 propertyFilter.setMatchValue("'" + value + "'");
                 propertyFilterList.add(propertyFilter);
             }
@@ -112,7 +110,6 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
             propertyFilters = new ArrayList<>();
         }
         PropertyFilter propertyFilter;
-        String column;
         Field[] fields = Reflections.getField(object.getClass(), null);
         for (Field field : fields) {
             field.setAccessible(true);
@@ -120,13 +117,12 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
             if (annotation != null) {
                 continue;
             }
-            column = BeanToTable.beanToTable(field.getName());
             Object value = field.get(object);
             if (!"serialVersionUID".equals(field.getName()) && value != null && !value.equals("")) {
                 propertyFilter = new PropertyFilter();
                 propertyFilter.setPropertyClass(field.getType());
                 propertyFilter.setMatchType(PropertyFilter.MatchType.LIKE);
-                propertyFilter.setPropertyName(column);
+                propertyFilter.setPropertyName(field.getName());
                 propertyFilter.setMatchValue(value);
                 propertyFilters.add(propertyFilter);
             }
