@@ -29,8 +29,8 @@ import java.util.List;
 /**
  * 导入Excel文件（支持“XLS”和“XLSX”格式）
  *
- * @author lufengcheng
- * @date 2016-01-15 09:56:22
+ * @author lufengc
+ * @date 2016-01-15
  */
 public class ImportExcel {
 
@@ -53,7 +53,8 @@ public class ImportExcel {
 
     /**
      * 构造函数
-     * @param fileName 导入文件，读取第一个工作表
+     *
+     * @param fileName  导入文件，读取第一个工作表
      * @param headerNum 标题行号，数据行号=标题行号+1
      * @throws InvalidFormatException
      * @throws IOException
@@ -65,7 +66,8 @@ public class ImportExcel {
 
     /**
      * 构造函数
-     * @param file 导入文件对象，读取第一个工作表
+     *
+     * @param file      导入文件对象，读取第一个工作表
      * @param headerNum 标题行号，数据行号=标题行号+1
      * @throws InvalidFormatException
      * @throws IOException
@@ -77,8 +79,9 @@ public class ImportExcel {
 
     /**
      * 构造函数
-     * @param fileName 导入文件
-     * @param headerNum 标题行号，数据行号=标题行号+1
+     *
+     * @param fileName   导入文件
+     * @param headerNum  标题行号，数据行号=标题行号+1
      * @param sheetIndex 工作表编号
      * @throws InvalidFormatException
      * @throws IOException
@@ -90,8 +93,9 @@ public class ImportExcel {
 
     /**
      * 构造函数
-     * @param file 导入文件对象
-     * @param headerNum 标题行号，数据行号=标题行号+1
+     *
+     * @param file       导入文件对象
+     * @param headerNum  标题行号，数据行号=标题行号+1
      * @param sheetIndex 工作表编号
      * @throws InvalidFormatException
      * @throws IOException
@@ -103,9 +107,10 @@ public class ImportExcel {
 
     /**
      * 构造函数
+     *
      * @param multipartFile 导入文件对象
-     * @param headerNum 标题行号，数据行号=标题行号+1
-     * @param sheetIndex 工作表编号
+     * @param headerNum     标题行号，数据行号=标题行号+1
+     * @param sheetIndex    工作表编号
      * @throws InvalidFormatException
      * @throws IOException
      */
@@ -116,24 +121,25 @@ public class ImportExcel {
 
     /**
      * 构造函数
-     * @param fileName 导入文件对象
-     * @param headerNum 标题行号，数据行号=标题行号+1
+     *
+     * @param fileName   导入文件对象
+     * @param headerNum  标题行号，数据行号=标题行号+1
      * @param sheetIndex 工作表编号
      * @throws InvalidFormatException
      * @throws IOException
      */
     public ImportExcel(String fileName, InputStream is, int headerNum, int sheetIndex)
             throws InvalidFormatException, IOException {
-        if (StringUtils.isBlank(fileName)){
+        if (StringUtils.isBlank(fileName)) {
             throw new RuntimeException("导入文档为空!");
-        }else if(fileName.toLowerCase().endsWith("xls")){
+        } else if (fileName.toLowerCase().endsWith("xls")) {
             this.wb = new HSSFWorkbook(is);
-        }else if(fileName.toLowerCase().endsWith("xlsx")){
+        } else if (fileName.toLowerCase().endsWith("xlsx")) {
             this.wb = new XSSFWorkbook(is);
-        }else{
+        } else {
             throw new RuntimeException("文档格式不正确!");
         }
-        if (this.wb.getNumberOfSheets()<sheetIndex){
+        if (this.wb.getNumberOfSheets() < sheetIndex) {
             throw new RuntimeException("文档中没有工作表!");
         }
         this.sheet = this.wb.getSheetAt(sheetIndex);
@@ -143,61 +149,66 @@ public class ImportExcel {
 
     /**
      * 获取行对象
+     *
      * @param rownum
      * @return
      */
-    public Row getRow(int rownum){
+    public Row getRow(int rownum) {
         return this.sheet.getRow(rownum);
     }
 
     /**
      * 获取数据行号
+     *
      * @return
      */
-    public int getDataRowNum(){
-        return headerNum+1;
+    public int getDataRowNum() {
+        return headerNum + 1;
     }
 
     /**
      * 获取最后一个数据行号
+     *
      * @return
      */
-    public int getLastDataRowNum(){
-        return this.sheet.getLastRowNum()+headerNum;
+    public int getLastDataRowNum() {
+        return this.sheet.getLastRowNum() + headerNum;
     }
 
     /**
      * 获取最后一个列号
+     *
      * @return
      */
-    public int getLastCellNum(){
+    public int getLastCellNum() {
         return this.getRow(headerNum).getLastCellNum();
     }
 
     /**
      * 获取单元格值
-     * @param row 获取的行
+     *
+     * @param row    获取的行
      * @param column 获取单元格列号
      * @return 单元格值
      */
-    public Object getCellValue(Row row, int column){
+    public Object getCellValue(Row row, int column) {
         Object val = "";
-        try{
+        try {
             Cell cell = row.getCell(column);
-            if (cell != null){
-                if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC){
+            if (cell != null) {
+                if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
                     val = cell.getNumericCellValue();
-                }else if (cell.getCellType() == Cell.CELL_TYPE_STRING){
+                } else if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
                     val = cell.getStringCellValue();
-                }else if (cell.getCellType() == Cell.CELL_TYPE_FORMULA){
+                } else if (cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
                     val = cell.getCellFormula();
-                }else if (cell.getCellType() == Cell.CELL_TYPE_BOOLEAN){
+                } else if (cell.getCellType() == Cell.CELL_TYPE_BOOLEAN) {
                     val = cell.getBooleanCellValue();
-                }else if (cell.getCellType() == Cell.CELL_TYPE_ERROR){
+                } else if (cell.getCellType() == Cell.CELL_TYPE_ERROR) {
                     val = cell.getErrorCellValue();
                 }
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             return val;
         }
         return val;
@@ -205,55 +216,56 @@ public class ImportExcel {
 
     /**
      * 获取导入数据列表
-     * @param cls 导入对象类型
+     *
+     * @param cls    导入对象类型
      * @param groups 导入分组
      */
-    public <E> List<E> getDataList(Class<E> cls, int... groups) throws InstantiationException, IllegalAccessException{
+    public <E> List<E> getDataList(Class<E> cls, int... groups) throws InstantiationException, IllegalAccessException {
         List<Object[]> annotationList = Lists.newArrayList();
         // Get annotation field
         Field[] fs = cls.getDeclaredFields();
-        for (Field f : fs){
+        for (Field f : fs) {
             ExcelField ef = f.getAnnotation(ExcelField.class);
-            if (ef != null && (ef.type()==0 || ef.type()==2)){
-                if (groups!=null && groups.length>0){
+            if (ef != null && (ef.type() == 0 || ef.type() == 2)) {
+                if (groups != null && groups.length > 0) {
                     boolean inGroup = false;
-                    for (int g : groups){
-                        if (inGroup){
+                    for (int g : groups) {
+                        if (inGroup) {
                             break;
                         }
-                        for (int efg : ef.groups()){
-                            if (g == efg){
+                        for (int efg : ef.groups()) {
+                            if (g == efg) {
                                 inGroup = true;
                                 annotationList.add(new Object[]{ef, f});
                                 break;
                             }
                         }
                     }
-                }else{
+                } else {
                     annotationList.add(new Object[]{ef, f});
                 }
             }
         }
         // Get annotation method
         Method[] ms = cls.getDeclaredMethods();
-        for (Method m : ms){
+        for (Method m : ms) {
             ExcelField ef = m.getAnnotation(ExcelField.class);
-            if (ef != null && (ef.type()==0 || ef.type()==2)){
-                if (groups!=null && groups.length>0){
+            if (ef != null && (ef.type() == 0 || ef.type() == 2)) {
+                if (groups != null && groups.length > 0) {
                     boolean inGroup = false;
-                    for (int g : groups){
-                        if (inGroup){
+                    for (int g : groups) {
+                        if (inGroup) {
                             break;
                         }
-                        for (int efg : ef.groups()){
-                            if (g == efg){
+                        for (int efg : ef.groups()) {
+                            if (g == efg) {
                                 inGroup = true;
                                 annotationList.add(new Object[]{ef, m});
                                 break;
                             }
                         }
                     }
-                }else{
+                } else {
                     annotationList.add(new Object[]{ef, m});
                 }
             }
@@ -271,97 +283,97 @@ public class ImportExcel {
         // Get excel data
         List<E> dataList = Lists.newArrayList();
         for (int i = this.getDataRowNum(); i < this.getLastDataRowNum(); i++) {
-            E e = (E)cls.newInstance();
+            E e = (E) cls.newInstance();
             int column = 0;
             Row row = this.getRow(i);
             StringBuilder sb = new StringBuilder();
-            for (Object[] os : annotationList){
+            for (Object[] os : annotationList) {
                 Object val = this.getCellValue(row, column++);
-                if (val != null){
-                    ExcelField ef = (ExcelField)os[0];
+                if (val != null) {
+                    ExcelField ef = (ExcelField) os[0];
                     // If is oa type, get oa value
-                    if (StringUtils.isNotBlank(ef.dictType())){
+                    if (StringUtils.isNotBlank(ef.dictType())) {
                         //val = DictUtils.getDictValue(val.toString(), ef.dictType(), "");
                         //log.debug("Dictionary type value: ["+i+","+colunm+"] " + val);
                     }
                     // Get param type and type cast
                     Class<?> valType = Class.class;
-                    if (os[1] instanceof Field){
-                        valType = ((Field)os[1]).getType();
-                    }else if (os[1] instanceof Method){
-                        Method method = ((Method)os[1]);
-                        if ("get".equals(method.getName().substring(0, 3))){
+                    if (os[1] instanceof Field) {
+                        valType = ((Field) os[1]).getType();
+                    } else if (os[1] instanceof Method) {
+                        Method method = ((Method) os[1]);
+                        if ("get".equals(method.getName().substring(0, 3))) {
                             valType = method.getReturnType();
-                        }else if("set".equals(method.getName().substring(0, 3))){
-                            valType = ((Method)os[1]).getParameterTypes()[0];
+                        } else if ("set".equals(method.getName().substring(0, 3))) {
+                            valType = ((Method) os[1]).getParameterTypes()[0];
                         }
                     }
                     //log.debug("Import value type: ["+i+","+column+"] " + valType);
                     try {
-                        if (valType == String.class){
+                        if (valType == String.class) {
                             String s = String.valueOf(val.toString());
-                            if(StringUtils.endsWith(s, ".0")){
+                            if (StringUtils.endsWith(s, ".0")) {
                                 val = StringUtils.substringBefore(s, ".0");
-                            }else{
+                            } else {
                                 val = String.valueOf(val.toString());
                             }
-                        }else if (valType == Integer.class){
+                        } else if (valType == Integer.class) {
                             val = Double.valueOf(val.toString()).intValue();
-                        }else if (valType == Long.class){
+                        } else if (valType == Long.class) {
                             val = Double.valueOf(val.toString()).longValue();
-                        }else if (valType == Double.class){
+                        } else if (valType == Double.class) {
                             val = Double.valueOf(val.toString());
-                        }else if (valType == Float.class){
+                        } else if (valType == Float.class) {
                             val = Float.valueOf(val.toString());
-                        }else if (valType == Date.class){
+                        } else if (valType == Date.class) {
                             val = DateUtil.getJavaDate((Double) val);
-                        }else{
-                            if (ef.fieldType() != Class.class){
+                        } else {
+                            if (ef.fieldType() != Class.class) {
                                 val = ef.fieldType().getMethod("getValue", String.class).invoke(null, val.toString());
-                            }else{
+                            } else {
                                 val = Class.forName(this.getClass().getName().replaceAll(this.getClass().getSimpleName(),
-                                        "fieldtype."+valType.getSimpleName()+"Type")).getMethod("getValue", String.class).invoke(null, val.toString());
+                                        "fieldtype." + valType.getSimpleName() + "Type")).getMethod("getValue", String.class).invoke(null, val.toString());
                             }
                         }
                     } catch (Exception ex) {
-                        log.info("Get cell value ["+i+","+column+"] error: " + ex.toString());
+                        log.info("Get cell value [" + i + "," + column + "] error: " + ex.toString());
                         val = null;
                     }
                     // set entity value
-                    if (os[1] instanceof Field){
+                    if (os[1] instanceof Field) {
                         Reflections.invokeSetter(e, ((Field) os[1]).getName(), val);
-                    }else if (os[1] instanceof Method){
-                        String mthodName = ((Method)os[1]).getName();
-                        if ("get".equals(mthodName.substring(0, 3))){
-                            mthodName = "set"+StringUtils.substringAfter(mthodName, "get");
+                    } else if (os[1] instanceof Method) {
+                        String mthodName = ((Method) os[1]).getName();
+                        if ("get".equals(mthodName.substring(0, 3))) {
+                            mthodName = "set" + StringUtils.substringAfter(mthodName, "get");
                         }
-                        Reflections.invokeMethod(e, mthodName, new Class[] {valType}, new Object[] {val});
+                        Reflections.invokeMethod(e, mthodName, new Class[]{valType}, new Object[]{val});
                     }
                 }
-                sb.append(val+", ");
+                sb.append(val + ", ");
             }
             dataList.add(e);
-            log.debug("Read success: ["+i+"] "+sb.toString());
+            log.debug("Read success: [" + i + "] " + sb.toString());
         }
         return dataList;
     }
 
-	/**
-	 * 导入测试
-	 */
-	public static void main(String[] args) throws Throwable {
+    /**
+     * 导入测试
+     */
+    public static void main(String[] args) throws Throwable {
 
-		ImportExcel ei = new ImportExcel("target/export.xlsx", 1);
+        ImportExcel ei = new ImportExcel("target/export.xlsx", 1);
 
-		for (int i = ei.getDataRowNum(); i < ei.getLastDataRowNum(); i++) {
-			Row row = ei.getRow(i);
-			for (int j = 0; j < ei.getLastCellNum(); j++) {
-				Object val = ei.getCellValue(row, j);
-				System.out.print(val+", ");
-			}
-			System.out.print("\n");
-		}
+        for (int i = ei.getDataRowNum(); i < ei.getLastDataRowNum(); i++) {
+            Row row = ei.getRow(i);
+            for (int j = 0; j < ei.getLastCellNum(); j++) {
+                Object val = ei.getCellValue(row, j);
+                System.out.print(val + ", ");
+            }
+            System.out.print("\n");
+        }
 
-	}
+    }
 
 }

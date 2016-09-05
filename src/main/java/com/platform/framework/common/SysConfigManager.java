@@ -53,7 +53,27 @@ public class SysConfigManager {
         if (sysRootPath == null) {
             sysRootPath = System.getProperty("platform.root");
         }
+        if(sysRootPath == null){
+            String path = Thread.currentThread().getContextClassLoader()
+                    .getResource("").toString();
+            String temp = path.replaceFirst("file:/", "").replaceFirst(
+                    "WEB-INF/classes/", "");
+            String separator = System.getProperty("file.separator");
+            sysRootPath = temp.replaceAll("/", separator + separator);
+        }
         return sysRootPath;
+    }
+
+    /**
+     * 获取class路径
+     *
+     * @return 路径
+     */
+    public static String getClassPath() {
+        String path = Thread.currentThread().getContextClassLoader().getResource("").toString();
+        String temp = path.replaceFirst("file:/", "");
+        String separator = System.getProperty("file.separator");
+        return temp.replaceAll("/", separator + separator);
     }
 
     /**

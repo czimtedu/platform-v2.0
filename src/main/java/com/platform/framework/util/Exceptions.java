@@ -4,16 +4,15 @@
 
 package com.platform.framework.util;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 关于异常的工具类
  *
- * @author lufengcheng
- * @date 2016-01-15 09:56:22
+ * @author lufengc
+ * @date 2016-01-15
  */
 public class Exceptions {
 

@@ -7,18 +7,13 @@ package com.platform.framework.util;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 集合工具类
  *
- * @author lufengcheng
- * @date 2016-01-15 09:56:22
+ * @author calvin
+ * @date 2016-01-15
  */
 public class Collections3 {
 

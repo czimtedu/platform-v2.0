@@ -4,6 +4,8 @@
 
 package com.platform.framework.test.domain;
 
+import com.platform.framework.common.SysConfigManager;
+
 /**
  * 注释格式示例
  *
@@ -24,4 +26,7 @@ public class Test {
         return "";
     }
 
+    public static void main(String[] args) {
+        System.out.println(SysConfigManager.getClassPath());
+    }
 }

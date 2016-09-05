@@ -4,6 +4,14 @@
 
 package com.platform.framework.util;
 
+import com.google.common.collect.Lists;
+import com.platform.framework.common.SpringContextHolder;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.LocaleResolver;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Locale;
@@ -11,21 +19,11 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.LocaleResolver;
-
-import com.google.common.collect.Lists;
-import com.platform.framework.common.SpringContextHolder;
-
 /**
  * 字符串工具类, 继承org.apache.commons.lang3.StringUtils类
  *
- * @author lufengcheng
- * @date 2016-01-15 09:56:22
+ * @author lufengc
+ * @date 2016-01-15
  */
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
@@ -335,6 +333,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
     /**
      * id设置为字符串形式 如："1,2,3,4," to "'1','2','3','4'"
+     *
      * @param ids
      * @return
      */

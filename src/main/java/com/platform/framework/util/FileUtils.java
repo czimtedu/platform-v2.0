@@ -4,26 +4,21 @@
 
 package com.platform.framework.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Enumeration;
-
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipFile;
 import org.apache.tools.zip.ZipOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.*;
+import java.util.Enumeration;
+
 /**
  * 文件工具操作类
  * 实现文件的创建、删除、复制、压缩、解压以及目录的创建、删除、复制、压缩解压等功能
  *
- * @author lufengcheng
- * @date 2016-01-15 09:56:22
+ * @author calvin
+ * @date 2016-01-15
  */
 public class FileUtils extends org.apache.commons.io.FileUtils {
 

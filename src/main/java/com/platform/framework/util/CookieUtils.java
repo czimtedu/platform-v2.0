@@ -14,8 +14,8 @@ import java.net.URLEncoder;
 /**
  * Cookie工具类
  *
- * @author lufengcheng
- * @date 2016-01-15 09:56:22
+ * @author lufengc
+ * @date 2016-01-15
  */
 public class CookieUtils {
 

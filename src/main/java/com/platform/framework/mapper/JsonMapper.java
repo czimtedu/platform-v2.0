@@ -25,8 +25,10 @@ import java.util.Map;
 import java.util.TimeZone;
 
 /**
- * @author lufengc
- * @date 2016/4/13 11:26
+ *  简单封装Jackson，实现JSON String<->Java Object的Mapper.
+ *  封装不同的输出风格, 使用不同的builder函数创建实例.
+ * @author calvin
+ * @date 2013-01-15
  */
 public class JsonMapper extends ObjectMapper {
     private static final long serialVersionUID = 1L;

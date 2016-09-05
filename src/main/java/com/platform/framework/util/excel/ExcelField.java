@@ -12,8 +12,8 @@ import java.lang.annotation.Target;
 /**
  * Excel注解定义
  *
- * @author lufengcheng
- * @date 2016-01-15 09:56:22
+ * @author lufengc
+ * @date 2016-01-15
  */
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

@@ -19,7 +19,7 @@ import java.util.UUID;
 /**
  * Hex、Base64编码和解码
  *
- * @author lufengcheng
+ * @author lufengc
  * @date 2016-01-15 09:56:22
  */
 public class Encodes {
@@ -83,11 +83,11 @@ public class Encodes {
     }
 
     /**
-	 * Base64编码, URL安全(将Base64中的URL非法字符'+'和'/'转为'-'和'_', 见RFC3548).
-	 */
-	public static byte[] encodeUrlSafeBase64(byte[] input) {
-		return Base64.encodeBase64URLSafe(input);
-	}
+     * Base64编码, URL安全(将Base64中的URL非法字符'+'和'/'转为'-'和'_', 见RFC3548).
+     */
+    public static byte[] encodeUrlSafeBase64(byte[] input) {
+        return Base64.encodeBase64URLSafe(input);
+    }
 
     /**
      * Base64解码.

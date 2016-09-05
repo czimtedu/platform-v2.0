@@ -19,8 +19,8 @@ import java.util.Map;
 /**
  * 对象操作工具类, 继承org.apache.commons.lang3.ObjectUtils类
  *
- * @author lufengcheng
- * @date 2016-01-15 09:56:22
+ * @author lufengc
+ * @date 2016-01-15
  */
 public class ObjectUtils extends org.apache.commons.lang3.ObjectUtils {
 
@@ -145,7 +145,7 @@ public class ObjectUtils extends org.apache.commons.lang3.ObjectUtils {
      * map转Object
      *
      * @param beanClass 实体类
-     * @param map map对象
+     * @param map       map对象
      * @return Object
      */
     public static <T> T mapToObject(Class<T> beanClass, Map map) {

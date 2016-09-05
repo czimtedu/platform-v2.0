@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 /**
  * 以静态变量保存Spring ApplicationContext, 可在任何代码任何地方任何时候取出ApplicaitonContext.
  *
- * @author lufengcheng
- * @date 2016-01-15 09:56:22
+ * @author Zaric
+ * @date 2013-5-29
  */
 @Service
 @Lazy(false)
