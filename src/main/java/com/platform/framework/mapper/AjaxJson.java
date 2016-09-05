@@ -20,7 +20,7 @@ public class AjaxJson {
 	private boolean success = true;// 是否成功
 	private String errorCode = "-1";//错误代码
 	private String msg = "操作成功";// 提示信息
-	private LinkedHashMap<String, Object> body = new LinkedHashMap();//封装json的map
+	private LinkedHashMap<String, Object> body = new LinkedHashMap<>();//封装json的map
 	
 	public LinkedHashMap<String, Object> getBody() {
 		return body;
@@ -59,8 +59,7 @@ public class AjaxJson {
 	@JsonIgnore//返回对象时忽略此属性
 	public String getJsonStr() {//返回json字符串数组，将访问msg和key的方式统一化，都使用data.key的方式直接访问。
 
-		String json = JsonMapper.getInstance().toJson(this);
-		return json;
+		return JsonMapper.getInstance().toJson(this);
 	}
 
 	public void setErrorCode(String errorCode) {
