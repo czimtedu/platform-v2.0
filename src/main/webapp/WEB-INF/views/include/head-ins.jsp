@@ -25,7 +25,6 @@
 <script src="${ctxStatic}/static/plugins/pace/pace.min.js"></script><%--网页自动加载进度条--%>
 <script src="${ctxStatic}/static/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="${ctxStatic}/static/plugins/icheck/icheck.min.js"></script>
-<script src="${ctxStatic}/static/plugins/icheck/icheck-init.js"></script>
 <script src="${ctxStatic}/static/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="${ctxStatic}/static/plugins/layer/layer.js"></script>
 
@@ -33,7 +32,16 @@
 <script src="${ctxStatic}/static/app/js/common.js"></script>
 <script src="${ctxStatic}/static/app/js/contabs.js"></script>
 
-<script type="text/javascript">var ctx = '${ctx}', ctxStatic = '${ctxStatic}';</script>
+<script type="text/javascript">
+    var ctx = '${ctx}', ctxStatic = '${ctxStatic}';
+    $(document).ready(function () {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+            increaseArea: '20%'
+        });
+    });
+</script>
 
 
 
