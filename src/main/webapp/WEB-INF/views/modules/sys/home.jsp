@@ -9,8 +9,8 @@
 <div class="row  border-bottom white-bg dashboard-header">
     <div class="col-sm-12">
         <blockquote class="text-info" style="font-size:14px">
-            首页，说明
-            <br>…………
+            <div>上次登录时间：${sessionScope.loginDate}，登录IP：${sessionScope.loginIp}</div>
+            <div>本次登录时间：${fn:substring(fns:getUser().loginTime, 0, 19)}，登录IP：${fns:getUser().loginIp}</div>
         </blockquote>
         <hr>
     </div>

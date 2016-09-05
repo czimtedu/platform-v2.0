@@ -37,7 +37,7 @@ public class SysUser extends BaseEntity<SysUser> {
     private Integer deviceId;
     private String token;
     private String loginIp;
-    private String loginDate;
+    private Date loginTime;
     @NoDbColumn
     private List<Integer> roleIdList;
     @NoDbColumn
@@ -147,12 +147,12 @@ public class SysUser extends BaseEntity<SysUser> {
         this.loginIp = loginIp;
     }
 
-    public String getLoginDate() {
-        return loginDate;
+    public Date getLoginTime() {
+        return loginTime;
     }
 
-    public void setLoginDate(String loginDate) {
-        this.loginDate = loginDate;
+    public void setLoginTime(Date loginTime) {
+        this.loginTime = loginTime;
     }
 
     public List<Integer> getRoleIdList() {

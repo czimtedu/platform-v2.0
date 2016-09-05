@@ -8,15 +8,23 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import com.platform.framework.util.DateUtils;
+import com.platform.framework.util.Servlets;
+import com.platform.framework.util.UserAgentUtils;
+import com.platform.modules.sys.bean.SysUser;
+import com.platform.modules.sys.service.UserService;
 import com.platform.modules.sys.utils.UserUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.platform.framework.util.StringUtils;
+
+import java.util.Date;
 
 /**
  * 表单验证（包含验证码）过滤类
@@ -26,6 +34,9 @@ import com.platform.framework.util.StringUtils;
  */
 @Service
 public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.FormAuthenticationFilter {
+
+    @Autowired
+    private UserService userService;
 
 	public static final String DEFAULT_CAPTCHA_PARAM = "validateCode";
 	public static final String DEFAULT_MOBILE_PARAM = "mobileLogin";
@@ -79,6 +90,16 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 	protected void issueSuccessRedirect(ServletRequest request,
 			ServletResponse response) throws Exception {
 		SecurityRealm.Principal p = UserUtils.getPrincipal();
+
+        // 登录成功后，获取上次登录的时间和IP
+        SysUser user = UserUtils.getUser();
+        UserUtils.putCache("loginDate", DateUtils.formatDateTime(user.getLoginTime()));
+        UserUtils.putCache("loginIp", user.getLoginIp());
+        // 更新用户登录时间跟IP
+        user.setLoginTime(new Date());
+        user.setLoginIp(UserAgentUtils.getIpAddr(Servlets.getRequest()));
+        userService.updateUserInfo(user);
+
 		if (p != null && !p.isMobileLogin()){
 			 WebUtils.issueRedirect(request, response, getSuccessUrl(), null, true);
 		}else{

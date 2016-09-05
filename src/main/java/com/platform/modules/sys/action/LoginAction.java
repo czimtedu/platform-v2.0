@@ -5,6 +5,7 @@
 package com.platform.modules.sys.action;
 
 import com.google.common.collect.Maps;
+import com.platform.framework.util.*;
 import com.platform.modules.sys.bean.SysUser;
 import com.platform.framework.cache.JedisUtils;
 import com.platform.framework.common.Global;
@@ -12,12 +13,10 @@ import com.platform.framework.common.SysConfigManager;
 import com.platform.framework.security.FormAuthenticationFilter;
 import com.platform.framework.security.SecurityRealm;
 import com.platform.framework.security.SecurityRealm.Principal;
+import com.platform.modules.sys.service.UserService;
 import com.platform.modules.sys.utils.UserUtils;
 import com.platform.framework.security.shiro.session.SessionDAO;
 import com.platform.framework.servlet.ValidateCodeServlet;
-import com.platform.framework.util.CookieUtils;
-import com.platform.framework.util.Encodes;
-import com.platform.framework.util.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
@@ -35,6 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 
 /**

@@ -7,6 +7,7 @@ package com.platform.framework.common;
 import java.lang.reflect.Field;
 import java.util.*;
 
+import com.platform.framework.util.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,11 +16,6 @@ import com.platform.modules.sys.bean.NoDbColumn;
 import com.platform.framework.cache.JedisCachedOrignal;
 import com.platform.framework.exception.CommonException;
 import com.platform.modules.sys.utils.UserUtils;
-import com.platform.framework.util.BeanToTable;
-import com.platform.framework.util.DaoUtils;
-import com.platform.framework.util.ObjectUtils;
-import com.platform.framework.util.Reflections;
-import com.platform.framework.util.StringUtils;
 
 /**
  * mybatis接口实现类
@@ -302,9 +298,10 @@ public class MybatisDao {
                             continue;
                         }
                         if (field.get(obj) != null) {
-                            if (field.getType().getName().equals(String.class.getName())
-                                    || field.getType().getName().equals(Date.class.getName())) {
+                            if (field.getType().getName().equals(String.class.getName())) {
                                 value = "'" + field.get(obj) + "',";
+                            } else if (field.getType().getName().equals(Date.class.getName())) {
+                                value =  "'" + new java.sql.Timestamp(((Date)field.get(obj)).getTime()) + "',";
                             } else {
                                 value = field.get(obj) + ",";
                             }
@@ -417,9 +414,10 @@ public class MybatisDao {
                             continue;
                         }
                         if (field.get(obj) != null) {
-                            if (field.getType().getName().equals(String.class.getName())
-                                    || field.getType().getName().equals(Date.class.getName())) {
+                            if (field.getType().getName().equals(String.class.getName())) {
                                 value += "'" + field.get(obj) + "',";
+                            } else if (field.getType().getName().equals(Date.class.getName())) {
+                                value +=  "'" + new java.sql.Timestamp(((Date)field.get(obj)).getTime()) + "',";
                             } else {
                                 value += field.get(obj) + ",";
                             }

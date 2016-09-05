@@ -24,7 +24,6 @@ import java.util.List;
  * @date 2016-01-15 09:53:27
  */
 @Service
-@Transactional(readOnly = true)
 public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserService {
 
     @Autowired
@@ -90,7 +89,6 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
      * @param currentUser 当前用户
      */
     @Override
-    @Transactional()
     public void updateUserInfo(SysUser currentUser) {
         mybatisDao.update(currentUser);
     }
@@ -107,7 +105,6 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
      * @throws Exception
      */
     @Override
-    @Transactional()
     public String save(SysUser object) throws Exception {
         String id;
         if (object.getId() != null) {
@@ -147,7 +144,6 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
      * @throws Exception
      */
     @Override
-    @Transactional()
     public String delete(String ids) throws Exception {
         mybatisDao.updateByConditions(SysUser.class, "status=0", "id in(" + ids + ")");
         return "";
