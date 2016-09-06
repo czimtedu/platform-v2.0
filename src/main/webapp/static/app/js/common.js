@@ -435,7 +435,6 @@ function openDialogView(title, url, width, height) {
         cancel: function (index) {
         }
     });
-
 }
 
 function searchAll() {//查询，页码清零

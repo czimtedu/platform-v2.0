@@ -29,6 +29,10 @@ public class OfficeServiceImpl extends BaseServiceImpl<SysOffice> implements Off
     @Autowired
     private MybatisDao mybatisDao;
 
+    public SysOffice get(String id) throws Exception {
+        return super.get(SysOffice.class, id);
+    }
+
     @Override
     public List<SysOffice> getList(Boolean isAll) {
         if (isAll != null && isAll) {

@@ -77,23 +77,40 @@
 	<form:form id="inputForm" modelAttribute="sysUser" action="${ctx}/sys/user/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
-		<table class="table table-bordered table-condensed dataTables-example dataTable no-footer">
+		<table class="table">
 		   <tbody>
+               <tr>
+                   <td class="active"><label class="pull-right"><span style="color: red; ">*</span>头像：</label></td>
+                   <td>
+                       <input type="hidden" name="photo" id="image_id" value="${sysUser.photo }"/>
+                       <div>
+                           <img src="<c:if test="${empty sysUser.photo}">${ctxStatic}/static/app/image/default.jpg</c:if><c:if test="${not empty sysUser.photo}">${fns:getFileUrl()}/${sysUser.photo}</c:if>"
+                                id="thumbImg" style="max-width: 100px; max-height: 100px; line-height: 20px;"/>
+                       </div>
+                       <input type="file" class="default" name="upload" onchange="imgUpload(this.value);" id="fileId" style="border: none; padding: 0;"/>
+                   </td>
+                   <td class="active"><label class="pull-right"><span style="color: red; ">*</span>用户角色:</label></td>
+                   <td>
+                       <form:checkboxes path="roleIdList" items="${fns:getRoleList()}" itemLabel="roleName" itemValue="id" htmlEscape="false" cssClass="i-checks required"/>
+                       <label class="error"></label>
+                   </td>
+               </tr>
 		      <tr>
-		         <td class="width-15 active"><label class="pull-right"><span style="color: red; ">*</span>头像：</label></td>
-		         <td colspan="3">
-					 <input type="hidden" name="photo" id="image_id" value="${sysUser.photo }"/>
-					 <div>
-						 <img src="<c:if test="${empty sysUser.photo}">${ctxStatic}/static/app/image/default.jpg</c:if><c:if test="${not empty sysUser.photo}">${fns:getFileUrl()}/${sysUser.photo}</c:if>"
-							  id="thumbImg" style="max-width: 200px; max-height: 150px; line-height: 20px;"/>
-					 </div>
-					 <input type="file" class="default" name="upload" onchange="imgUpload(this.value);" id="fileId" style="border: none; padding: 0;"/>
+		         <td class="width-15 active"><label class="pull-right"><span style="color: red; ">*</span>归属公司：</label></td>
+		         <td class="width-35">
+                     <sys:treeselect id="companyId" name="companyId" value="${sysUser.companyId}" labelName="companyName" labelValue="${sysUser.companyName}"
+                                     title="公司" url="/sys/office/treeData?type=1" cssClass="form-control required"/>
 				 </td>
-		      </tr>
+                  <td class="width-15 active"><label class="pull-right"><span style="color: red; ">*</span>归属部门：</label></td>
+                  <td>
+                      <sys:treeselect id="officeId" name="officeId" value="${sysUser.officeId}" labelName="officeName" labelValue="${sysUser.officeName}"
+                                      title="部门" url="/sys/office/treeData?type=2" cssClass="form-control required" notAllowSelectParent="true"/>
+                  </td>
+              </tr>
 
 		      <tr>
 				  <td class="active"><label class="pull-right"><span style="color: red; ">*</span>用户名:</label></td>
-				  <td class="width-35"><input id="oldUsername" name="oldUsername" type="hidden" value="${sysUser.username}">
+				  <td><input id="oldUsername" name="oldUsername" type="hidden" value="${sysUser.username}">
 					  <form:input path="username" htmlEscape="false" maxlength="50" class="form-control required"/></td>
 				  <td class="active"><label class="pull-right"><span style="color: red; ">*</span>姓名:</label></td>
 				  <td><form:input path="realName" htmlEscape="false" maxlength="50" class="form-control required"/></td>
@@ -114,11 +131,6 @@
 						  <form:option value="" label="请选择"/>
 						  <form:options items="${fns:getDictList('sys_user_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 					  </form:select>
-				  </td>
-				  <td class="active"><label class="pull-right"><span style="color: red; ">*</span>用户角色:</label></td>
-				  <td>
-					  <form:checkboxes path="roleIdList" items="${fns:getRoleList()}" itemLabel="roleName" itemValue="id" htmlEscape="false" cssClass="i-checks required"/>
-					  <label id="roleIdList-error" class="error" for="roleIdList"></label>
 				  </td>
 			  </tr>
 

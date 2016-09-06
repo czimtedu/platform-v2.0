@@ -72,11 +72,11 @@ public class UserAction extends BaseAction<SysUser> {
             sysUser = userService.get(SysUser.class, id);
             if(sysUser != null) {
                 List<SysRole> roleList = roleService.getByUserId(StringUtils.toInteger(id));
-                List<Integer> roleIdList = Lists.newArrayList();
-                for (SysRole sysRole : roleList) {
-                    roleIdList.add(sysRole.getId());
-                }
-                sysUser.setRoleIdList(roleIdList);
+                sysUser.setRoleList(roleList);
+                SysOffice office = officeService.get(sysUser.getOfficeId());
+                sysUser.setOfficeName(office.getName());
+                SysOffice company = officeService.get(sysUser.getCompanyId());
+                sysUser.setCompanyName(company.getName());
             } else {
                 sysUser = new SysUser();
             }

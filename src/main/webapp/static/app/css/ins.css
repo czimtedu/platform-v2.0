@@ -2081,9 +2081,8 @@ table.dataTable thead .sorting:after {
 
 .form-control,
 .single-line {
-    background-color: #FFFFFF;
-    background-image: none;
-    border: 1px solid #e5e6e7;
+    background: #FFFFFF none;
+    /*border: 1px solid #e5e6e7;*/
     border-radius: 1px;
     color: inherit;
     display: block;
@@ -3732,7 +3731,7 @@ nav.page-tabs .page-tabs-content {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-    border-top: 1px solid #e7eaec;
+    border-top: 0px solid #e7eaec;
     line-height: 1.42857;
     padding: 8px;
     vertical-align: middle;
@@ -7977,3 +7976,7 @@ textarea {
 }
 
 .ztree {overflow:auto;}
+
+.input-group-btn button {
+    height: 30px;
+}

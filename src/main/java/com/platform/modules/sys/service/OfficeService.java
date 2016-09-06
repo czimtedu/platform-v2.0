@@ -16,6 +16,7 @@ import java.util.List;
  */
 public interface OfficeService extends BaseService<SysOffice> {
 
+    SysOffice get(String id) throws Exception;
 
     List<SysOffice> getList(Boolean isAll);
 

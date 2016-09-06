@@ -42,6 +42,10 @@ public class SysUser extends BaseEntity<SysUser> {
     private List<Integer> roleIdList;
     @NoDbColumn
     private List<SysRole> roleList = Lists.newArrayList();
+    @NoDbColumn
+    private String officeName;
+    @NoDbColumn
+    private String companyName;
 
 
     @ExcelField(title = "ID", type = 1, align = 2, sort = 1)
@@ -156,6 +160,10 @@ public class SysUser extends BaseEntity<SysUser> {
     }
 
     public List<Integer> getRoleIdList() {
+        List<Integer> roleIdList = Lists.newArrayList();
+        for (SysRole role : roleList) {
+            roleIdList.add(role.getId());
+        }
         return roleIdList;
     }
 
@@ -181,5 +189,21 @@ public class SysUser extends BaseEntity<SysUser> {
 
     public static boolean isAdmin(Integer id) {
         return id != null && id == 1;
+    }
+
+    public void setOfficeName(String officeName) {
+        this.officeName = officeName;
+    }
+
+    public String getOfficeName() {
+        return officeName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getCompanyName() {
+        return companyName;
     }
 }

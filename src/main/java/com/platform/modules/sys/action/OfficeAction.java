@@ -167,21 +167,21 @@ public class OfficeAction extends BaseAction<SysOffice> {
      */
     @ResponseBody
     @RequestMapping(value = "treeData")
-    public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, @RequestParam(required=false) String type,
+    public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, @RequestParam(required=false) Integer type,
                                               @RequestParam(required=false) Long grade, @RequestParam(required=false) Boolean isAll) {
         List<Map<String, Object>> mapList = Lists.newArrayList();
         List<SysOffice> list = officeService.getList(isAll);
         for (SysOffice e : list) {
-            if ((StringUtils.isBlank(extId) || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1))
-                    && (type == null || (type != null && (type.equals("1") ? type.equals(e.getType()) : true)))
-                    && (grade == null || (grade != null && Integer.parseInt(e.getGrade()) <= grade.intValue()))
+            if ((StringUtils.isBlank(extId) || (!extId.equals(e.getId()) && !e.getParentIds().contains("," + extId + ",")))
+                    && (type == null || ((type != 1 || type.equals(e.getType()))))
+                    && (grade == null || (Integer.parseInt(e.getGrade()) <= grade.intValue()))
                     && Global.YES.equals(e.getUseable())) {
                 Map<String, Object> map = Maps.newHashMap();
                 map.put("id", e.getId());
                 map.put("pId", e.getParentId());
                 map.put("pIds", e.getParentIds());
                 map.put("name", e.getName());
-                if (type != null && "3".equals(type)) {
+                if (type != null && type == 3) {
                     map.put("isParent", true);
                 }
                 mapList.add(map);

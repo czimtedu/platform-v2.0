@@ -41,12 +41,7 @@
                     <div class="pull-left">
                         <shiro:hasPermission name="sys:user:edit">
                             <table:addRow url="${ctx}/sys/user/form" title="用户" width="800px" height="650px"/><!-- 增加按钮 -->
-                            <table:editRow url="${ctx}/sys/user/form" title="用户" width="800px" height="680px" id="contentTable"/><!-- 编辑按钮 -->
-                        </shiro:hasPermission>
-                        <shiro:hasPermission name="sys:user:del">
                             <table:delRow url="${ctx}/sys/user/delete" id="contentTable"/><!-- 删除按钮 -->
-                        </shiro:hasPermission>
-                        <shiro:hasPermission name="sys:user:edit">
                             <table:importExcel url="${ctx}/sys/user/import"/><!-- 导入按钮 -->
                             <table:exportExcel url="${ctx}/sys/user/export"/><!-- 导出按钮 -->
                         </shiro:hasPermission>
@@ -69,40 +64,37 @@
                         <th class="sort-column email">邮箱</th>
                         <th class="sort-column status">用户状态</th>
                         <th class="sort-column type">用户类型</th>
+                        <shiro:hasPermission name="sys:user:edit">
                         <th>操作</th>
+                        </shiro:hasPermission>
                     </tr>
                 </thead>
                 <tbody>
                 <c:forEach items="${page.list}" var="bean">
                     <tr>
                         <td><input type="checkbox" id="${bean.id}" class="i-checks"></td>
-                        <td>${bean.username}</td>
+                        <td><a href="#" onclick="openDialogView('查看', '${ctx}/sys/user/form?id=${bean.id}','800px', '650px')">
+                            ${bean.username}</a>
+                        </td>
                         <td>${bean.realName}</td>
                         <td>${bean.mobile}</td>
                         <td>${bean.email}</td>
                         <td>${fns:getDictLabel(bean.status, "sys_user_status", "")}</td>
                         <td>${fns:getDictLabel(bean.type, "sys_user_type", "")}</td>
+                        <shiro:hasPermission name="sys:user:edit">
                         <td>
                             <a href="#"
-                               onclick="openDialogView('查看', '${ctx}/sys/user/form?id=${bean.id}','800px', '500px')"
+                               onclick="openDialog('修改', '${ctx}/sys/user/form?id=${bean.id}','800px', '650px')"
                                class="btn btn-link btn-xs">
-                                <i class="fa fa-search-plus"></i> 查看
+                                <i class="fa fa-edit"></i> 修改
                             </a>
-                            <shiro:hasPermission name="sys:user:edit">
-                                <a href="#"
-                                   onclick="openDialog('修改', '${ctx}/sys/user/form?id=${bean.id}','800px', '680px')"
-                                   class="btn btn-link btn-xs">
-                                    <i class="fa fa-edit"></i> 修改
-                                </a>
-                            </shiro:hasPermission>
-                            <shiro:hasPermission name="sys:user:del">
-                                <a href=""
-                                   onclick="return confirmx('确认要删除该用户吗？', '${ctx}/sys/user/delete?ids=${bean.id}')"
-                                   class="btn btn-link btn-xs">
-                                    <i class="fa fa-trash"></i> 删除
-                                </a>
-                            </shiro:hasPermission>
+                            <a href=""
+                               onclick="return confirmx('确认要删除该用户吗？', '${ctx}/sys/user/delete?ids=${bean.id}')"
+                               class="btn btn-link btn-xs">
+                                <i class="fa fa-trash"></i> 删除
+                            </a>
                         </td>
+                        </shiro:hasPermission>
                     </tr>
                 </c:forEach>
                 </tbody>
