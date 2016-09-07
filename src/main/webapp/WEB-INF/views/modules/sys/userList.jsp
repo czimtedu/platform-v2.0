@@ -18,7 +18,7 @@
             <!-- 查询条件 -->
             <div class="row">
                 <div class="col-sm-12">
-                    <form:form id="searchForm" modelAttribute="sysUser" action="${ctx}/sys/user/" method="post" class="form-inline">
+                    <form:form id="searchForm" modelAttribute="sysUser" action="${ctx}/sys/user/list" method="post" class="form-inline">
                         <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
                         <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
                         <table:sortColumn id="orderBy" name="orderBy" value="${page.orderBy}" callback="sortOrRefresh();"/><!-- 支持排序 -->
@@ -79,7 +79,7 @@
                         <td>${bean.realName}</td>
                         <td>${bean.mobile}</td>
                         <td>${bean.email}</td>
-                        <td>${fns:getDictLabel(bean.status, "sys_user_status", "")}</td>
+                        <td>${fns:getDictLabel(bean.status, "status", "")}</td>
                         <td>${fns:getDictLabel(bean.type, "sys_user_type", "")}</td>
                         <shiro:hasPermission name="sys:user:edit">
                         <td>

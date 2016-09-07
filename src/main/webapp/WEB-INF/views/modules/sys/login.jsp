@@ -18,12 +18,11 @@
     <link rel="stylesheet" href="${ctxStatic}/static/app/css/login.css">
 
     <script src="${ctxStatic}/static/plugins/jquery/jquery-2.1.4.min.js"></script>
-    <script src="${ctxStatic}/static/plugins/jquery/jquery-migrate-1.1.1.min.js"></script>
+    <script src="${ctxStatic}/static/plugins/jquery/jquery-migrate-1.2.1.min.js"></script>
     <script src="${ctxStatic}/static/plugins/jquery-validation/1.14.0/jquery.validate.min.js"></script>
     <script src="${ctxStatic}/static/plugins/jquery-validation/1.14.0/localization/messages_zh.min.js"></script>
     <script src="${ctxStatic}/static/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="${ctxStatic}/static/plugins/icheck/icheck.min.js"></script>
-    <script src="${ctxStatic}/static/plugins/icheck/icheck-init.js"></script>
     <script>
         /*if (window.top !== window.self) {
             window.top.location = window.location;

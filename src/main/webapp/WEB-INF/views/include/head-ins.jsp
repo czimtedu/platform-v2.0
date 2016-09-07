@@ -32,16 +32,7 @@
 <script src="${ctxStatic}/static/app/js/common.js"></script>
 <script src="${ctxStatic}/static/app/js/contabs.js"></script>
 
-<script type="text/javascript">
-    var ctx = '${ctx}', ctxStatic = '${ctxStatic}';
-    $(document).ready(function () {
-        $('.i-checks').iCheck({
-            checkboxClass: 'icheckbox_square-green',
-            radioClass: 'iradio_square-green',
-            increaseArea: '20%'
-        });
-    });
-</script>
+<script type="text/javascript">var ctx = '${ctx}', ctxStatic = '${ctxStatic}';</script>
 
 
 

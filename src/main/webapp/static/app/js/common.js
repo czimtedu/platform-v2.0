@@ -2,6 +2,13 @@
  * 通用公共方法
  */
 $(document).ready(function () {
+    
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+        increaseArea: '20%'
+    });
+    
     try {
         // 链接去掉虚框
         $("a").bind("focus", function () {
@@ -198,7 +205,6 @@ function alertx(mess, closed) {
 
 // 确认对话框
 function confirmx(mess, href, closed) {
-
     top.layer.confirm(mess, {icon: 3, title: '系统提示'}, function (index) {
         //do something
         if (typeof href == 'function') {

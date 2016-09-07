@@ -102,6 +102,7 @@ public class UserAction extends BaseAction<SysUser> {
     public String list(Model model, SysUser object, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         //String conditions = "status <> 0";
+        //根据当前组织机构ID查询数据
         List<PropertyFilter> propertyFilters = new ArrayList<>();
         if(StringUtils.isNotEmpty(object.getOfficeId())){
             String ids = object.getOfficeId();
@@ -118,7 +119,8 @@ public class UserAction extends BaseAction<SysUser> {
             propertyFilter.setMatchValue(StringUtils.idsToString(ids));
             propertyFilters.add(propertyFilter);
         }
-        Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), new SysUser(), propertyFilters, "status <> 0");
+        object.setOfficeId(null);
+        Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), object, propertyFilters, "status <> 0");
         model.addAttribute("page", page);
         return "modules/sys/userList";
     }
@@ -374,9 +376,7 @@ public class UserAction extends BaseAction<SysUser> {
         return mapList;
     }
 
-    /**************************
-     * app api test
-     ********************************/
+    /*************************** app api test ********************************/
 
     @ResponseBody
     @RequestMapping(value = "/appLogin", produces = "text/html;charset=UTF-8")
