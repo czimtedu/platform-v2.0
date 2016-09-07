@@ -50,7 +50,7 @@ public class PermissionAction extends BaseAction<SysPermission> {
     @ModelAttribute
     public SysPermission get(@RequestParam(required = false) String id) throws Exception {
         if (StringUtils.isNotEmpty(id)) {
-            return permissionService.get(SysPermission.class, id);
+            return permissionService.get(id);
         } else {
             return new SysPermission();
         }
@@ -100,10 +100,10 @@ public class PermissionAction extends BaseAction<SysPermission> {
                     object.setSortId(list.get(list.size() - 1).getSortId() + 10);
                 }
             } else {
-                object.setSortId(permissionService.get(SysPermission.class, object.getParentId().toString()).getSortId() + 10);
+                object.setSortId(permissionService.get(object.getParentId().toString()).getSortId() + 10);
             }
         }
-        SysPermission parent = permissionService.get(SysPermission.class, object.getParentId().toString());
+        SysPermission parent = permissionService.get(object.getParentId().toString());
         if(parent != null) {
             object.setParentName(parent.getPermissionName());
         } else {

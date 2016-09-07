@@ -30,7 +30,7 @@ public class OfficeServiceImpl extends BaseServiceImpl<SysOffice> implements Off
     private MybatisDao mybatisDao;
 
     public SysOffice get(String id) throws Exception {
-        return super.get(SysOffice.class, id);
+        return super.get(id);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class OfficeServiceImpl extends BaseServiceImpl<SysOffice> implements Off
     public String save(SysOffice object) throws Exception {
         String id;
         String oldParentIds = object.getParentIds();
-        SysOffice parent = get(SysOffice.class, object.getParentId());
+        SysOffice parent = get(object.getParentId());
         if(parent != null) {
             object.setParentIds(parent.getParentIds() + parent.getId() + ",");
         } else {

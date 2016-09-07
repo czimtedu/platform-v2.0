@@ -4,7 +4,6 @@
 
 package com.platform.modules.sys.service.impl;
 
-import com.platform.modules.sys.bean.SysOffice;
 import com.platform.modules.sys.bean.SysPermission;
 import com.platform.modules.sys.bean.SysRolePermission;
 import com.platform.modules.sys.service.PermissionService;
@@ -100,7 +99,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
     public String save(SysPermission object) throws Exception {
         String id;
         String oldParentIds = object.getParentIds();
-        SysPermission parent = get(SysPermission.class, object.getParentId().toString());
+        SysPermission parent = get(object.getParentId().toString());
         if(parent != null) {
             object.setParentIds(parent.getParentIds() + parent.getId() + ",");
         } else {

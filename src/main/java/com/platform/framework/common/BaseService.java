@@ -25,6 +25,24 @@ public interface BaseService<T> {
     String save(T object) throws Exception;
 
     /**
+     * 新增entity
+     *
+     * @param object object
+     * @return 保存的ID
+     * @throws Exception
+     */
+    void insert(T object) throws Exception;
+
+    /**
+     * 修改entity
+     *
+     * @param object object
+     * @return 保存的ID
+     * @throws Exception
+     */
+    void update(T object) throws Exception;
+
+    /**
      * 删除entity
      *
      * @param ids 删除的ID
@@ -40,7 +58,7 @@ public interface BaseService<T> {
      * @return 对象
      * @throws Exception
      */
-    T get(Class<T> clazz, String id) throws Exception;
+    T get(String id) throws Exception;
 
     /**
      * 获取列表

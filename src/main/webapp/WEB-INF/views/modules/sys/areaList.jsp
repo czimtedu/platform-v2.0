@@ -8,7 +8,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            var tpl = $("#treeTableTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+            var tpl = $("#treeTableTpl").html().replace(/(\/\/<!\-\-)|(\/\/\-\->)/g, "");
             var data = ${fns:toJson(list)}, rootId = "0";
             addRow("#treeTableList", tpl, data, rootId, true);
             $("#treeTable").treeTable({expandLevel: 5});
@@ -67,7 +67,6 @@
                     <th>区域名称</th>
                     <th>区域编码</th>
                     <th>区域类型</th>
-                    <th>备注</th>
                     <shiro:hasPermission name="sys:area:edit"><th>操作</th></shiro:hasPermission>
                 </tr>
                 </thead>
@@ -81,7 +80,6 @@
         <td><a href="#" onclick="openDialogView('查看区域', '${ctx}/sys/area/form?id={{row.id}}','800px', '500px')">{{row.name}}</a></td>
         <td>{{row.code}}</td>
         <td>{{dict.type}}</td>
-        <td>{{row.description}}</td>
         <shiro:hasPermission name="sys:area:edit">
         <td>
             <a href="#" onclick="openDialog('修改区域', '${ctx}/sys/area/form?id={{row.id}}','800px', '500px')"

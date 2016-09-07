@@ -50,7 +50,7 @@ public class OfficeAction extends BaseAction<SysOffice> {
     @ModelAttribute
     protected SysOffice get(@RequestParam(required = false) String id) throws Exception {
         if (StringUtils.isNotBlank(id)) {
-            return officeService.get(SysOffice.class, id);
+            return officeService.get(id);
         } else {
             return new SysOffice();
         }
@@ -98,13 +98,13 @@ public class OfficeAction extends BaseAction<SysOffice> {
         }*/
 
         if(office.getParentId() != null){
-            SysOffice parent = officeService.get(SysOffice.class, office.getParentId());
+            SysOffice parent = officeService.get(office.getParentId());
             if(parent != null){
                 office.setParentName(parent.getName());
             }
         }
         if(office.getId() != null){
-            SysArea area = areaService.get(SysArea.class, office.getAreaId());
+            SysArea area = areaService.get(office.getAreaId());
             if(area != null){
                 office.setAreaName(area.getName());
             }

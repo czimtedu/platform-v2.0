@@ -69,7 +69,7 @@ public class UserAction extends BaseAction<SysUser> {
     public SysUser get(@RequestParam(required = false) String id) throws Exception {
         SysUser sysUser;
         if (StringUtils.isNotEmpty(id)) {
-            sysUser = userService.get(SysUser.class, id);
+            sysUser = userService.get(id);
             if(sysUser != null) {
                 List<SysRole> roleList = roleService.getByUserId(StringUtils.toInteger(id));
                 sysUser.setRoleList(roleList);

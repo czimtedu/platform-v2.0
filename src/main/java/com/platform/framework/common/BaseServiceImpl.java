@@ -4,12 +4,11 @@
 
 package com.platform.framework.common;
 
-import com.platform.framework.util.StringUtils;
-import com.platform.modules.sys.bean.NoDbColumn;
 import com.platform.framework.exception.CommonException;
-import com.platform.framework.util.BeanToTable;
 import com.platform.framework.util.DaoUtils;
 import com.platform.framework.util.Reflections;
+import com.platform.framework.util.StringUtils;
+import com.platform.modules.sys.bean.NoDbColumn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,18 +33,37 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
      */
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Override
+    public void insert(T object) throws Exception {
+        mybatisDao.insert(object);
+    }
+
+    @Override
+    public void update(T object) throws Exception {
+        mybatisDao.update(object);
+    }
+
+    @Override
+    public String delete(String ids) throws Exception {
+        @SuppressWarnings("unchecked")
+        Class<T> entityClass = Reflections.getClassGenricType(getClass());
+        mybatisDao.deleteByIds(entityClass, ids);
+        return "";
+    }
+
     /**
      * 根据ID查询entity
      *
-     * @param clazz OBJECT
      * @param id    对象id
      * @return OBJECT
      * @throws Exception
      */
-    public T get(Class<T> clazz, String id) throws Exception {
+    public T get(String id) throws Exception {
+        @SuppressWarnings("unchecked")
+        Class<T> entityClass = Reflections.getClassGenricType(getClass());
         T entity = null;
         if(StringUtils.isNotEmpty(id)){
-            List<T> list = mybatisDao.selectListByIds(clazz, id);
+            List<T> list = mybatisDao.selectListByIds(entityClass, id);
             if (list != null && list.size() > 0) {
                 entity = list.get(0);
             }

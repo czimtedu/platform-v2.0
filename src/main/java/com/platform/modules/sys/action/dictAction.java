@@ -51,7 +51,7 @@ public class dictAction extends BaseAction<SysDict> {
     protected SysDict get(@RequestParam(required = false) String id) throws Exception {
         SysDict sysDict;
         if (StringUtils.isNotEmpty(id)) {
-            sysDict = dictService.get(SysDict.class, id);
+            sysDict = dictService.get(id);
         } else {
             sysDict = new SysDict();
         }

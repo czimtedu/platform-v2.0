@@ -64,7 +64,7 @@ public class FrontAction extends BaseFrontAction {
      */
     @RequestMapping("article/{id}")
     public String article(Model model, @PathVariable("id") String id) throws Exception {
-        CmsArticle bean = articleService.get(CmsArticle.class, id);
+        CmsArticle bean = articleService.get(id);
         if (bean == null || bean.getStatus() == 0) {
             return "error/404";
         }
@@ -135,7 +135,7 @@ public class FrontAction extends BaseFrontAction {
     public String write(Model model, String id, HttpServletRequest request) throws Exception {
         CmsArticle object;
         if (StringUtils.isNotEmpty(id)) {
-            object = articleService.get(CmsArticle.class, id);
+            object = articleService.get(id);
         } else {
             object = new CmsArticle();
         }
@@ -155,7 +155,7 @@ public class FrontAction extends BaseFrontAction {
      */
     @RequestMapping("/grz/article/{id}")
     public String grzArticle(Model model, @PathVariable("id") String id) throws Exception {
-        CmsArticle bean = articleService.get(CmsArticle.class, id);
+        CmsArticle bean = articleService.get(id);
         if (bean == null || bean.getStatus() == 0) {
             return "error/404";
         }

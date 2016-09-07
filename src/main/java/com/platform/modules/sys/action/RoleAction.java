@@ -56,7 +56,7 @@ public class RoleAction extends BaseAction<SysRole> {
     public SysRole get(@RequestParam(required = false) String id) throws Exception {
         SysRole sysRole;
         if (StringUtils.isNotEmpty(id)) {
-            sysRole =  roleService.get(SysRole.class, id);
+            sysRole =  roleService.get(id);
             StringBuilder checkedPermissionIds = new StringBuilder();
             StringBuilder permissionIds = new StringBuilder();
             List<SysPermission> permissionList = permissionService.getByRoleId(sysRole.getId());
@@ -221,8 +221,8 @@ public class RoleAction extends BaseAction<SysRole> {
     @RequiresPermissions("sys:role:edit")
     @RequestMapping(value = "outRole")
     public String outRole(Long userId, Long roleId, RedirectAttributes redirectAttributes) throws Exception {
-        SysUser user = userService.get(SysUser.class, userId.toString());
-        SysRole role = roleService.get(SysRole.class, roleId.toString());
+        SysUser user = userService.get(userId.toString());
+        SysRole role = roleService.get(roleId.toString());
         if (UserUtils.getUser().getId().equals(userId.intValue())) {
             addMessage(redirectAttributes, "无法从角色【" + role.getRoleName() + "】中移除用户【" + user.getRealName() + "】自己！");
         }else {

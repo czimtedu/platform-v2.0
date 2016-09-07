@@ -32,8 +32,8 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
     private MybatisDao mybatisDao;
 
     @Override
-    public GenTable get(Class<GenTable> clazz, String id) throws Exception {
-        GenTable genTable = super.get(clazz, id);
+    public GenTable get(String id) throws Exception {
+        GenTable genTable = super.get(id);
         List<GenTableColumn> columnList = mybatisDao.selectListByConditions(GenTableColumn.class,
                 "gen_table_id='" + genTable.getId() + "' order by sort_id asc");
         genTable.setColumnList(columnList);

@@ -4,11 +4,9 @@
 
 package com.platform.modules.sys.utils;
 
-import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.*;
 import com.platform.modules.sys.service.*;
 import org.apache.shiro.SecurityUtils;
@@ -32,11 +30,11 @@ public class UserUtils {
     private static AreaService areaService = SpringContextHolder.getBean(AreaService.class);
     private static OfficeService officeService = SpringContextHolder.getBean(OfficeService.class);
 
-    private static final String CACHE_ROLE_LIST = "roleList";
-    private static final String CACHE_PERMISSION_LIST = "permissionList";
-    private static final String CACHE_AREA_LIST = "areaList";
-    private static final String CACHE_OFFICE_LIST = "officeList";
-    private static final String CACHE_OFFICE_ALL_LIST = "officeAllList";
+    public static final String CACHE_ROLE_LIST = "roleList";
+    public static final String CACHE_PERMISSION_LIST = "permissionList";
+    public static final String CACHE_AREA_LIST = "areaList";
+    public static final String CACHE_OFFICE_LIST = "officeList";
+    public static final String CACHE_OFFICE_ALL_LIST = "officeAllList";
 
 
     /**
@@ -49,7 +47,7 @@ public class UserUtils {
         SysUser user = null;
         if(id != null){
             try {
-                user = userService.get(SysUser.class, id + "");
+                user = userService.get(id + "");
                 if(user != null){
                     user.setRoleList(roleService.getByUserId(id));
                 }

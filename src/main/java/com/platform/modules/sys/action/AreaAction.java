@@ -10,7 +10,6 @@ import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.Param;
 import com.platform.modules.sys.bean.SysArea;
 import com.platform.modules.sys.service.AreaService;
-import com.platform.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +43,7 @@ public class AreaAction extends BaseAction<SysArea> {
     @ModelAttribute
     protected SysArea get(@RequestParam(required = false) String id) throws Exception {
         if (StringUtils.isNotEmpty(id)) {
-            return areaService.get(SysArea.class, id);
+            return areaService.get(id);
         } else {
             return new SysArea();
         }
@@ -60,6 +59,10 @@ public class AreaAction extends BaseAction<SysArea> {
     @Override
     @RequestMapping(value = "form")
     protected String form(Model model, SysArea area) throws Exception {
+        SysArea parent = areaService.get(area.getParentId());
+        if(parent != null){
+            area.setParentName(parent.getName());
+        }
         model.addAttribute("area", area);
         return "modules/sys/areaForm";
     }

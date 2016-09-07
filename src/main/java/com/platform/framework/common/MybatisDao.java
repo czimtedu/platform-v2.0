@@ -445,7 +445,7 @@ public class MybatisDao {
      * @param clazz 实体类
      * @param ids         ids
      */
-    public void deleteByIds(Class clazz, String ids) {
+    public int deleteByIds(Class clazz, String ids) {
         if (clazz == null || ids == null) {
             throw new CommonException("clazz or ids is null");
         }
@@ -459,7 +459,7 @@ public class MybatisDao {
         result.setTableName(tableName);
         result.setConditions(StringUtils.idsToString(ids));
         // 删除数据库数据
-        sqlSession.delete("com.platform.framework.common.MybatisBaseDao.deleteByIds", result);
+        return sqlSession.delete("com.platform.framework.common.MybatisBaseDao.deleteByIds", result);
     }
 
 

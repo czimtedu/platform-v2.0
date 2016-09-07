@@ -14,7 +14,6 @@
             return false;
         }
         $(document).ready(function () {
-            $("#name").focus();
             validateForm = $("#inputForm").validate({
                 submitHandler: function (form) {
                     loading('正在提交，请稍等...');
@@ -41,7 +40,7 @@
         <tbody>
         <tr>
             <td class="width-15 active"><label class="pull-right"><span style="color: red; ">*</span>上级区域:</label></td>
-            <td class="width-35"><sys:treeselect id="area" name="parent.id" value="${sysArea.parentId}"
+            <td class="width-35"><sys:treeselect id="parentId" name="parentId" value="${sysArea.parentId}"
                                                  labelName="parentName" labelValue="${sysArea.parentName}"
                                                  title="区域" url="/sys/area/treeData" extId="${sysArea.id}"
                                                  cssClass="form-control required" allowClear="true"/></td>

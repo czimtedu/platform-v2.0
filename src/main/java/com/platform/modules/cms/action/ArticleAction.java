@@ -4,7 +4,6 @@
 
 package com.platform.modules.cms.action;
 
-import com.platform.framework.common.PropertyFilter;
 import com.platform.modules.cms.bean.CmsArticle;
 import com.platform.modules.cms.bean.CmsArticleData;
 import com.platform.modules.cms.service.ArticleService;
@@ -22,7 +21,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 
 /**
  * 网站Controller
@@ -49,7 +47,7 @@ public class ArticleAction extends BaseAction<CmsArticle> {
     public CmsArticle get(@RequestParam(required = false) String id) throws Exception {
         CmsArticle cmsArticle;
         if (StringUtils.isNotEmpty(id)) {
-            cmsArticle = articleService.get(CmsArticle.class, id);
+            cmsArticle = articleService.get(id);
         } else {
             cmsArticle =  new CmsArticle();
         }
