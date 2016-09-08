@@ -63,11 +63,11 @@ public class GenTableServiceImpl extends BaseServiceImpl<GenTable> implements Ge
     }
 
     @Override
-    public String delete(String ids) throws Exception {
+    public int delete(String ids) throws Exception {
         mybatisDao.deleteByIds(GenTable.class, ids);
         String deleteSql = "delete from gen_table_column where gen_table_id in (" + StringUtils.idsToString(ids) + ")";
         mybatisDao.deleteBySql(deleteSql, GenTableColumn.class);
-        return "";
+        return 1;
     }
 
     /**

@@ -5,6 +5,7 @@ package com.platform.modules.sys.service;
 
 import com.platform.framework.common.BaseService;
 import com.platform.modules.sys.bean.SysArea;
+import com.platform.modules.sys.bean.SysPermission;
 
 /**
  * 区域Service
@@ -13,6 +14,5 @@ import com.platform.modules.sys.bean.SysArea;
  * @version 2014-05-16
  */
 public interface AreaService extends BaseService<SysArea> {
-
 
 }

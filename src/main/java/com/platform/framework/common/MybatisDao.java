@@ -4,18 +4,20 @@
 
 package com.platform.framework.common;
 
-import java.lang.reflect.Field;
-import java.util.*;
-
+import com.platform.framework.cache.JedisCachedOrignal;
+import com.platform.framework.exception.CommonException;
 import com.platform.framework.util.*;
+import com.platform.modules.sys.bean.NoDbColumn;
+import com.platform.modules.sys.utils.UserUtils;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.platform.modules.sys.bean.NoDbColumn;
-import com.platform.framework.cache.JedisCachedOrignal;
-import com.platform.framework.exception.CommonException;
-import com.platform.modules.sys.utils.UserUtils;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * mybatis接口实现类
@@ -30,13 +32,14 @@ public class MybatisDao {
     private SqlSessionTemplate sqlSession;
 
     private final String[] basicTypes = {"int", "String", "long", "date", "BigDecimal", "BigInteger"};
-    private final String[] objectTypes = {"java.lang.Integer", "java.lang.String", "java.lang.Long", "java.util.Date", "java.math.BigDecimal", "java.math.BigInteger"};
+    private final String[] objectTypes = {"java.lang.Integer", "java.lang.String", "java.lang.Long", "java.util.Date",
+            "java.math.BigDecimal", "java.math.BigInteger"};
 
     /**
      * 根据指定表名实体类、id获取数据集
      *
      * @param clazz 实体类Class 不能为空
-     * @param ids         ids
+     * @param ids   ids
      * @return 数据集
      */
     @SuppressWarnings("unchecked")
@@ -79,9 +82,9 @@ public class MybatisDao {
     /**
      * 根据指定表名实体类、id、表字段名 获取数据集
      *
-     * @param clazz 实体类Class 非空
-     * @param ids         id
-     * @param fields      表字段名
+     * @param clazz  实体类Class 非空
+     * @param ids    id
+     * @param fields 表字段名
      * @return 数据集
      */
     @SuppressWarnings("unchecked")
@@ -122,9 +125,9 @@ public class MybatisDao {
     /**
      * 根据指定表名实体类、id、表字段名、筛选条件 获取数据集
      *
-     * @param clazz 实体类Class 非空
-     * @param conditions  筛选条件
-     * @param fields      表字段名
+     * @param clazz      实体类Class 非空
+     * @param conditions 筛选条件
+     * @param fields     表字段名
      * @return 数据集
      */
     public <T> List<T> selectFieldByConditions(Class<T> clazz, String conditions, String fields) {
@@ -158,8 +161,8 @@ public class MybatisDao {
     /**
      * 根据指定表名实体类、筛选条件 获取数据集
      *
-     * @param clazz 实体类Class 非空
-     * @param conditions  筛选条件
+     * @param clazz      实体类Class 非空
+     * @param conditions 筛选条件
      * @return 数据集
      */
     public <T> List<T> selectListByConditions(Class<T> clazz, String conditions) {
@@ -193,9 +196,9 @@ public class MybatisDao {
     /**
      * 根据指定表名实体类、筛选条件 获取数据集(分页功能)
      *
-     * @param clazz 实体类Class 非空
-     * @param conditions  筛选条件
-     * @param page        分页参数
+     * @param clazz      实体类Class 非空
+     * @param conditions 筛选条件
+     * @param page       分页参数
      * @return 数据集
      */
     public <T> List<T> selectPageByConditions(Class<T> clazz, String conditions, Page<?> page) {
@@ -258,7 +261,7 @@ public class MybatisDao {
      *
      * @param obj 更新对象
      */
-    public void update(Object obj) {
+    public int update(Object obj) {
         if (obj == null) {
             throw new CommonException("Object is null");
         }
@@ -301,7 +304,7 @@ public class MybatisDao {
                             if (field.getType().getName().equals(String.class.getName())) {
                                 value = "'" + field.get(obj) + "',";
                             } else if (field.getType().getName().equals(Date.class.getName())) {
-                                value =  "'" + new java.sql.Timestamp(((Date)field.get(obj)).getTime()) + "',";
+                                value = "'" + new java.sql.Timestamp(((Date) field.get(obj)).getTime()) + "',";
                             } else {
                                 value = field.get(obj) + ",";
                             }
@@ -324,17 +327,17 @@ public class MybatisDao {
         result.setTableName(tableName);
         result.setConditions(conditions);
         result.setParam(setFields);
-        sqlSession.update("com.platform.framework.common.MybatisBaseDao.update", result);
+        return sqlSession.update("com.platform.framework.common.MybatisBaseDao.update", result);
     }
 
     /**
      * 根据条件更新数据库和删除缓存：
      *
-     * @param clazz 要更新的表对应的实体类 非空
-     * @param setfields   要更新的字段（例如“userName='a', password='1'”）
-     * @param conditions  更新条件（例如“userName='a' and password='1'”）
+     * @param clazz      要更新的表对应的实体类 非空
+     * @param setfields  要更新的字段（例如“userName='a', password='1'”）
+     * @param conditions 更新条件（例如“userName='a' and password='1'”）
      */
-    public <T> void updateByConditions(Class<T> clazz, String setfields, String conditions) {
+    public <T> int updateByConditions(Class<T> clazz, String setfields, String conditions) {
         if (clazz == null || setfields == null) {
             throw new CommonException("clazz or setfields is null");
         }
@@ -357,7 +360,7 @@ public class MybatisDao {
             updateTime = Reflections.getAccessibleField(clazz.newInstance(), "updateTime");
         } catch (InstantiationException | IllegalAccessException ignored) {
         }
-        if(updateTime != null){ // 存在该属性
+        if (updateTime != null) { // 存在该属性
             setfields += ",update_time='" + new java.sql.Timestamp(new Date().getTime()) + "'";
         }
         Field updateBy = null;
@@ -365,7 +368,7 @@ public class MybatisDao {
             updateBy = Reflections.getAccessibleField(clazz.newInstance(), "updateBy");
         } catch (InstantiationException | IllegalAccessException ignored) {
         }
-        if(updateBy != null){ // 存在该属性
+        if (updateBy != null) { // 存在该属性
             setfields += ",update_by=" + UserUtils.getUserId();
         }
         ResultAndParam result = new ResultAndParam();
@@ -373,7 +376,7 @@ public class MybatisDao {
         result.setConditions(conditions);
         result.setParam(setfields);
         // 更新数据库
-        sqlSession.update("com.platform.framework.common.MybatisBaseDao.update", result);
+        return sqlSession.update("com.platform.framework.common.MybatisBaseDao.update", result);
     }
 
     /**
@@ -417,7 +420,7 @@ public class MybatisDao {
                             if (field.getType().getName().equals(String.class.getName())) {
                                 value += "'" + field.get(obj) + "',";
                             } else if (field.getType().getName().equals(Date.class.getName())) {
-                                value +=  "'" + new java.sql.Timestamp(((Date)field.get(obj)).getTime()) + "',";
+                                value += "'" + new java.sql.Timestamp(((Date) field.get(obj)).getTime()) + "',";
                             } else {
                                 value += field.get(obj) + ",";
                             }
@@ -443,7 +446,7 @@ public class MybatisDao {
      * 更新对象
      *
      * @param clazz 实体类
-     * @param ids         ids
+     * @param ids   ids
      */
     public int deleteByIds(Class clazz, String ids) {
         if (clazz == null || ids == null) {
@@ -522,17 +525,17 @@ public class MybatisDao {
     /**
      * 根据sql语句删除
      *
-     * @param sql SQL语句
+     * @param sql   SQL语句
      * @param clazz 实体类 可以为空，为空则不删除缓存
      */
-    public void deleteBySql(String sql, Class clazz) {
-        if(clazz != null){
+    public int deleteBySql(String sql, Class clazz) {
+        if (clazz != null) {
             // 检查是否缓存
             if (JedisCachedOrignal.isCached(clazz)) {
                 JedisCachedOrignal.deleteObjectLike(clazz.getName());
             }
         }
-        sqlSession.delete("com.platform.framework.common.MybatisBaseDao.deleteBySql", sql);
+        return sqlSession.delete("com.platform.framework.common.MybatisBaseDao.deleteBySql", sql);
     }
 
     /**
@@ -540,24 +543,24 @@ public class MybatisDao {
      *
      * @param sql SQL语句
      */
-    public void insertBySql(String sql) {
-        sqlSession.insert("com.platform.framework.common.MybatisBaseDao.insertBySql", sql);
+    public int insertBySql(String sql) {
+        return sqlSession.insert("com.platform.framework.common.MybatisBaseDao.insertBySql", sql);
     }
 
     /**
      * 根据sql语句更新
      *
-     * @param sql SQL语句
+     * @param sql   SQL语句
      * @param clazz 实体类 可以为空，为空则不删除缓存
      */
-    public void updateBySql(String sql, Class clazz) {
-        if(clazz != null){
+    public int updateBySql(String sql, Class clazz) {
+        if (clazz != null) {
             // 检查是否缓存
             if (JedisCachedOrignal.isCached(clazz)) {
                 JedisCachedOrignal.deleteObjectLike(clazz.getName());
             }
         }
-        sqlSession.update("com.platform.framework.common.MybatisBaseDao.updateBySql", sql);
+        return sqlSession.update("com.platform.framework.common.MybatisBaseDao.updateBySql", sql);
     }
 
 }

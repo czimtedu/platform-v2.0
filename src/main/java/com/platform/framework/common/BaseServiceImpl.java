@@ -33,36 +33,54 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
      */
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
+    /**
+     * 插入
+     *
+     * @param object T
+     * @throws Exception
+     */
     @Override
-    public void insert(T object) throws Exception {
-        mybatisDao.insert(object);
+    public String insert(T object) throws Exception {
+        return mybatisDao.insert(object);
     }
 
+    /**
+     * 更新
+     *
+     * @param object T
+     * @throws Exception
+     */
     @Override
     public void update(T object) throws Exception {
         mybatisDao.update(object);
     }
 
+    /**
+     * 删除
+     *
+     * @param ids 删除的ID
+     * @return 删除数量
+     * @throws Exception
+     */
     @Override
-    public String delete(String ids) throws Exception {
+    public int delete(String ids) throws Exception {
         @SuppressWarnings("unchecked")
         Class<T> entityClass = Reflections.getClassGenricType(getClass());
-        mybatisDao.deleteByIds(entityClass, ids);
-        return "";
+        return mybatisDao.deleteByIds(entityClass, ids);
     }
 
     /**
-     * 根据ID查询entity
+     * 根据ID查询
      *
-     * @param id    对象id
-     * @return OBJECT
+     * @param id 对象id
+     * @return Object
      * @throws Exception
      */
     public T get(String id) throws Exception {
         @SuppressWarnings("unchecked")
         Class<T> entityClass = Reflections.getClassGenricType(getClass());
         T entity = null;
-        if(StringUtils.isNotEmpty(id)){
+        if (StringUtils.isNotEmpty(id)) {
             List<T> list = mybatisDao.selectListByIds(entityClass, id);
             if (list != null && list.size() > 0) {
                 entity = list.get(0);
@@ -72,10 +90,11 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
     }
 
     /**
-     * 查询列表,参数为空 则查询所有
+     * 查询列表,
+     * 参数为空对象，则查询所有，如：getList(new SysUser())
      *
      * @param object 要查询的对象
-     * @return list
+     * @return List<T>
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
@@ -115,16 +134,16 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
     /**
      * 分页查询
      *
-     * @param page   分页信息
-     * @param object 分页对象
+     * @param page            分页信息
+     * @param object          分页对象
      * @param propertyFilters List<PropertyFilter>
-     * @return Page
+     * @return Page<T>
      * @throws Exception
      */
     @Override
     @SuppressWarnings("unchecked")
     public Page<T> getPage(Page<T> page, T object, List<PropertyFilter> propertyFilters, String conditions) throws Exception {
-        if(propertyFilters == null){
+        if (propertyFilters == null) {
             propertyFilters = new ArrayList<>();
         }
         PropertyFilter propertyFilter;

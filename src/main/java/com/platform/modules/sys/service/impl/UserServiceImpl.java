@@ -4,16 +4,16 @@
 
 package com.platform.modules.sys.service.impl;
 
-import com.platform.modules.sys.bean.SysUser;
-import com.platform.modules.sys.bean.SysUserRole;
-import com.platform.modules.sys.service.UserService;
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisDao;
 import com.platform.framework.util.Encodes;
 import com.platform.framework.util.StringUtils;
+import com.platform.modules.sys.bean.SysUser;
+import com.platform.modules.sys.bean.SysUserRole;
+import com.platform.modules.sys.service.UserService;
+import com.platform.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -46,22 +46,11 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
         return user;
     }
 
-    @Override
-    public SysUser checkUsername(String username, Integer id) {
-        List<SysUser> list = mybatisDao.selectListByConditions(
-                SysUser.class, "username = '" + username + "' AND id <> " + id);
-        SysUser user = null;
-        if (list != null && list.size() > 0) {
-            user = list.get(0);
-        }
-        return user;
-    }
-
     /**
      * 根据真实姓名查询
      *
-     * @param realName 真名
-     * @return List
+     * @param realName 姓名
+     * @return List<SysUser>
      */
     @Override
     public List<SysUser> getByRealName(String realName) {
@@ -69,9 +58,15 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
                 SysUser.class, "real_name LIKE '%" + realName + "%'");
     }
 
+    /**
+     * 根据角色ID获取用户信息
+     *
+     * @param roleId 角色ID
+     * @return List<SysUser>
+     */
     @Override
-    public List<SysUser> getByRoleId(Integer id) {
-        String sql = "select * from sys_user_role where role_id = " + id;
+    public List<SysUser> getByRoleId(Integer roleId) {
+        String sql = "select * from sys_user_role where role_id = " + roleId;
         List<SysUserRole> sysUserRoleList = mybatisDao.selectListBySql(SysUserRole.class, sql);
         StringBuilder ids = new StringBuilder();
         for (SysUserRole sysUserRole : sysUserRoleList) {
@@ -86,6 +81,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
 
     /**
      * 更新当前用户信息
+     *
      * @param currentUser 当前用户
      */
     @Override
@@ -93,6 +89,12 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
         mybatisDao.update(currentUser);
     }
 
+    /**
+     * 根据机构ID获取用户信息
+     *
+     * @param officeId 机构ID
+     * @return List<SysUser>
+     */
     @Override
     public List<SysUser> getUserByOfficeId(String officeId) {
         return mybatisDao.selectListByConditions(SysUser.class, "office_id='" + officeId + "'");
@@ -112,7 +114,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
             // 如果新密码为空，则不更换密码
             if (StringUtils.isNotBlank(object.getPassword())) {
                 object.setPassword(Encodes.entryptPassword(object.getPassword()));
-            }else{
+            } else {
                 object.setPassword(null);
             }
             mybatisDao.update(object);
@@ -126,14 +128,16 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
         //更新用户角色关联
         StringBuilder values = new StringBuilder();
         for (Integer roleId : object.getRoleIdList()) {
-            if(values.length() == 0){
+            if (values.length() == 0) {
                 values.append("(").append(id).append(",").append(roleId).append(")");
-            }else{
+            } else {
                 values.append(",").append("(").append(id).append(",").append(roleId).append(")");
             }
         }
         String saveSql = "insert into sys_user_role (user_id, role_id) values " + values.toString();
         mybatisDao.insertBySql(saveSql);
+        // 清除用户角色缓存
+        UserUtils.removeCache(UserUtils.CACHE_ROLE_LIST);
         return id;
     }
 
@@ -144,9 +148,11 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
      * @throws Exception
      */
     @Override
-    public String delete(String ids) throws Exception {
+    public int delete(String ids) throws Exception {
         mybatisDao.updateByConditions(SysUser.class, "status=0", "id in(" + ids + ")");
-        return "";
+        // 清除用户角色缓存
+        UserUtils.removeCache(UserUtils.CACHE_ROLE_LIST);
+        return 1;
     }
 
 

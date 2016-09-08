@@ -6,11 +6,11 @@ package com.platform.modules.sys.action;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.platform.framework.common.BaseAction;
+import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.Param;
 import com.platform.modules.sys.bean.SysPermission;
 import com.platform.modules.sys.service.PermissionService;
-import com.platform.framework.common.BaseAction;
-import com.platform.framework.util.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * 权限管理
  *
- * @author lufengcheng
+ * @author lufengc
  * @date 2016-01-15 09:56:22
  */
 @Controller
@@ -86,15 +86,15 @@ public class PermissionAction extends BaseAction<SysPermission> {
     @Override
     @RequestMapping(value = "form")
     public String form(Model model, SysPermission object) throws Exception {
-        if(object.getParentId() == null){
+        if (object.getParentId() == null) {
             object.setParentId(SysPermission.getRootId());
         }
         if (object.getId() == null) {
             List<SysPermission> list = Lists.newArrayList();
             List<SysPermission> sourcelist = permissionService.getList(new SysPermission());
             SysPermission.sortList(list, sourcelist, object.getParentId(), false);
-            if (list.size() > 0){
-                if(object.getParentId() == 0){
+            if (list.size() > 0) {
+                if (object.getParentId() == 0) {
                     object.setSortId(list.get(list.size() - 1).getSortId() + 10000);
                 } else {
                     object.setSortId(list.get(list.size() - 1).getSortId() + 10);
@@ -104,7 +104,7 @@ public class PermissionAction extends BaseAction<SysPermission> {
             }
         }
         SysPermission parent = permissionService.get(object.getParentId().toString());
-        if(parent != null) {
+        if (parent != null) {
             object.setParentName(parent.getPermissionName());
         } else {
             object.setParentName("功能菜单");
@@ -155,8 +155,8 @@ public class PermissionAction extends BaseAction<SysPermission> {
      */
     @RequiresPermissions("sys:menu:updateSort")
     @RequestMapping(value = "updateSort")
-    public String updateSort(String[] ids, Integer[] sorts, RedirectAttributes redirectAttributes) {
-
+    public String updateSort(Integer[] ids, Integer[] sorts, RedirectAttributes redirectAttributes) {
+        permissionService.updatePermissionSort(ids, sorts);
         addMessage(redirectAttributes, "保存菜单排序成功!");
         return "redirect:" + adminPath + "/sys/permission/";
     }
@@ -174,19 +174,20 @@ public class PermissionAction extends BaseAction<SysPermission> {
 
     /**
      * 权限树数据
-     * @param extId id
+     *
+     * @param extId      id
      * @param isShowHide 是否可见
      * @return List
      */
     @ResponseBody
     @RequestMapping(value = "treeData")
-    public List<Map<String, Object>> treeData(@RequestParam(required=false) Integer extId,
-                                              @RequestParam(required=false) Integer isShowHide) throws Exception {
+    public List<Map<String, Object>> treeData(@RequestParam(required = false) Integer extId,
+                                              @RequestParam(required = false) Integer isShowHide) throws Exception {
         List<Map<String, Object>> mapList = Lists.newArrayList();
         List<SysPermission> list = permissionService.getList(new SysPermission());
         for (SysPermission bean : list) {
-            if(extId == null || (!extId.equals(bean.getId()) && !bean.getParentIds().contains("," + extId + ","))){
-                if(isShowHide != null && isShowHide == 0 && bean.getIsShow() == 0){
+            if (extId == null || (!extId.equals(bean.getId()) && !bean.getParentIds().contains("," + extId + ","))) {
+                if (isShowHide != null && isShowHide == 0 && bean.getIsShow() == 0) {
                     continue;
                 }
                 Map<String, Object> map = Maps.newHashMap();

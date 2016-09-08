@@ -42,7 +42,7 @@ public class GuestbookServiceImpl extends BaseServiceImpl<CmsGuestbook> implemen
 
     @Override
     @Transactional()
-    public String delete(String ids) throws Exception {
-        return null;
+    public int delete(String ids) throws Exception {
+        return 0;
     }
 }

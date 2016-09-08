@@ -4,16 +4,16 @@
 
 package com.platform.modules.sys.service.impl;
 
+import com.platform.framework.common.BaseServiceImpl;
+import com.platform.framework.common.MybatisDao;
+import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.SysRole;
 import com.platform.modules.sys.bean.SysUser;
 import com.platform.modules.sys.bean.SysUserRole;
 import com.platform.modules.sys.service.RoleService;
-import com.platform.framework.common.BaseServiceImpl;
-import com.platform.framework.common.MybatisDao;
-import com.platform.framework.util.StringUtils;
+import com.platform.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,7 +24,6 @@ import java.util.List;
  * @date 2016-01-15 09:56:22
  */
 @Service
-@Transactional(readOnly = true)
 public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleService {
 
     @Autowired
@@ -51,15 +50,19 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
         return mybatisDao.selectListByIds(SysRole.class, ids.toString());
     }
 
+    /**
+     * 给角色分配用户
+     * @param role SysRole
+     * @param ids 要分配的用户ids
+     */
     @Override
-    @Transactional()
     public void assignUserToRole(SysRole role, String ids) {
         Integer roleId = role.getId();
         StringBuilder values = new StringBuilder();
         for (String id : ids.split(",")) {
-            if(values.length() == 0){
+            if (values.length() == 0) {
                 values.append("(").append(id).append(",").append(roleId).append(")");
-            }else{
+            } else {
                 values.append(",").append("(").append(id).append(",").append(roleId).append(")");
             }
         }
@@ -67,8 +70,13 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
         mybatisDao.insertBySql(saveSql);
     }
 
+    /**
+     * 移除角色中的用户
+     * @param role SysRole
+     * @param user SysUser
+     * @return boolean
+     */
     @Override
-    @Transactional()
     public boolean outUserInRole(SysRole role, SysUser user) {
         //删除用户角色关联
         String deleteSql = "delete from sys_user_role where user_id = " + user.getId() + " and role_id = " + role.getId();
@@ -84,7 +92,6 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
      * @throws Exception
      */
     @Override
-    @Transactional()
     public String save(SysRole object) throws Exception {
         String id;
         if (object.getId() != null) {
@@ -96,7 +103,7 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
         } else {
             id = mybatisDao.insert(object);
         }
-        if(StringUtils.isNotEmpty(object.getPermissionIds())){
+        if (StringUtils.isNotEmpty(object.getPermissionIds())) {
             //保存角色权限关联表
             StringBuilder values = new StringBuilder();
             String[] split = object.getPermissionIds().split(",");
@@ -110,6 +117,8 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
             String saveSql = "insert into sys_role_permission (role_id, permission_id) values " + values.toString();
             mybatisDao.insertBySql(saveSql);
         }
+        // 清除用户角色缓存
+        UserUtils.removeCache(UserUtils.CACHE_ROLE_LIST);
         return id;
     }
 
@@ -120,8 +129,7 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
      * @throws Exception
      */
     @Override
-    @Transactional()
-    public String delete(String ids) throws Exception {
+    public int delete(String ids) throws Exception {
         //删除角色表
         mybatisDao.deleteByIds(SysRole.class, ids);
         //删除用户角色关联表
@@ -130,7 +138,9 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
         //删除角色权限关联表
         String deleteRelSql = "delete from sys_role_permission where role_id in (" + ids + ")";
         mybatisDao.deleteBySql(deleteRelSql, null);
-        return "";
+        // 清除用户角色缓存
+        UserUtils.removeCache(UserUtils.CACHE_ROLE_LIST);
+        return 1;
     }
 
 

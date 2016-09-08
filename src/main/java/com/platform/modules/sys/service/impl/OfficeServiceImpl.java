@@ -6,6 +6,7 @@ package com.platform.modules.sys.service.impl;
 
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisDao;
+import com.platform.framework.util.Encodes;
 import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.SysOffice;
 import com.platform.modules.sys.bean.SysPermission;
@@ -28,10 +29,6 @@ public class OfficeServiceImpl extends BaseServiceImpl<SysOffice> implements Off
 
     @Autowired
     private MybatisDao mybatisDao;
-
-    public SysOffice get(String id) throws Exception {
-        return super.get(id);
-    }
 
     @Override
     public List<SysOffice> getList(Boolean isAll) {
@@ -83,34 +80,35 @@ public class OfficeServiceImpl extends BaseServiceImpl<SysOffice> implements Off
 
     @Override
     public String save(SysOffice object) throws Exception {
-        String id;
         String oldParentIds = object.getParentIds();
         SysOffice parent = get(object.getParentId());
-        if(parent != null) {
+        if (parent != null) {
             object.setParentIds(parent.getParentIds() + parent.getId() + ",");
         } else {
             object.setParentIds(SysPermission.getRootId().toString());
         }
-        if (object.getId() != null) {
+        if (StringUtils.isNotEmpty(object.getId())) {
             mybatisDao.update(object);
-            id = object.getId();
             // 更新子节点parentIds
             List<SysOffice> list = mybatisDao.selectListByConditions(SysOffice.class,
                     "parent_id like '%," + object.getId() + ",%'");
-            if(list != null && list.size() > 0){
+            if (list != null && list.size() > 0) {
                 for (SysOffice p : list) {
                     p.setParentIds(p.getParentIds().replace(oldParentIds, object.getParentIds()));
                     mybatisDao.update(p);
                 }
             }
         } else {
-            id = mybatisDao.insert(object);
+            object.setId(Encodes.uuid());
+            mybatisDao.insert(object);
         }
-        return id;
+        UserUtils.removeCache(UserUtils.CACHE_OFFICE_LIST);
+        UserUtils.removeCache(UserUtils.CACHE_OFFICE_ALL_LIST);
+        return object.getId();
     }
 
     @Override
-    public String delete(String id) throws Exception {
+    public int delete(String id) throws Exception {
         String ids = id;
         //获取子节点集合
         List<SysOffice> childList = new ArrayList<>();
@@ -119,11 +117,14 @@ public class OfficeServiceImpl extends BaseServiceImpl<SysOffice> implements Off
             ids += "," + office.getId();
         }
         //删除该机构及所有子机构项
-        mybatisDao.deleteByIds(SysPermission.class, ids);
+        mybatisDao.deleteByIds(SysOffice.class, ids);
         //删除角色机构关联表
         String sql = "delete from sys_role_office where office_id in (" + StringUtils.idsToString(ids) + ")";
         mybatisDao.deleteBySql(sql, null);
-        return "";
+
+        UserUtils.removeCache(UserUtils.CACHE_OFFICE_LIST);
+        UserUtils.removeCache(UserUtils.CACHE_OFFICE_ALL_LIST);
+        return 1;
     }
 
 }

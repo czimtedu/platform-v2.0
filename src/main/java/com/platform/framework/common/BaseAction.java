@@ -4,16 +4,15 @@
 
 package com.platform.framework.common;
 
-import com.platform.modules.sys.bean.Param;
 import com.platform.framework.mapper.JsonMapper;
 import com.platform.framework.util.BeanValidators;
 import com.platform.framework.util.StringUtils;
+import com.platform.modules.sys.bean.Param;
 import org.apache.shiro.authc.AuthenticationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +78,7 @@ public abstract class BaseAction<T> {
      *
      * @param model    Model
      * @param object   object
-     * @param request
+     * @param request  HttpServletRequest
      * @param response @return String
      * @throws Exception
      */
@@ -163,10 +161,10 @@ public abstract class BaseAction<T> {
 
     /**
      * 服务端参数有效性验证
+     * 验证成功：继续执行；验证失败：抛出异常跳转400页面。
      *
      * @param object 验证的实体对象
      * @param groups 验证组，不传入此参数时，同@Valid注解验证
-     * @return 验证成功：继续执行；验证失败：抛出异常跳转400页面。
      */
     protected void beanValidator(Object object, Class<?>... groups) {
         BeanValidators.validateWithException(validator, object, groups);
@@ -202,6 +200,7 @@ public abstract class BaseAction<T> {
 
     /**
      * 客户端返回JSON字符串
+     *
      * @param response
      * @param object
      * @return
@@ -212,11 +211,12 @@ public abstract class BaseAction<T> {
 
     /**
      * 客户端返回字符串
+     *
      * @param response
      * @param string
      * @return
      */
-    protected String renderString(HttpServletResponse response, String string) {
+    private String renderString(HttpServletResponse response, String string) {
         try {
             response.reset();
             response.setContentType("application/json");
@@ -252,7 +252,7 @@ public abstract class BaseAction<T> {
     /**
      * 参数绑定异常
      *
-     * @return view
+     * @return ModelAndView
      */
     @ExceptionHandler({BindException.class, ConstraintViolationException.class, ValidationException.class, NumberFormatException.class})
     public String bindException() {
@@ -262,7 +262,7 @@ public abstract class BaseAction<T> {
     /**
      * 授权登录异常
      *
-     * @return view
+     * @return ModelAndView
      */
     @ExceptionHandler({AuthenticationException.class})
     public String authenticationException() {

@@ -27,39 +27,33 @@ public interface UserService extends BaseService<SysUser> {
     SysUser getByUsername(String username);
 
     /**
-     * 检查用户名
-     *
-     * @param username 用户名
-     * @return SysUSer
-     */
-    SysUser checkUsername(String username, Integer id);
-
-
-    /**
      * 根据真实姓名查询
      *
-     * @param realName 真名
-     * @return List
+     * @param realName 姓名
+     * @return List<SysUser>
      */
     List<SysUser> getByRealName(String realName);
 
     /**
      * 根据角色ID查询用户列表
-     * @param id roleId
-     * @return
+     *
+     * @param roleId roleId
+     * @return List<SysUser>
      */
-    List<SysUser> getByRoleId(Integer id);
+    List<SysUser> getByRoleId(Integer roleId);
 
     /**
      * 更新当前用户信息
+     *
      * @param currentUser 当前用户
      */
     void updateUserInfo(SysUser currentUser);
 
     /**
      * 根据机构ID查询用户列表
-     * @param officeId
-     * @return
+     *
+     * @param officeId officeId
+     * @return List<SysUser>
      */
     List<SysUser> getUserByOfficeId(String officeId);
 }

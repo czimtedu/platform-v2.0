@@ -7,7 +7,14 @@ package com.platform.modules.sys.action;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.platform.framework.common.BaseAction;
+import com.platform.framework.common.Page;
 import com.platform.framework.common.PropertyFilter;
+import com.platform.framework.common.SysConfigManager;
+import com.platform.framework.mapper.AjaxJson;
+import com.platform.framework.util.*;
+import com.platform.framework.util.excel.ExportExcel;
+import com.platform.framework.util.excel.ImportExcel;
 import com.platform.modules.sys.bean.Param;
 import com.platform.modules.sys.bean.SysOffice;
 import com.platform.modules.sys.bean.SysRole;
@@ -15,14 +22,7 @@ import com.platform.modules.sys.bean.SysUser;
 import com.platform.modules.sys.service.OfficeService;
 import com.platform.modules.sys.service.RoleService;
 import com.platform.modules.sys.service.UserService;
-import com.platform.framework.common.BaseAction;
-import com.platform.framework.common.Page;
-import com.platform.framework.common.SysConfigManager;
-import com.platform.framework.mapper.AjaxJson;
 import com.platform.modules.sys.utils.UserUtils;
-import com.platform.framework.util.*;
-import com.platform.framework.util.excel.ExportExcel;
-import com.platform.framework.util.excel.ImportExcel;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +41,7 @@ import java.util.*;
 /**
  * 用户管理
  *
- * @author lufengcheng
+ * @author lufengc
  * @date 2016-01-15 09:56:22
  */
 @Controller
@@ -70,7 +70,7 @@ public class UserAction extends BaseAction<SysUser> {
         SysUser sysUser;
         if (StringUtils.isNotEmpty(id)) {
             sysUser = userService.get(id);
-            if(sysUser != null) {
+            if (sysUser != null) {
                 List<SysRole> roleList = roleService.getByUserId(StringUtils.toInteger(id));
                 sysUser.setRoleList(roleList);
                 SysOffice office = officeService.get(sysUser.getOfficeId());
@@ -86,6 +86,13 @@ public class UserAction extends BaseAction<SysUser> {
         return sysUser;
     }
 
+    /**
+     * 用户首页
+     *
+     * @param office SysOffice
+     * @param model  Model
+     * @return ModelAndView
+     */
     @RequestMapping(value = {""})
     public String index(SysOffice office, Model model) {
         return "modules/sys/userIndex";
@@ -94,7 +101,7 @@ public class UserAction extends BaseAction<SysUser> {
     /**
      * 用户列表
      *
-     * @return view
+     * @return ModelAndView
      * @throws Exception
      */
     @Override
@@ -104,10 +111,10 @@ public class UserAction extends BaseAction<SysUser> {
         //String conditions = "status <> 0";
         //根据当前组织机构ID查询数据
         List<PropertyFilter> propertyFilters = new ArrayList<>();
-        if(StringUtils.isNotEmpty(object.getOfficeId())){
+        if (StringUtils.isNotEmpty(object.getOfficeId())) {
             String ids = object.getOfficeId();
             List<SysOffice> offices = officeService.getByParentIdsLike(object.getOfficeId());
-            if(offices != null && offices.size() > 0){
+            if (offices != null && offices.size() > 0) {
                 for (SysOffice office : offices) {
                     ids += "," + office.getId();
                 }
@@ -128,7 +135,7 @@ public class UserAction extends BaseAction<SysUser> {
     /**
      * 表单输入页面
      *
-     * @return String
+     * @return ModelAndView
      * @throws Exception
      */
     @Override
@@ -140,7 +147,7 @@ public class UserAction extends BaseAction<SysUser> {
     /**
      * 保存
      *
-     * @return String
+     * @return ModelAndView
      * @throws Exception
      */
     @Override
@@ -162,7 +169,7 @@ public class UserAction extends BaseAction<SysUser> {
     /**
      * 删除
      *
-     * @return String
+     * @return ModelAndView
      * @throws Exception
      */
     @Override
@@ -196,11 +203,11 @@ public class UserAction extends BaseAction<SysUser> {
     /**
      * 导出用户数据
      *
-     * @param user
-     * @param request
-     * @param response
-     * @param redirectAttributes
-     * @return
+     * @param user               SysUser
+     * @param request            HttpServletRequest
+     * @param response           HttpServletResponse
+     * @param redirectAttributes RedirectAttributes
+     * @return ModelAndView
      */
     @RequiresPermissions("sys:user:edit")
     @RequestMapping(value = "export", method = RequestMethod.POST)
@@ -219,9 +226,9 @@ public class UserAction extends BaseAction<SysUser> {
     /**
      * 导入用户数据
      *
-     * @param file
-     * @param redirectAttributes
-     * @return
+     * @param file               MultipartFile
+     * @param redirectAttributes RedirectAttributes
+     * @return ModelAndView
      */
     @RequiresPermissions("sys:user:edit")
     @RequestMapping(value = "import", method = RequestMethod.POST)
@@ -267,9 +274,9 @@ public class UserAction extends BaseAction<SysUser> {
     /**
      * 下载导入用户数据模板
      *
-     * @param response
-     * @param redirectAttributes
-     * @return
+     * @param response           HttpServletResponse
+     * @param redirectAttributes RedirectAttributes
+     * @return ModelAndView
      */
     @RequiresPermissions("sys:user:edit")
     @RequestMapping(value = "import/template")
@@ -289,9 +296,9 @@ public class UserAction extends BaseAction<SysUser> {
     /**
      * 用户头像显示编辑保存
      *
-     * @param user
-     * @param model
-     * @return
+     * @param user  SysUser
+     * @param model Model
+     * @return ModelAndView
      */
     @RequiresPermissions("sys:user:edit")
     @RequestMapping(value = "imageEdit")
@@ -309,7 +316,7 @@ public class UserAction extends BaseAction<SysUser> {
                 return renderString(response, j);
             }
             model.addAttribute("message", "保存用户信息成功");
-            return "sys/userInfo";
+            return "modules/sys/userInfo";
         }
         model.addAttribute("user", currentUser);
         return "modules/sys/userImageEdit";
@@ -318,12 +325,12 @@ public class UserAction extends BaseAction<SysUser> {
     /**
      * 用户头像显示编辑保存
      *
-     * @return
+     * @return ModelAndView
      * @throws Exception
      */
     @RequiresPermissions("sys:user:edit")
     @RequestMapping(value = "imageUpload")
-    public String imageUpload(HttpServletRequest request, MultipartFile file) throws Exception{
+    public String imageUpload(HttpServletRequest request, MultipartFile file) throws Exception {
         SysUser currentUser = UserUtils.getUser();
         // 判断文件是否为空
         if (!file.isEmpty()) {
@@ -349,8 +356,9 @@ public class UserAction extends BaseAction<SysUser> {
 
     /**
      * 当前用户信息显示
-     * @param model
-     * @return
+     *
+     * @param model Model
+     * @return ModelAndView
      */
     @RequestMapping(value = "info")
     public String info(Model model) {
@@ -361,10 +369,10 @@ public class UserAction extends BaseAction<SysUser> {
 
     @ResponseBody
     @RequestMapping(value = "treeData")
-    public List<Map<String, Object>> treeData(@RequestParam(required=false) String officeId, HttpServletResponse response) {
+    public List<Map<String, Object>> treeData(@RequestParam(required = false) String officeId, HttpServletResponse response) {
         List<Map<String, Object>> mapList = Lists.newArrayList();
         List<SysUser> list = userService.getUserByOfficeId(officeId);
-        if(list != null && list.size() > 0){
+        if (list != null && list.size() > 0) {
             for (SysUser e : list) {
                 Map<String, Object> map = Maps.newHashMap();
                 map.put("id", "u_" + e.getId());
@@ -376,7 +384,9 @@ public class UserAction extends BaseAction<SysUser> {
         return mapList;
     }
 
-    /*************************** app api test ********************************/
+    /***************************
+     * app api test
+     ********************************/
 
     @ResponseBody
     @RequestMapping(value = "/appLogin", produces = "text/html;charset=UTF-8")

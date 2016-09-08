@@ -24,7 +24,7 @@ import java.util.UUID;
 /**
  * 文件上传action
  *
- * @author lufengcheng
+ * @author lufengc
  * @date 2016-01-15 09:56:22
  */
 @Controller

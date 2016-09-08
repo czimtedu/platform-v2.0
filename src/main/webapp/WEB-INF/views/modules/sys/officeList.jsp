@@ -38,7 +38,7 @@
     <div class="col-sm-12">
         <div class="pull-left">
             <shiro:hasPermission name="sys:office:edit">
-                <table:addRow url="${ctx}/sys/office/form?parentId=${sysOffice.id}" title="机构"/><!-- 增加按钮 -->
+                <table:addRow url="${ctx}/sys/office/form?parentId=${sysOffice.id}" title="机构" target="officeContent"/><!-- 增加按钮 -->
             </shiro:hasPermission>
             <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="refresh()" title="刷新">
                 <i class="glyphicon glyphicon-repeat"></i> 刷新
@@ -71,12 +71,12 @@
         <shiro:hasPermission name="sys:office:edit">
         <td>
             <a href="#"
-               onclick="openDialog('修改机构', '${ctx}/sys/office/form?id={{row.id}}')"
+               onclick="openDialog('修改机构', '${ctx}/sys/office/form?id={{row.id}}', '800px', '600px', 'officeContent')"
                class="btn btn-link btn-xs"><i class="fa fa-edit"></i> 修改</a>
             <a href="${ctx}/sys/office/delete?id={{row.id}}" onclick="return confirmx('要删除该机构及所有子机构项吗？', this.href)"
                class="btn btn-link btn-xs"><i class="fa fa-trash"></i> 删除</a>
             <a href="#"
-               onclick="openDialog('添加下级机构', '${ctx}/sys/office/form?parentId={{row.id}}')"
+               onclick="openDialog('添加下级机构', '${ctx}/sys/office/form?parentId={{row.id}}', '800px', '600px', 'officeContent')"
                class="btn  btn-link btn-xs"><i class="fa fa-plus"></i> 添加下级机构</a>
         </td>
         </shiro:hasPermission>

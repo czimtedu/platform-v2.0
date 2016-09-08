@@ -48,7 +48,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="pull-left">
-                        <shiro:hasPermission name="sys:log:del">
+                        <shiro:hasPermission name="sys:log:edit">
                             <table:delRow url="${ctx}/sys/log/delete" id="contentTable"/><!-- 删除按钮 -->
                             <button class="btn btn-white btn-sm " onclick="confirmx('确认要清空日志吗？','${ctx}/sys/log/empty')"><i class="fa fa-trash"></i> 清空</button>
                         </shiro:hasPermission>

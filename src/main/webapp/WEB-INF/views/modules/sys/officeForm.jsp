@@ -76,14 +76,14 @@
                      </form:select>
 					<span class="help-inline">“是”代表此账号允许登陆，“否”则表示此账号不允许登陆</span></td>
 		         <td class="width-15 active"><label class="pull-right">主负责人:</label></td>
-		         <td class="width-35"><sys:treeselect id="primaryPerson" name="primaryPerson.id" value="${sysOffice.primaryPerson}"
-                                                      labelName="office.primaryPersonName" labelValue="${sysOffice.primaryPersonName}"
+		         <td class="width-35"><sys:treeselect id="primaryPerson" name="primaryPerson" value="${sysOffice.primaryPerson}"
+                                                      labelName="primaryPersonName" labelValue="${sysOffice.primaryPersonName}"
 					title="用户" url="/sys/office/treeData?type=3" cssClass="form-control" allowClear="true" notAllowSelectParent="true"/></td>
 		      </tr>
 		      <tr>
 		         <td class="width-15 active"><label class="pull-right">副负责人:</label></td>
-		         <td class="width-35"><sys:treeselect id="deputyPerson" name="deputyPerson.id" value="${sysOffice.deputyPerson}"
-                                                      labelName="office.deputyPersonName" labelValue="${sysOffice.deputyPersonName}"
+		         <td class="width-35"><sys:treeselect id="deputyPerson" name="deputyPerson" value="${sysOffice.deputyPerson}"
+                                                      labelName="deputyPersonName" labelValue="${sysOffice.deputyPersonName}"
 					title="用户" url="/sys/office/treeData?type=3" cssClass="form-control" allowClear="true" notAllowSelectParent="true"/></td>
 		         <td class="width-15 active"><label class="pull-right">联系地址:</label></td>
 		         <td class="width-35"><form:input path="address" htmlEscape="false" maxlength="50" cssClass="form-control" /></td>

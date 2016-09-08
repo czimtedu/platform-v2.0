@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 标签Action
  *
- * @author lufengcheng
+ * @author lufengc
  * @date 2016年4月12日 21:03:02
  */
 @Controller

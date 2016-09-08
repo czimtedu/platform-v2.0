@@ -18,6 +18,12 @@ import java.util.List;
 public interface PermissionService extends BaseService<SysPermission> {
 
     /**
+     * 保存或更新操作
+     * @param object Object
+     */
+    String save(SysPermission object) throws Exception;
+
+    /**
      * 根据角色ID获取权限
      *
      * @param roleId 角色ID
@@ -40,4 +46,11 @@ public interface PermissionService extends BaseService<SysPermission> {
      * @return List
      */
     List<SysPermission> getByParentId(int parentId);
+
+    /**
+     * 更新排序
+     * @param ids Integer[]
+     * @param sorts Integer[]
+     */
+    void updatePermissionSort(Integer[] ids, Integer[] sorts);
 }

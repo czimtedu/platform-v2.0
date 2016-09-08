@@ -10,34 +10,32 @@ import java.util.List;
 /**
  * service基类
  *
- * @author lufengcheng
+ * @author lufengc
  * @date 2016-01-15 09:56:22
  */
 public interface BaseService<T> {
 
     /**
-     * 新增或修改entity
+     * 数据插入或更新操作
+     * 由业务类实现
      *
-     * @param object object
-     * @return 保存的ID
-     * @throws Exception
+     * @param object T
      */
     String save(T object) throws Exception;
 
     /**
      * 新增entity
      *
-     * @param object object
-     * @return 保存的ID
+     * @param object T
+     * @return 主键ID
      * @throws Exception
      */
-    void insert(T object) throws Exception;
+    String insert(T object) throws Exception;
 
     /**
      * 修改entity
      *
-     * @param object object
-     * @return 保存的ID
+     * @param object T
      * @throws Exception
      */
     void update(T object) throws Exception;
@@ -46,16 +44,16 @@ public interface BaseService<T> {
      * 删除entity
      *
      * @param ids 删除的ID
-     * @return 值
+     * @return 删除数量
      * @throws Exception
      */
-    String delete(String ids) throws Exception;
+    int delete(String ids) throws Exception;
 
     /**
      * 获取对象
      *
      * @param id 主键ID
-     * @return 对象
+     * @return T
      * @throws Exception
      */
     T get(String id) throws Exception;
@@ -64,16 +62,16 @@ public interface BaseService<T> {
      * 获取列表
      *
      * @param object 要查询的对象
-     * @return list
+     * @return List<T>
      * @throws Exception
      */
     List<T> getList(T object) throws Exception;
 
     /**
-     * @param page   分页信息
-     * @param object 分页对象
-     * @param propertyFilters
-     * @return Page
+     * @param page            分页信息
+     * @param object          分页对象
+     * @param propertyFilters List<PropertyFilter>
+     * @return Page<T>
      * @throws Exception
      */
     Page<T> getPage(Page<T> page, T object, List<PropertyFilter> propertyFilters, String conditions) throws Exception;

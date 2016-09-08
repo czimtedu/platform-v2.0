@@ -16,7 +16,6 @@ import java.util.List;
  */
 public interface OfficeService extends BaseService<SysOffice> {
 
-    SysOffice get(String id) throws Exception;
 
     List<SysOffice> getList(Boolean isAll);
 
@@ -25,4 +24,6 @@ public interface OfficeService extends BaseService<SysOffice> {
     List<SysOffice> getByParentIdsLike(String parentIds);
 
     List<SysOffice> getByParentId(String parentId) throws Exception;
+
+    String save(SysOffice object) throws Exception;
 }

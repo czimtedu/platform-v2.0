@@ -4,12 +4,12 @@
 
 package com.platform.modules.sys.action;
 
+import com.platform.framework.common.BaseAction;
+import com.platform.framework.common.Page;
 import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.Param;
 import com.platform.modules.sys.bean.SysDict;
 import com.platform.modules.sys.service.DictService;
-import com.platform.framework.common.BaseAction;
-import com.platform.framework.common.Page;
 import com.platform.modules.sys.utils.DictUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,14 +86,14 @@ public class dictAction extends BaseAction<SysDict> {
     @Override
     @RequestMapping(value = "form")
     protected String form(Model model, SysDict sysDict) throws Exception {
-        if(sysDict.getActionType() != null && sysDict.getActionType() == 2){
+        if (sysDict.getActionType() != null && sysDict.getActionType() == 2) {
             sysDict.setId(null);
             sysDict.setLabel(null);
             sysDict.setValue(null);
             List<SysDict> dictList = DictUtils.getDictList(sysDict.getEnName());
             Integer maxSortId = sysDict.getSortId();
             for (SysDict dict : dictList) {
-                if(dict.getSortId() > maxSortId){
+                if (dict.getSortId() > maxSortId) {
                     maxSortId = dict.getSortId();
                 }
             }

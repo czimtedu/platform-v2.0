@@ -26,9 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 区域Controller
+ * 区域Action
  *
- * @author jeeplus
+ * @author lufengc
  * @version 2013-5-15
  */
 @Controller
@@ -60,7 +60,7 @@ public class AreaAction extends BaseAction<SysArea> {
     @RequestMapping(value = "form")
     protected String form(Model model, SysArea area) throws Exception {
         SysArea parent = areaService.get(area.getParentId());
-        if(parent != null){
+        if (parent != null) {
             area.setParentName(parent.getName());
         }
         model.addAttribute("area", area);

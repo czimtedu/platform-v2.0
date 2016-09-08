@@ -87,10 +87,10 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
      */
     @Override
     @Transactional()
-    public String delete(String ids) throws Exception {
+    public int delete(String ids) throws Exception {
         mybatisDao.deleteByIds(CmsArticle.class, ids);
         mybatisDao.deleteByIds(CmsArticleData.class, ids);
-        return "";
+        return 1;
     }
 
     @Override

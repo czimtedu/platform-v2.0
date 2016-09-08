@@ -34,7 +34,7 @@ import java.util.Map;
 /**
  * 机构Controller
  *
- * @author jeeplus
+ * @author lufengc
  * @version 2013-5-15
  */
 @Controller
@@ -48,7 +48,7 @@ public class OfficeAction extends BaseAction<SysOffice> {
 
     @Override
     @ModelAttribute
-    protected SysOffice get(@RequestParam(required = false) String id) throws Exception {
+    public SysOffice get(@RequestParam(required = false) String id) throws Exception {
         if (StringUtils.isNotBlank(id)) {
             return officeService.get(id);
         } else {
@@ -62,8 +62,8 @@ public class OfficeAction extends BaseAction<SysOffice> {
     }
 
     @Override
-    @RequestMapping(value = {"list"})
-    protected String list(Model model, SysOffice office, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "list")
+    public String list(Model model, SysOffice office, HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (office == null || StringUtils.isEmpty(office.getParentIds()) || StringUtils.isEmpty(office.getId())) {
             model.addAttribute("list", officeService.getList(false));
         } else {
@@ -74,7 +74,7 @@ public class OfficeAction extends BaseAction<SysOffice> {
 
     @Override
     @RequestMapping(value = "form")
-    protected String form(Model model, SysOffice office) throws Exception {
+    public String form(Model model, SysOffice office) throws Exception {
         /*SysUser user = UserUtils.getUser();
         if (office.getParent()==null || office.getParent().getId()==null){
             office.setParent(user.getOffice());
@@ -97,23 +97,23 @@ public class OfficeAction extends BaseAction<SysOffice> {
             office.setCode(office.getParent().getCode() + StringUtils.leftPad(String.valueOf(size > 0 ? size+1 : 1), 3, "0"));
         }*/
 
-        if(office.getParentId() != null){
+        if (office.getParentId() != null) {
             SysOffice parent = officeService.get(office.getParentId());
-            if(parent != null){
+            if (parent != null) {
                 office.setParentName(parent.getName());
             }
         }
-        if(office.getId() != null){
+        if (office.getId() != null) {
             SysArea area = areaService.get(office.getAreaId());
-            if(area != null){
+            if (area != null) {
                 office.setAreaName(area.getName());
             }
             SysUser primaryPerson = UserUtils.get(office.getPrimaryPerson());
-            if(primaryPerson != null){
+            if (primaryPerson != null) {
                 office.setPrimaryPersonName(primaryPerson.getRealName());
             }
             SysUser deputyPerson = UserUtils.get(office.getDeputyPerson());
-            if(deputyPerson != null){
+            if (deputyPerson != null) {
                 office.setDeputyPersonName(deputyPerson.getRealName());
             }
         }
@@ -125,7 +125,7 @@ public class OfficeAction extends BaseAction<SysOffice> {
     @Override
     @RequestMapping(value = "save")
     @RequiresPermissions("sys:office:edit")
-    protected String save(Model model, SysOffice office, RedirectAttributes redirectAttributes) throws Exception {
+    public String save(Model model, SysOffice office, RedirectAttributes redirectAttributes) throws Exception {
         if (!beanValidator(model, office)) {
             return form(model, office);
         }
@@ -146,29 +146,30 @@ public class OfficeAction extends BaseAction<SysOffice> {
         }
 
         addMessage(redirectAttributes, "保存机构'" + office.getName() + "'成功");
-        return "redirect:" + adminPath + "/sys/office/list?id=" + office.getId() + "&parentIds=" + office.getParentIds();
+        return "redirect:" + adminPath + "/sys/office/list";
     }
 
     @Override
     @RequestMapping(value = "delete")
     @RequiresPermissions("sys:office:edit")
-    protected String delete(Model model, SysOffice office, Param param, RedirectAttributes redirectAttributes) throws Exception {
+    public String delete(Model model, SysOffice office, Param param, RedirectAttributes redirectAttributes) throws Exception {
         officeService.delete(office.getId());
         addMessage(redirectAttributes, "删除机构成功");
-        return "redirect:" + adminPath + "/sys/office/list?id=" + office.getId()+ "&parentIds=" + office.getParentIds();
+        return "redirect:" + adminPath + "/sys/office/list?id=" + office.getId() + "&parentIds=" + office.getParentIds();
     }
 
     /**
      * 获取机构JSON数据。
+     *
      * @param extId 排除的ID
-     * @param type	类型（1：公司；2：部门/小组/其它：3：用户）
+     * @param type  类型（1：公司；2：部门/小组/其它：3：用户）
      * @param grade 显示级别
-     * @return
+     * @return Json
      */
     @ResponseBody
     @RequestMapping(value = "treeData")
-    public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, @RequestParam(required=false) Integer type,
-                                              @RequestParam(required=false) Long grade, @RequestParam(required=false) Boolean isAll) {
+    public List<Map<String, Object>> treeData(@RequestParam(required = false) String extId, @RequestParam(required = false) Integer type,
+                                              @RequestParam(required = false) Long grade, @RequestParam(required = false) Boolean isAll) {
         List<Map<String, Object>> mapList = Lists.newArrayList();
         List<SysOffice> list = officeService.getList(isAll);
         for (SysOffice e : list) {

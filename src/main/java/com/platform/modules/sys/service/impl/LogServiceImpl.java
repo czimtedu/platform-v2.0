@@ -9,17 +9,16 @@ import com.google.common.collect.Maps;
 import com.platform.framework.cache.JedisUtils;
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisDao;
-import com.platform.modules.sys.utils.UserUtils;
 import com.platform.framework.util.Exceptions;
 import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.SysLog;
 import com.platform.modules.sys.bean.SysPermission;
 import com.platform.modules.sys.bean.SysUser;
 import com.platform.modules.sys.service.LogService;
+import com.platform.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,13 +33,17 @@ import java.util.Map;
  * @date 2016-01-15 09:56:22
  */
 @Service
-@Transactional(readOnly = true)
 public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogService {
 
     @Autowired
     private MybatisDao mybatisDao;
 
-    public static final String CACHE_PERMISSION_NAME_PATH_MAP = "permissionNamePathMap";
+    static final String CACHE_PERMISSION_NAME_PATH_MAP = "permissionNamePathMap";
+
+    @Override
+    public String save(SysLog object) throws Exception {
+        return null;
+    }
 
     /**
      * 保存日志
@@ -50,7 +53,6 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
      * @throws Exception
      */
     @Override
-    @Transactional()
     public void save(HttpServletRequest request, String title) throws Exception {
         save(request, null, null, title);
     }
@@ -65,7 +67,6 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
      * @throws Exception
      */
     @Override
-    @Transactional()
     public void save(HttpServletRequest request, Object handler, Exception ex, String title) throws Exception {
         SysUser user = UserUtils.getUser();
         if (user != null && user.getId() != null) {
@@ -85,13 +86,13 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
     /**
      * 保存日志线程
      */
-    public class SaveLogThread extends Thread {
+    private class SaveLogThread extends Thread {
 
         private SysLog log;
         private Object handler;
         private Exception ex;
 
-        public SaveLogThread(SysLog log, Object handler, Exception ex) {
+        SaveLogThread(SysLog log, Object handler, Exception ex) {
             super(SaveLogThread.class.getSimpleName());
             this.log = log;
             this.handler = handler;
@@ -136,7 +137,7 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
      * @param permission 权限
      * @return 菜单路径
      */
-    public String getMenuNamePath(String requestUri, String permission) {
+    private String getMenuNamePath(String requestUri, String permission) {
         String href = StringUtils.substringAfter(requestUri, "");
         href = href.substring(1, href.length());
         @SuppressWarnings("unchecked")
@@ -186,11 +187,6 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
         return menuNamePath;
     }
 
-    @Override
-    public String save(SysLog object) throws Exception {
-        return null;
-    }
-
     /**
      * 删除日志信息
      *
@@ -198,14 +194,14 @@ public class LogServiceImpl extends BaseServiceImpl<SysLog> implements LogServic
      * @throws Exception
      */
     @Override
-    @Transactional()
-    public String delete(String ids) throws Exception {
-        mybatisDao.deleteByIds(SysLog.class, ids);
-        return "";
+    public int delete(String ids) throws Exception {
+        return super.delete(ids);
     }
 
+    /**
+     * 清空所有日志信息
+     */
     @Override
-    @Transactional()
     public void empty() {
         mybatisDao.deleteBySql("DELETE FROM sys_log", null);
     }

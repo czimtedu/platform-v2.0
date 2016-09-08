@@ -3,6 +3,9 @@
  */
 package com.platform.modules.sys.action;
 
+import com.platform.framework.common.BaseAction;
+import com.platform.framework.common.Page;
+import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.Param;
 import com.platform.modules.sys.bean.SysPermission;
 import com.platform.modules.sys.bean.SysRole;
@@ -10,10 +13,7 @@ import com.platform.modules.sys.bean.SysUser;
 import com.platform.modules.sys.service.PermissionService;
 import com.platform.modules.sys.service.RoleService;
 import com.platform.modules.sys.service.UserService;
-import com.platform.framework.common.BaseAction;
-import com.platform.framework.common.Page;
 import com.platform.modules.sys.utils.UserUtils;
-import com.platform.framework.util.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,7 @@ import java.util.List;
 /**
  * 角色action
  *
- * @author lufengcheng
+ * @author lufengc
  * @date 2016-01-15 09:56:22
  */
 @Controller
@@ -56,19 +57,19 @@ public class RoleAction extends BaseAction<SysRole> {
     public SysRole get(@RequestParam(required = false) String id) throws Exception {
         SysRole sysRole;
         if (StringUtils.isNotEmpty(id)) {
-            sysRole =  roleService.get(id);
+            sysRole = roleService.get(id);
             StringBuilder checkedPermissionIds = new StringBuilder();
             StringBuilder permissionIds = new StringBuilder();
             List<SysPermission> permissionList = permissionService.getByRoleId(sysRole.getId());
             for (SysPermission sysPermission : permissionList) {
-                if(permissionIds.length() == 0) {
+                if (permissionIds.length() == 0) {
                     permissionIds.append(sysPermission.getId());
                 } else {
                     permissionIds.append(",").append(sysPermission.getId());
                 }
                 List<SysPermission> subPermissionList = permissionService.getByParentId(sysPermission.getId());
-                if(subPermissionList == null || subPermissionList.size() <= 0){
-                    if(checkedPermissionIds.length() == 0) {
+                if (subPermissionList == null || subPermissionList.size() <= 0) {
+                    if (checkedPermissionIds.length() == 0) {
                         checkedPermissionIds.append(sysPermission.getId());
                     } else {
                         checkedPermissionIds.append(",").append(sysPermission.getId());
@@ -78,7 +79,7 @@ public class RoleAction extends BaseAction<SysRole> {
             sysRole.setPermissionIds(permissionIds.toString());
             sysRole.setCheckedPermissionIds(checkedPermissionIds.toString());
         } else {
-            sysRole =  new SysRole();
+            sysRole = new SysRole();
         }
         return sysRole;
     }
@@ -86,10 +87,11 @@ public class RoleAction extends BaseAction<SysRole> {
     /**
      * 角色列表
      *
-     * @param model Model
-     * @param object object
-     * @param request request
-     *@param response @return view
+     * @param model    Model
+     * @param object   object
+     * @param request  HttpServletRequest
+     * @param response HttpServletResponse
+     * @return ModelAndView
      * @throws Exception
      */
     @Override
@@ -104,9 +106,9 @@ public class RoleAction extends BaseAction<SysRole> {
     /**
      * 角色编辑视图
      *
-     * @param model Model
+     * @param model  Model
      * @param object object
-     * @return view
+     * @return ModelAndView
      * @throws Exception
      */
     @Override
@@ -118,9 +120,9 @@ public class RoleAction extends BaseAction<SysRole> {
     /**
      * 保存角色信息
      *
-     * @param model Model
+     * @param model  Model
      * @param object object
-     * @return view
+     * @return ModelAndView
      * @throws Exception
      */
     @Override
@@ -138,9 +140,9 @@ public class RoleAction extends BaseAction<SysRole> {
     /**
      * 删除角色信息
      *
-     * @param model Model
+     * @param model  Model
      * @param object object
-     * @return view
+     * @return ModelAndView
      * @throws Exception
      */
     @Override
@@ -154,9 +156,10 @@ public class RoleAction extends BaseAction<SysRole> {
 
     /**
      * 授权设置页面
-     * @param role SysRole
+     *
+     * @param role  SysRole
      * @param model Model
-     * @return view
+     * @return ModelAndView
      * @throws Exception
      */
     @RequiresPermissions("sys:role:edit")
@@ -168,9 +171,10 @@ public class RoleAction extends BaseAction<SysRole> {
 
     /**
      * 角色分配页面
-     * @param role SysRole
+     *
+     * @param role  SysRole
      * @param model Model
-     * @return view
+     * @return ModelAndView
      */
     @RequiresPermissions("sys:role:edit")
     @RequestMapping(value = "assign")
@@ -182,9 +186,10 @@ public class RoleAction extends BaseAction<SysRole> {
 
     /**
      * 角色分配 -- 打开角色分配对话框
-     * @param role
-     * @param model
-     * @return
+     *
+     * @param role SysRole
+     * @param model Model
+     * @return ModelAndView
      */
     @RequiresPermissions("sys:role:edit")
     @RequestMapping(value = "selectUser")
@@ -198,25 +203,27 @@ public class RoleAction extends BaseAction<SysRole> {
 
     /**
      * 角色分配
-     * @param role
-     * @param ids
-     * @param redirectAttributes
-     * @return
+     *
+     * @param role SysRole
+     * @param ids 用户ids
+     * @param redirectAttributes RedirectAttributes
+     * @return ModelAndView
      */
     @RequiresPermissions("sys:role:edit")
     @RequestMapping(value = "assignRole")
     public String assignRole(SysRole role, String ids, RedirectAttributes redirectAttributes) {
         roleService.assignUserToRole(role, ids);
-        addMessage(redirectAttributes, "已成功分配 "+ids.split(",").length+" 个用户");
-        return "redirect:" + adminPath + "/sys/role/assign?id="+role.getId();
+        addMessage(redirectAttributes, "已成功分配 " + ids.split(",").length + " 个用户");
+        return "redirect:" + adminPath + "/sys/role/assign?id=" + role.getId();
     }
 
     /**
      * 角色分配 -- 从角色中移除用户
-     * @param userId
-     * @param roleId
-     * @param redirectAttributes
-     * @return
+     *
+     * @param userId 用户id
+     * @param roleId 角色id
+     * @param redirectAttributes RedirectAttributes
+     * @return ModelAndView
      */
     @RequiresPermissions("sys:role:edit")
     @RequestMapping(value = "outRole")
@@ -225,14 +232,14 @@ public class RoleAction extends BaseAction<SysRole> {
         SysRole role = roleService.get(roleId.toString());
         if (UserUtils.getUser().getId().equals(userId.intValue())) {
             addMessage(redirectAttributes, "无法从角色【" + role.getRoleName() + "】中移除用户【" + user.getRealName() + "】自己！");
-        }else {
+        } else {
             boolean flag = roleService.outUserInRole(role, user);
             if (!flag) {
                 addMessage(redirectAttributes, "用户【" + user.getRealName() + "】从角色【" + role.getRoleName() + "】中移除失败！");
-            }else {
+            } else {
                 addMessage(redirectAttributes, "用户【" + user.getRealName() + "】从角色【" + role.getRoleName() + "】中移除成功！");
             }
         }
-        return "redirect:" + adminPath + "/sys/role/assign?id="+role.getId();
+        return "redirect:" + adminPath + "/sys/role/assign?id=" + role.getId();
     }
 }

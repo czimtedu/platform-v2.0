@@ -6,13 +6,13 @@ package com.platform.modules.sys.action;
 
 import com.platform.framework.common.BaseAction;
 import com.platform.framework.common.Page;
-import com.platform.modules.sys.utils.UserUtils;
 import com.platform.framework.util.DateUtils;
 import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.Param;
 import com.platform.modules.sys.bean.SysLog;
 import com.platform.modules.sys.bean.SysUser;
 import com.platform.modules.sys.service.LogService;
+import com.platform.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * 日志action
  *
- * @author lufengcheng
+ * @author lufengc
  * @date 2016-01-15 09:56:22
  */
 @Controller
@@ -67,7 +67,7 @@ public class LogAction extends BaseAction<SysLog> {
         String createName = object.getCreateName();
         if (StringUtils.isNotEmpty(createName)) {
             List<SysUser> userList = UserUtils.getByRealName(createName);
-            if(userList != null && userList.size() > 0){
+            if (userList != null && userList.size() > 0) {
                 String ids = "";
                 for (SysUser sysUser : userList) {
                     if (StringUtils.isEmpty(ids)) {
