@@ -170,7 +170,7 @@ public class OfficeAction extends BaseAction<SysOffice> {
      * @return Json
      */
     @ResponseBody
-    @RequiresPermissions("sys")
+    @RequiresPermissions("user")
     @RequestMapping(value = "treeData")
     public List<Map<String, Object>> treeData(@RequestParam(required = false) String extId, @RequestParam(required = false) Integer type,
                                               @RequestParam(required = false) Long grade, @RequestParam(required = false) Boolean isAll) {

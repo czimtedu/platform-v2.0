@@ -10,6 +10,7 @@ import com.platform.framework.util.Encodes;
 import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.SysUser;
 import com.platform.modules.sys.bean.SysUserRole;
+import com.platform.modules.sys.service.RoleService;
 import com.platform.modules.sys.service.UserService;
 import com.platform.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
 
     @Autowired
     private MybatisDao mybatisDao;
+    @Autowired
+    private RoleService roleService;
 
     /**
      * 根据用户名查询
@@ -37,11 +40,11 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
      */
     @Override
     public SysUser getByUsername(String username) {
-        List<SysUser> list = mybatisDao.selectListByConditions(
-                SysUser.class, "username = '" + username + "'");
+        List<SysUser> list = mybatisDao.selectListByConditions(SysUser.class, "username = '" + username + "'");
         SysUser user = null;
         if (list != null && list.size() > 0) {
             user = list.get(0);
+            user.setRoleList(roleService.getByUserId(user.getId()));
         }
         return user;
     }

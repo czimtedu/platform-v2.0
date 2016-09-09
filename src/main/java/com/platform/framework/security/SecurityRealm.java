@@ -119,19 +119,20 @@ public class SecurityRealm extends AuthorizingRealm {
         final SysUser user = userService.getByUsername(principal.getLoginName());
         if (user != null) {
             SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-            final List<SysRole> roleInfos = roleService.getByUserId(user.getId());
-            for (SysRole role : roleInfos) {
-                if (StringUtils.isNotBlank(role.getRoleSign())) {
-                    // 添加角色
-                    authorizationInfo.addRole(role.getRoleSign());
-                }
-                final List<SysPermission> permissions = permissionService.getByRoleId(role.getId());
-                for (SysPermission permission : permissions) {
-                    if (StringUtils.isNotBlank(permission.getPermissionSign())) {
-                        // 添加权限
-                        authorizationInfo.addStringPermission(permission.getPermissionSign());
+            // 添加基于Permission的权限信息
+            List<SysPermission> list = UserUtils.getMenuList();
+            for (SysPermission permission : list){
+                if (StringUtils.isNotBlank(permission.getPermissionSign())){
+                    for (String sign : StringUtils.split(permission.getPermissionSign(), ",")){
+                        authorizationInfo.addStringPermission(sign);
                     }
                 }
+            }
+            // 添加用户权限
+            authorizationInfo.addStringPermission("user");
+            // 添加用户角色信息
+            for (SysRole role : user.getRoleList()){
+                authorizationInfo.addRole(role.getRoleSign());
             }
             return authorizationInfo;
         } else {
