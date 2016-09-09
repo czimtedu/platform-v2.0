@@ -57,12 +57,14 @@ public class OfficeAction extends BaseAction<SysOffice> {
     }
 
     @RequestMapping(value = {""})
+    @RequiresPermissions("sys:office:view")
     public String index(SysOffice office, Model model) {
         return "modules/sys/officeIndex";
     }
 
     @Override
     @RequestMapping(value = "list")
+    @RequiresPermissions("sys:office:view")
     public String list(Model model, SysOffice office, HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (office == null || StringUtils.isEmpty(office.getParentIds()) || StringUtils.isEmpty(office.getId())) {
             model.addAttribute("list", officeService.getList(false));
@@ -74,6 +76,7 @@ public class OfficeAction extends BaseAction<SysOffice> {
 
     @Override
     @RequestMapping(value = "form")
+    @RequiresPermissions("sys:office:view")
     public String form(Model model, SysOffice office) throws Exception {
         /*SysUser user = UserUtils.getUser();
         if (office.getParent()==null || office.getParent().getId()==null){
@@ -167,6 +170,7 @@ public class OfficeAction extends BaseAction<SysOffice> {
      * @return Json
      */
     @ResponseBody
+    @RequiresPermissions("sys")
     @RequestMapping(value = "treeData")
     public List<Map<String, Object>> treeData(@RequestParam(required = false) String extId, @RequestParam(required = false) Integer type,
                                               @RequestParam(required = false) Long grade, @RequestParam(required = false) Boolean isAll) {

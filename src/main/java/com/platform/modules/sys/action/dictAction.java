@@ -66,6 +66,7 @@ public class dictAction extends BaseAction<SysDict> {
      */
     @Override
     @RequestMapping(value = {"list", ""})
+    @RequiresPermissions("sys:dict:view")
     protected String list(Model model, SysDict object, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Set<String> typeList = new HashSet<>();
         for (SysDict dict : dictService.getList(new SysDict())) {
@@ -85,6 +86,7 @@ public class dictAction extends BaseAction<SysDict> {
      */
     @Override
     @RequestMapping(value = "form")
+    @RequiresPermissions("sys:dict:view")
     protected String form(Model model, SysDict sysDict) throws Exception {
         if (sysDict.getActionType() != null && sysDict.getActionType() == 2) {
             sysDict.setId(null);

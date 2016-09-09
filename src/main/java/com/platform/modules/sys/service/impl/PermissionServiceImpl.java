@@ -90,9 +90,6 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
     public void updatePermissionSort(Integer[] ids, Integer[] sorts) {
         String sql;
         for (int i = 0; i < ids.length; i++) {
-            SysPermission permission = new SysPermission();
-            permission.setId(ids[i]);
-            permission.setSortId(sorts[i]);
             sql = "UPDATE sys_permission SET sort_id = " + sorts[i] + " WHERE id = " + ids[i];
             mybatisDao.updateBySql(sql, SysPermission.class);
         }

@@ -7,10 +7,12 @@ package com.platform.modules.sys.action;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.platform.framework.common.BaseAction;
+import com.platform.framework.util.Collections3;
 import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.Param;
 import com.platform.modules.sys.bean.SysPermission;
 import com.platform.modules.sys.service.PermissionService;
+import com.platform.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,8 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 权限管理
@@ -67,9 +68,22 @@ public class PermissionAction extends BaseAction<SysPermission> {
      */
     @Override
     @RequestMapping(value = {"list", ""})
+    @RequiresPermissions("sys:permission:view")
     public String list(Model model, SysPermission object, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<SysPermission> sourcelist = permissionService.getList(new SysPermission());
+        List<SysPermission> sourcelist = UserUtils.getMenuList();
         List<SysPermission> list = Lists.newArrayList();
+        Collections.sort(sourcelist, new Comparator<SysPermission>(){
+            public int compare(SysPermission o1, SysPermission o2) {
+                // 按sortId升序排序
+                if(o1.getSortId() > o2.getSortId()){
+                    return 1;
+                } else if(Objects.equals(o1.getSortId(), o2.getSortId())){
+                    return 0;
+                } else {
+                    return -1;
+                }
+            }
+        });
         SysPermission.sortList(list, sourcelist, SysPermission.getRootId(), true);
         model.addAttribute("list", list);
         return "modules/sys/permissionList";
@@ -85,6 +99,7 @@ public class PermissionAction extends BaseAction<SysPermission> {
      */
     @Override
     @RequestMapping(value = "form")
+    @RequiresPermissions("sys:permission:view")
     public String form(Model model, SysPermission object) throws Exception {
         if (object.getParentId() == null) {
             object.setParentId(SysPermission.getRootId());
@@ -153,23 +168,12 @@ public class PermissionAction extends BaseAction<SysPermission> {
     /**
      * 批量修改菜单排序
      */
-    @RequiresPermissions("sys:menu:updateSort")
     @RequestMapping(value = "updateSort")
-    public String updateSort(Integer[] ids, Integer[] sorts, RedirectAttributes redirectAttributes) {
-        permissionService.updatePermissionSort(ids, sorts);
+    @RequiresPermissions("sys:permission:edit")
+    public String updateSort(Integer[] ids, Integer[] sortIds, RedirectAttributes redirectAttributes) {
+        permissionService.updatePermissionSort(ids, sortIds);
         addMessage(redirectAttributes, "保存菜单排序成功!");
         return "redirect:" + adminPath + "/sys/permission/";
-    }
-
-    @RequestMapping(value = "tree")
-    public String tree() {
-        return "modules/sys/permissionTree";
-    }
-
-    @RequestMapping(value = "treeselect")
-    public String treeselect(String parentId, Model model) {
-        model.addAttribute("parentId", parentId);
-        return "modules/sys/permissionTreeselect";
     }
 
     /**
@@ -180,6 +184,7 @@ public class PermissionAction extends BaseAction<SysPermission> {
      * @return List
      */
     @ResponseBody
+    @RequiresPermissions("user")
     @RequestMapping(value = "treeData")
     public List<Map<String, Object>> treeData(@RequestParam(required = false) Integer extId,
                                               @RequestParam(required = false) Integer isShowHide) throws Exception {

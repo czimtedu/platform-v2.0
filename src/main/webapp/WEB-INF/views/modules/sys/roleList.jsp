@@ -22,11 +22,6 @@
                     <div class="pull-left">
                         <shiro:hasPermission name="sys:role:edit">
                             <table:addRow url="${ctx}/sys/role/form" title="角色"/><!-- 增加按钮 -->
-                        </shiro:hasPermission>
-                        <shiro:hasPermission name="sys:role:edit">
-                            <table:editRow url="${ctx}/sys/role/form" id="contentTable" title="角色"/><!-- 编辑按钮 -->
-                        </shiro:hasPermission>
-                        <shiro:hasPermission name="sys:role:del">
                             <table:delRow url="${ctx}/sys/role/delete" id="contentTable"/><!-- 删除按钮 -->
                         </shiro:hasPermission>
                         <button class="btn btn-white btn-sm " data-toggle="tooltip" data-placement="left"
@@ -47,44 +42,37 @@
                     <th>描述</th>
                     <th>创建人</th>
                     <th>创建时间</th>
+                    <shiro:hasPermission name="sys:role:edit">
                     <th>操作</th>
+                    </shiro:hasPermission>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach items="${roleList}" var="bean">
                     <tr>
                         <td><input type="checkbox" id="${bean.id}" class="i-checks"></td>
-                        <td>${bean.roleName}</td>
+                        <td><a href="#" onclick="openDialogView('查看角色', '${ctx}/sys/role/form?id=${bean.id}','800px', '500px')">
+                                ${bean.roleName}</a></td>
                         <td>${bean.roleSign}</td>
                         <td>${bean.description}</td>
                         <td>${fns:getUserById(bean.createBy).realName}</td>
                         <td>${bean.createTime}</td>
+                        <shiro:hasPermission name="sys:role:edit">
                         <td>
-                            <a href="#"
-                               onclick="openDialogView('查看角色', '${ctx}/sys/role/form?id=${bean.id}','800px', '500px')"
-                               class="btn btn-link btn-xs"><i class="fa fa-search-plus"></i> 查看
-                            </a>
-                            <shiro:hasPermission name="sys:role:edit">
                                 <a href="#"
                                    onclick="openDialog('修改角色', '${ctx}/sys/role/form?id=${bean.id}','800px', '500px')"
                                    class="btn btn-link btn-xs"><i class="fa fa-edit"></i> 修改</a>
-                            </shiro:hasPermission>
-                            <shiro:hasPermission name="sys:role:del">
                                 <a href="#"
                                    onclick="return confirmx('确认要删除该角色吗？', '${ctx}/sys/role/delete?ids=${bean.id}')"
                                    class="btn  btn-link btn-xs"><i class="fa fa-trash"></i> 删除</a>
-                            </shiro:hasPermission>
-                            <shiro:hasPermission name="sys:role:edit">
                                 <a href="#"
                                    onclick="openDialog('权限设置', '${ctx}/sys/role/auth?id=${bean.id}','350px', '700px')"
                                    class="btn btn-link btn-xs"><i class="fa fa-edit"></i> 权限设置</a>
-                            </shiro:hasPermission>
-                            <shiro:hasPermission name="sys:role:edit">
                                 <a href="#"
                                    onclick="openDialogView('分配用户', '${ctx}/sys/role/assign?id=${bean.id}','800px', '600px')"
                                    class="btn  btn-link btn-xs"><i class="glyphicon glyphicon-plus"></i> 分配用户</a>
-                            </shiro:hasPermission>
                         </td>
+                        </shiro:hasPermission>
                     </tr>
                 </c:forEach>
                 </tbody>

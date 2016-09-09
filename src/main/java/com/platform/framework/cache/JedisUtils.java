@@ -765,7 +765,7 @@ public class JedisUtils {
         Jedis jedis = null;
         try {
             jedis = getResource();
-            Set<String> keys = jedis.keys(likekey + "");
+            Set<String> keys = jedis.keys(likekey + "*");
             result = jedis.del(keys.toArray(new String[keys.size()]));
             logger.debug("delKeysLike {}", likekey);
         } catch (Exception e) {

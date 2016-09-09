@@ -67,7 +67,9 @@
                     <th>区域名称</th>
                     <th>区域编码</th>
                     <th>区域类型</th>
-                    <shiro:hasPermission name="sys:area:edit"><th>操作</th></shiro:hasPermission>
+                    <shiro:hasPermission name="sys:area:edit">
+                        <th>操作</th>
+                    </shiro:hasPermission>
                 </tr>
                 </thead>
                 <tbody id="treeTableList"></tbody>

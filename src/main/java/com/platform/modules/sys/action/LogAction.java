@@ -60,6 +60,7 @@ public class LogAction extends BaseAction<SysLog> {
      */
     @Override
     @RequestMapping(value = {"list", ""})
+    @RequiresPermissions("sys:log:view")
     public String list(Model model, SysLog object, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String conditions = "";
 

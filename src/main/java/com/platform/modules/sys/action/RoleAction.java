@@ -96,6 +96,7 @@ public class RoleAction extends BaseAction<SysRole> {
      */
     @Override
     @RequestMapping(value = {"list", ""})
+    @RequiresPermissions("sys:role:view")
     public String list(Model model, SysRole object, HttpServletRequest request, HttpServletResponse response) throws Exception {
         /*Page<SysRole> page = roleService.getPage(new Page<SysRole>(request, response), object, "");
         model.addAttribute("page", page);*/
@@ -113,6 +114,7 @@ public class RoleAction extends BaseAction<SysRole> {
      */
     @Override
     @RequestMapping(value = "form")
+    @RequiresPermissions("sys:role:view")
     public String form(Model model, SysRole object) throws Exception {
         return "modules/sys/roleForm";
     }

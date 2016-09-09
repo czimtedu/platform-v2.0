@@ -88,7 +88,8 @@
                 <c:forEach items="${page.list}" var="bean">
                     <tr>
                         <td><input type="checkbox" id="${bean.id}" class="i-checks"></td>
-                        <td>${bean.name}</td>
+                        <td><a href="#" onclick="openDialogView('查看', '${ctx}/gen/genTable/form?id=${bean.id}','1200px', '650px')"
+                                ${bean.name}</a></td>
                         <td>${bean.comments}</td>
                         <td>${bean.className}</td>
                         <td title="点击查询子表">
@@ -96,27 +97,21 @@
                                onclick="$('#parentTable').val('${bean.parentTable}');$('#searchForm').submit();">
                                ${bean.parentTable}</a>
                         </td>
+                        <shiro:hasPermission name="sys:user:edit">
                         <td>
-                            <a href="#"
-                               onclick="openDialogView('查看', '${ctx}/gen/genTable/form?id=${bean.id}','1200px', '650px')"
-                               class="btn btn-link btn-xs"><i class="fa fa-search-plus"></i> 查看
+                            <a href="#" onclick="genCodeForm('${bean.id}')" class="btn btn-link btn-xs">
+                                <i class="fa fa-folder-o"></i> 生成代码
                             </a>
-                            <shiro:hasPermission name="sys:user:edit">
-                                <a href="#" onclick="genCodeForm('${bean.id}')" class="btn btn-link btn-xs">
-                                    <i class="fa fa-folder-o"></i> 生成代码
-                                </a>
-                                <a href="#"
-                                   onclick="openDialog('修改', '${ctx}/gen/genTable/form?id=${bean.id}','1200px', '650px')"
-                                   class="btn btn-link btn-xs"><i class="fa fa-edit"></i> 修改
-                                </a>
-                            </shiro:hasPermission>
-                            <shiro:hasPermission name="sys:user:del">
-                                <a href="#"
-                                   onclick="return confirmx('确认要删除该业务表吗？', '${ctx}/gen/genTable/delete?ids=${bean.id}')"
-                                   class="btn btn-link btn-xs"><i class="fa fa-trash"></i> 删除
-                                </a>
-                            </shiro:hasPermission>
+                            <a href="#"
+                               onclick="openDialog('修改', '${ctx}/gen/genTable/form?id=${bean.id}','1200px', '650px')"
+                               class="btn btn-link btn-xs"><i class="fa fa-edit"></i> 修改
+                            </a>
+                            <a href="#"
+                               onclick="return confirmx('确认要删除该业务表吗？', '${ctx}/gen/genTable/delete?ids=${bean.id}')"
+                               class="btn btn-link btn-xs"><i class="fa fa-trash"></i> 删除
+                            </a>
                         </td>
+                        </shiro:hasPermission>
                     </tr>
                 </c:forEach>
                 </tbody>

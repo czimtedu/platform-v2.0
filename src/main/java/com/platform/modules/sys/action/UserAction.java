@@ -73,6 +73,11 @@ public class UserAction extends BaseAction<SysUser> {
             if (sysUser != null) {
                 List<SysRole> roleList = roleService.getByUserId(StringUtils.toInteger(id));
                 sysUser.setRoleList(roleList);
+                List<Integer> roleIdList = Lists.newArrayList();
+                for (SysRole role : roleList) {
+                    roleIdList.add(role.getId());
+                }
+                sysUser.setRoleIdList(roleIdList);
                 SysOffice office = officeService.get(sysUser.getOfficeId());
                 sysUser.setOfficeName(office.getName());
                 SysOffice company = officeService.get(sysUser.getCompanyId());
@@ -94,6 +99,7 @@ public class UserAction extends BaseAction<SysUser> {
      * @return ModelAndView
      */
     @RequestMapping(value = {""})
+    @RequiresPermissions("sys:user:view")
     public String index(SysOffice office, Model model) {
         return "modules/sys/userIndex";
     }
@@ -105,7 +111,8 @@ public class UserAction extends BaseAction<SysUser> {
      * @throws Exception
      */
     @Override
-    @RequestMapping(value = {"list"})
+    @RequestMapping(value = "list")
+    @RequiresPermissions("sys:user:view")
     public String list(Model model, SysUser object, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         //String conditions = "status <> 0";
@@ -140,6 +147,7 @@ public class UserAction extends BaseAction<SysUser> {
      */
     @Override
     @RequestMapping(value = "form")
+    @RequiresPermissions("sys:user:view")
     public String form(Model model, SysUser user) throws Exception {
         return "modules/sys/userForm";
     }
@@ -361,6 +369,7 @@ public class UserAction extends BaseAction<SysUser> {
      * @return ModelAndView
      */
     @RequestMapping(value = "info")
+    @RequiresPermissions("sys:user:view")
     public String info(Model model) {
         SysUser currentUser = UserUtils.getUser();
         model.addAttribute("sysUser", currentUser);
@@ -368,6 +377,7 @@ public class UserAction extends BaseAction<SysUser> {
     }
 
     @ResponseBody
+    @RequiresPermissions("user")
     @RequestMapping(value = "treeData")
     public List<Map<String, Object>> treeData(@RequestParam(required = false) String officeId, HttpServletResponse response) {
         List<Map<String, Object>> mapList = Lists.newArrayList();

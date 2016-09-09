@@ -40,7 +40,7 @@
                 <div class="col-sm-12">
                     <div class="pull-left">
                         <shiro:hasPermission name="sys:user:edit">
-                            <table:addRow url="${ctx}/sys/user/form" title="用户" width="800px" height="650px"/><!-- 增加按钮 -->
+                            <table:addRow url="${ctx}/sys/user/form" title="用户" width="800px" height="650px" target="userContent"/><!-- 增加按钮 -->
                             <table:delRow url="${ctx}/sys/user/delete" id="contentTable"/><!-- 删除按钮 -->
                             <table:importExcel url="${ctx}/sys/user/import"/><!-- 导入按钮 -->
                             <table:exportExcel url="${ctx}/sys/user/export"/><!-- 导出按钮 -->
@@ -64,9 +64,7 @@
                         <th class="sort-column email">邮箱</th>
                         <th class="sort-column status">用户状态</th>
                         <th class="sort-column type">用户类型</th>
-                        <shiro:hasPermission name="sys:user:edit">
-                        <th>操作</th>
-                        </shiro:hasPermission>
+                        <shiro:hasPermission name="sys:user:edit"><th>操作</th></shiro:hasPermission>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,14 +82,12 @@
                         <shiro:hasPermission name="sys:user:edit">
                         <td>
                             <a href="#"
-                               onclick="openDialog('修改', '${ctx}/sys/user/form?id=${bean.id}','800px', '650px')"
-                               class="btn btn-link btn-xs">
-                                <i class="fa fa-edit"></i> 修改
+                               onclick="openDialog('修改', '${ctx}/sys/user/form?id=${bean.id}','800px', '650px', 'userContent')"
+                               class="btn btn-link btn-xs"><i class="fa fa-edit"></i> 修改
                             </a>
                             <a href=""
                                onclick="return confirmx('确认要删除该用户吗？', '${ctx}/sys/user/delete?ids=${bean.id}')"
-                               class="btn btn-link btn-xs">
-                                <i class="fa fa-trash"></i> 删除
+                               class="btn btn-link btn-xs"><i class="fa fa-trash"></i> 删除
                             </a>
                         </td>
                         </shiro:hasPermission>

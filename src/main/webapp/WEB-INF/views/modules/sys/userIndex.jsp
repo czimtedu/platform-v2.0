@@ -24,7 +24,7 @@
                     <div id="ztree" class="ztree leftBox-content"></div>
                 </div>
                 <div id="right" class="col-sm-11 animated fadeInRight">
-                    <iframe id="officeContent" name="officeContent" src="${ctx}/sys/user/list" width="100%" height="91%"
+                    <iframe id="userContent" name="userContent" src="${ctx}/sys/user/list" width="100%" height="91%"
                             frameborder="0"></iframe>
                 </div>
             </div>
@@ -36,7 +36,7 @@
         data: {simpleData: {enable: true, idKey: "id", pIdKey: "pId", rootPId: '0'}},
         callback: {
             onClick: function (event, treeId, treeNode) {
-                $('#officeContent').attr("src", "${ctx}/sys/user/list?officeId=" + treeNode.id + "&officeName=" + treeNode.name);
+                $('#userContent').attr("src", "${ctx}/sys/user/list?officeId=" + treeNode.id + "&officeName=" + treeNode.name);
             }
         }
     };

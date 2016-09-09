@@ -160,10 +160,6 @@ public class SysUser extends BaseEntity<SysUser> {
     }
 
     public List<Integer> getRoleIdList() {
-        List<Integer> roleIdList = Lists.newArrayList();
-        for (SysRole role : roleList) {
-            roleIdList.add(role.getId());
-        }
         return roleIdList;
     }
 

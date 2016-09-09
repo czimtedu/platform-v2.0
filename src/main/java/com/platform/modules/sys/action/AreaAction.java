@@ -51,6 +51,7 @@ public class AreaAction extends BaseAction<SysArea> {
 
     @Override
     @RequestMapping(value = {"list", ""})
+    @RequiresPermissions("sys:area:view")
     protected String list(Model model, SysArea object, HttpServletRequest request, HttpServletResponse response) throws Exception {
         model.addAttribute("list", areaService.getList(new SysArea()));
         return "modules/sys/areaList";
@@ -58,6 +59,7 @@ public class AreaAction extends BaseAction<SysArea> {
 
     @Override
     @RequestMapping(value = "form")
+    @RequiresPermissions("sys:area:view")
     protected String form(Model model, SysArea area) throws Exception {
         SysArea parent = areaService.get(area.getParentId());
         if (parent != null) {
@@ -89,6 +91,7 @@ public class AreaAction extends BaseAction<SysArea> {
     }
 
     @ResponseBody
+    @RequiresPermissions("user")
     @RequestMapping(value = "treeData")
     public List<Map<String, Object>> treeData(@RequestParam(required = false) String extId) {
         List<Map<String, Object>> mapList = Lists.newArrayList();
