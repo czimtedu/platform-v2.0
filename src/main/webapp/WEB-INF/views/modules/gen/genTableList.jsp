@@ -88,13 +88,13 @@
                 <c:forEach items="${page.list}" var="bean">
                     <tr>
                         <td><input type="checkbox" id="${bean.id}" class="i-checks"></td>
-                        <td><a href="#" onclick="openDialogView('查看', '${ctx}/gen/genTable/form?id=${bean.id}','1200px', '650px')"
-                                ${bean.name}</a></td>
+                        <td><a href="#" onclick="openDialogView('查看', '${ctx}/gen/genTable/form?id=${bean.id}','1200px', '650px')">
+                                ${bean.name}</a>
+                        </td>
                         <td>${bean.comments}</td>
                         <td>${bean.className}</td>
                         <td title="点击查询子表">
-                            <a href="javascript:"
-                               onclick="$('#parentTable').val('${bean.parentTable}');$('#searchForm').submit();">
+                            <a href="#" onclick="$('#parentTable').val('${bean.parentTable}');$('#searchForm').submit();">
                                ${bean.parentTable}</a>
                         </td>
                         <shiro:hasPermission name="sys:user:edit">
