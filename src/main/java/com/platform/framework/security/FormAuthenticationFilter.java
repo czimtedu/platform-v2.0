@@ -93,7 +93,7 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 
         // 登录成功后，获取上次登录的时间和IP
         SysUser user = UserUtils.getUser();
-        UserUtils.putCache("loginDate", DateUtils.formatDateTime(user.getLoginTime()));
+        UserUtils.putCache("loginTime", DateUtils.formatDateTime(user.getLoginTime()));
         UserUtils.putCache("loginIp", user.getLoginIp());
         // 更新用户登录时间跟IP
         user.setLoginTime(new Date());
