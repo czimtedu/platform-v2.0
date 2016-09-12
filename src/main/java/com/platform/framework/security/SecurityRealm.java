@@ -4,17 +4,15 @@
 
 package com.platform.framework.security;
 
+import com.platform.framework.security.shiro.session.SessionDAO;
+import com.platform.framework.servlet.ValidateCodeServlet;
+import com.platform.framework.util.*;
+import com.platform.modules.sys.action.LoginAction;
 import com.platform.modules.sys.bean.SysPermission;
 import com.platform.modules.sys.bean.SysRole;
 import com.platform.modules.sys.bean.SysUser;
-import com.platform.modules.sys.action.LoginAction;
-import com.platform.modules.sys.service.PermissionService;
-import com.platform.modules.sys.service.RoleService;
+import com.platform.modules.sys.service.LogService;
 import com.platform.modules.sys.service.UserService;
-import com.platform.framework.security.shiro.session.SessionDAO;
-import com.platform.framework.servlet.ValidateCodeServlet;
-import com.platform.framework.util.Encodes;
-import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.utils.UserUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -36,6 +34,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,9 +51,7 @@ public class SecurityRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
     @Autowired
-    private RoleService roleService;
-    @Autowired
-    private PermissionService permissionService;
+    private LogService logService;
     @Autowired
     private SessionDAO sessionDao;
 
@@ -103,7 +100,7 @@ public class SecurityRealm extends AuthorizingRealm {
         Principal principal = (Principal) getAvailablePrincipal(principals);
 
     	/*if (!Global.TRUE.equals(SysConfigManager.getInstance().getConfig("user.multiAccountLogin"))){
-			Collection<Session> sessions = sessionDao.getActiveSessions(true, principal, UserUtils.getSession());
+            Collection<Session> sessions = sessionDao.getActiveSessions(true, principal, UserUtils.getSession());
 			if (sessions.size() > 0){
 				// 如果是登录进来的，则踢出已在线用户
 				if (UserUtils.getSubject().isAuthenticated()){
@@ -121,9 +118,9 @@ public class SecurityRealm extends AuthorizingRealm {
             SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
             // 添加基于Permission的权限信息
             List<SysPermission> list = UserUtils.getMenuList();
-            for (SysPermission permission : list){
-                if (StringUtils.isNotBlank(permission.getPermissionSign())){
-                    for (String sign : StringUtils.split(permission.getPermissionSign(), ",")){
+            for (SysPermission permission : list) {
+                if (StringUtils.isNotBlank(permission.getPermissionSign())) {
+                    for (String sign : StringUtils.split(permission.getPermissionSign(), ",")) {
                         authorizationInfo.addStringPermission(sign);
                     }
                 }
@@ -131,9 +128,25 @@ public class SecurityRealm extends AuthorizingRealm {
             // 添加用户权限
             authorizationInfo.addStringPermission("user");
             // 添加用户角色信息
-            for (SysRole role : user.getRoleList()){
+            for (SysRole role : user.getRoleList()) {
                 authorizationInfo.addRole(role.getRoleSign());
             }
+
+            // 登录成功后，记录上次登录的时间和IP
+            UserUtils.putCache("loginTime", DateUtils.formatDateTime(user.getLoginTime()));
+            UserUtils.putCache("loginIp", user.getLoginIp());
+            // 更新用户当前登录时间跟IP
+            user.setLoginTime(new Date());
+            user.setLoginIp(UserAgentUtils.getIpAddr(Servlets.getRequest()));
+            userService.updateUserInfo(user);
+
+            // 记录登录日志
+            try {
+                logService.save(Servlets.getRequest(), "系统登录");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             return authorizationInfo;
         } else {
             return null;

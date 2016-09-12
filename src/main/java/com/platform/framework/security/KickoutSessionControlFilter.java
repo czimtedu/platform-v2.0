@@ -4,13 +4,7 @@
 
 package com.platform.framework.security;
 
-import java.io.Serializable;
-import java.util.Deque;
-import java.util.LinkedList;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
+import com.platform.framework.security.SecurityRealm.Principal;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.session.Session;
@@ -20,7 +14,11 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
 
-import com.platform.framework.security.SecurityRealm.Principal;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import java.io.Serializable;
+import java.util.Deque;
+import java.util.LinkedList;
 
 /**
  * 并发登录人数控制
@@ -30,7 +28,7 @@ import com.platform.framework.security.SecurityRealm.Principal;
  */
 public class KickoutSessionControlFilter extends AccessControlFilter {
 
-	private String kickoutUrl; //踢出后到的地址
+    private String kickoutUrl; //踢出后到的地址
     private boolean kickoutAfter = false; //踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
     private int maxSession = 1; //同一个帐号最大会话数 默认1
 
@@ -56,41 +54,18 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
     public void setCacheManager(CacheManager cacheManager) {
         this.cache = cacheManager.getCache("shiroKickoutSession");
     }
-    
-	/** 
-	 * 描述:
-	 * 名称: isAccessAllowed   
-	 * 作者：lufengcheng
-	 * 日期：2015-11-18下午6:39:22
-	 * @param request
-	 * @param response
-	 * @param mappedValue
-	 * @return
-	 * @throws Exception 
-	 * @see org.apache.shiro.web.filter.AccessControlFilter#isAccessAllowed(javax.servlet.ServletRequest, javax.servlet.ServletResponse, java.lang.Object)
-	 */
-	@Override
-	protected boolean isAccessAllowed(ServletRequest request,
-			ServletResponse response, Object mappedValue) throws Exception {
-		return false;
-	}
 
-	/** 
-	 * 描述:
-	 * 名称: onAccessDenied   
-	 * 作者：lufengcheng
-	 * 日期：2015-11-18下午6:39:22
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception 
-	 * @see org.apache.shiro.web.filter.AccessControlFilter#onAccessDenied(javax.servlet.ServletRequest, javax.servlet.ServletResponse)
-	 */
-	@Override
-	protected boolean onAccessDenied(ServletRequest request,
-			ServletResponse response) throws Exception {
-		Subject subject = getSubject(request, response);
-        if(!subject.isAuthenticated() && !subject.isRemembered()) {
+    @Override
+    protected boolean isAccessAllowed(ServletRequest request,
+                                      ServletResponse response, Object mappedValue) throws Exception {
+        return false;
+    }
+
+    @Override
+    protected boolean onAccessDenied(ServletRequest request,
+                                     ServletResponse response) throws Exception {
+        Subject subject = getSubject(request, response);
+        if (!subject.isAuthenticated() && !subject.isRemembered()) {
             //如果没有登录，直接进行之后的流程
             return true;
         }
@@ -101,27 +76,27 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
 
         //TODO 同步控制
         Deque<Serializable> deque = cache.get(principal.getLoginName());
-        if(deque == null) {
+        if (deque == null) {
             deque = new LinkedList<Serializable>();
-            
+
         }
 
         //如果队列里没有此sessionId，且用户没有被踢出；放入队列
-        if(!deque.contains(sessionId) && session.getAttribute("kickout") == null) {
+        if (!deque.contains(sessionId) && session.getAttribute("kickout") == null) {
             deque.push(sessionId);
         }
 
         //如果队列里的sessionId数超出最大会话数，开始踢人
-        while(deque.size() > maxSession) {
+        while (deque.size() > maxSession) {
             Serializable kickoutSessionId = null;
-            if(kickoutAfter) { //如果踢出后者
+            if (kickoutAfter) { //如果踢出后者
                 kickoutSessionId = deque.removeFirst();
             } else { //否则踢出前者
                 kickoutSessionId = deque.removeLast();
             }
             try {
                 Session kickoutSession = sessionManager.getSession(new DefaultSessionKey(kickoutSessionId));
-                if(kickoutSession != null) {
+                if (kickoutSession != null) {
                     //设置会话的kickout属性表示踢出了
                     kickoutSession.setAttribute("kickout", true);
                 }
