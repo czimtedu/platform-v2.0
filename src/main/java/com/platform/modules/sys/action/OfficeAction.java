@@ -56,12 +56,29 @@ public class OfficeAction extends BaseAction<SysOffice> {
         }
     }
 
+    /**
+     * 机构首页
+     *
+     * @param office SysOffice
+     * @param model  Model
+     * @return String
+     */
     @RequestMapping(value = {""})
     @RequiresPermissions("sys:office:view")
     public String index(SysOffice office, Model model) {
         return "modules/sys/officeIndex";
     }
 
+    /**
+     * 机构列表
+     *
+     * @param model    Model
+     * @param office   SysOffice
+     * @param request  HttpServletRequest
+     * @param response HttpServletRequest
+     * @return String
+     * @throws Exception
+     */
     @Override
     @RequestMapping(value = "list")
     @RequiresPermissions("sys:office:view")
@@ -74,6 +91,14 @@ public class OfficeAction extends BaseAction<SysOffice> {
         return "modules/sys/officeList";
     }
 
+    /**
+     * 机构表单
+     *
+     * @param model  Model
+     * @param office SysOffice
+     * @return String
+     * @throws Exception
+     */
     @Override
     @RequestMapping(value = "form")
     @RequiresPermissions("sys:office:view")
@@ -125,6 +150,15 @@ public class OfficeAction extends BaseAction<SysOffice> {
         return "modules/sys/officeForm";
     }
 
+    /**
+     * 保存
+     *
+     * @param model              Model
+     * @param office             SysOffice
+     * @param redirectAttributes RedirectAttributes
+     * @return String
+     * @throws Exception
+     */
     @Override
     @RequestMapping(value = "save")
     @RequiresPermissions("sys:office:edit")
@@ -152,6 +186,14 @@ public class OfficeAction extends BaseAction<SysOffice> {
         return "redirect:" + adminPath + "/sys/office/list";
     }
 
+    /**
+     * @param model              Model
+     * @param office             SysOffice
+     * @param param              参数接收器
+     * @param redirectAttributes RedirectAttributes
+     * @return String
+     * @throws Exception
+     */
     @Override
     @RequestMapping(value = "delete")
     @RequiresPermissions("sys:office:edit")

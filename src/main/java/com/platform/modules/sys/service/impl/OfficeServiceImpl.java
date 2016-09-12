@@ -30,6 +30,12 @@ public class OfficeServiceImpl extends BaseServiceImpl<SysOffice> implements Off
     @Autowired
     private MybatisDao mybatisDao;
 
+    /**
+     * 获取结构列表
+     *
+     * @param isAll true：所有机构数据，false：只查询当前用户拥有的机构数据
+     * @return List<SysOffice>
+     */
     @Override
     public List<SysOffice> getList(Boolean isAll) {
         if (isAll != null && isAll) {
@@ -39,16 +45,35 @@ public class OfficeServiceImpl extends BaseServiceImpl<SysOffice> implements Off
         }
     }
 
+    /**
+     * 根据用户ID获取机构列表
+     *
+     * @param userId 用户id
+     * @return List<SysOffice>
+     */
     @Override
     public List<SysOffice> getByUserId(int userId) {
         return null;
     }
 
+    /**
+     * 根据parentId查询该机构下所有的子列表数据
+     *
+     * @param parentIds parentIds
+     * @return List<SysOffice>
+     */
     @Override
     public List<SysOffice> getByParentIdsLike(String parentIds) {
         return mybatisDao.selectListByConditions(SysOffice.class, "parent_ids LIKE '%" + parentIds + "%'");
     }
 
+    /**
+     * 获取某个机构下的所有子机构
+     *
+     * @param parentId 父id
+     * @return List<SysOffice>
+     * @throws Exception
+     */
     @Override
     public List<SysOffice> getByParentId(String parentId) throws Exception {
         List<SysOffice> childList = new ArrayList<>();
@@ -78,6 +103,13 @@ public class OfficeServiceImpl extends BaseServiceImpl<SysOffice> implements Off
         }
     }
 
+    /**
+     * 保存
+     *
+     * @param object SysOffice
+     * @return 主键id
+     * @throws Exception
+     */
     @Override
     public String save(SysOffice object) throws Exception {
         String oldParentIds = object.getParentIds();
@@ -107,6 +139,13 @@ public class OfficeServiceImpl extends BaseServiceImpl<SysOffice> implements Off
         return object.getId();
     }
 
+    /**
+     * 删除
+     *
+     * @param id 需要删除的主键id
+     * @return 处理的结果数量
+     * @throws Exception
+     */
     @Override
     public int delete(String id) throws Exception {
         String ids = id;

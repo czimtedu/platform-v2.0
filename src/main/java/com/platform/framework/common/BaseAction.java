@@ -79,7 +79,8 @@ public abstract class BaseAction<T> {
      * @param model    Model
      * @param object   object
      * @param request  HttpServletRequest
-     * @param response @return String
+     * @param response HttpServletResponse
+     * @return String
      * @throws Exception
      */
     protected abstract String list(Model model, T object, HttpServletRequest request, HttpServletResponse response) throws Exception;
