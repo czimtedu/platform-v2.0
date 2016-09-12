@@ -4,7 +4,12 @@
 
 package com.platform.framework.security;
 
+import com.platform.framework.util.DateUtils;
+import com.platform.framework.util.Servlets;
 import com.platform.framework.util.StringUtils;
+import com.platform.framework.util.UserAgentUtils;
+import com.platform.modules.sys.bean.SysUser;
+import com.platform.modules.sys.service.LogService;
 import com.platform.modules.sys.service.UserService;
 import com.platform.modules.sys.utils.UserUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -18,6 +23,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * 表单验证（包含验证码）过滤类
@@ -30,6 +36,8 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private LogService logService;
 
     public static final String DEFAULT_CAPTCHA_PARAM = "validateCode";
     public static final String DEFAULT_MOBILE_PARAM = "mobileLogin";
@@ -79,11 +87,27 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
         return super.getSuccessUrl();
     }
 
+    /**
+     * 登录成功调用事件
+     */
     @Override
-    protected void issueSuccessRedirect(ServletRequest request,
-                                        ServletResponse response) throws Exception {
+    protected void issueSuccessRedirect(ServletRequest request, ServletResponse response) throws Exception {
         SecurityRealm.Principal p = UserUtils.getPrincipal();
         if (p != null && !p.isMobileLogin()) {
+            // 登录成功后，记录上次登录的时间和IP
+            SysUser user = UserUtils.getUser();
+            UserUtils.putCache("loginTime", DateUtils.formatDateTime(user.getLoginTime()));
+            UserUtils.putCache("loginIp", user.getLoginIp());
+            // 更新用户当前登录时间跟IP
+            user.setLoginTime(new Date());
+            user.setLoginIp(UserAgentUtils.getIpAddr(Servlets.getRequest()));
+            userService.updateUserInfo(user);
+            // 记录登录日志
+            try {
+                logService.save(Servlets.getRequest(), "系统登录");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             WebUtils.issueRedirect(request, response, getSuccessUrl(), null, true);
         } else {
             super.issueSuccessRedirect(request, response);

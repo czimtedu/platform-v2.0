@@ -379,7 +379,7 @@ public class UserAction extends BaseAction<SysUser> {
     @ResponseBody
     @RequiresPermissions("user")
     @RequestMapping(value = "treeData")
-    public List<Map<String, Object>> treeData(@RequestParam(required = false) String officeId, HttpServletResponse response) {
+    public List<Map<String, Object>> treeData(@RequestParam(required = false) String officeId) {
         List<Map<String, Object>> mapList = Lists.newArrayList();
         List<SysUser> list = userService.getUserByOfficeId(officeId);
         if (list != null && list.size() > 0) {

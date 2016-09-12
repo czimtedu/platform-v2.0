@@ -6,12 +6,12 @@ package com.platform.framework.security;
 
 import com.platform.framework.security.shiro.session.SessionDAO;
 import com.platform.framework.servlet.ValidateCodeServlet;
-import com.platform.framework.util.*;
+import com.platform.framework.util.Encodes;
+import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.action.LoginAction;
 import com.platform.modules.sys.bean.SysPermission;
 import com.platform.modules.sys.bean.SysRole;
 import com.platform.modules.sys.bean.SysUser;
-import com.platform.modules.sys.service.LogService;
 import com.platform.modules.sys.service.UserService;
 import com.platform.modules.sys.utils.UserUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -34,7 +34,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,8 +49,6 @@ public class SecurityRealm extends AuthorizingRealm {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private LogService logService;
     @Autowired
     private SessionDAO sessionDao;
 
@@ -131,22 +128,6 @@ public class SecurityRealm extends AuthorizingRealm {
             for (SysRole role : user.getRoleList()) {
                 authorizationInfo.addRole(role.getRoleSign());
             }
-
-            // 登录成功后，记录上次登录的时间和IP
-            UserUtils.putCache("loginTime", DateUtils.formatDateTime(user.getLoginTime()));
-            UserUtils.putCache("loginIp", user.getLoginIp());
-            // 更新用户当前登录时间跟IP
-            user.setLoginTime(new Date());
-            user.setLoginIp(UserAgentUtils.getIpAddr(Servlets.getRequest()));
-            userService.updateUserInfo(user);
-
-            // 记录登录日志
-            try {
-                logService.save(Servlets.getRequest(), "系统登录");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
             return authorizationInfo;
         } else {
             return null;
@@ -207,7 +188,7 @@ public class SecurityRealm extends AuthorizingRealm {
     /**
      * 清空用户关联权限认证，待下次使用时重新加载
      */
-	/*public void clearCachedAuthorizationInfo(Principal principal) {
+    /*public void clearCachedAuthorizationInfo(Principal principal) {
 		SimplePrincipalCollection principals = new SimplePrincipalCollection(principal, getName());
 		clearCachedAuthorizationInfo(principals);
 	}*/
