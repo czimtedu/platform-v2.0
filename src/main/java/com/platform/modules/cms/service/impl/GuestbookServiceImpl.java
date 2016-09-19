@@ -15,21 +15,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 系统角色service实现类
+ * 留言板service实现类
  *
- * @author lufengcheng
+ * @author lufengc
  * @date 2016-01-15 09:56:22
  */
 @Service
-@Transactional(readOnly = true)
 public class GuestbookServiceImpl extends BaseServiceImpl<CmsGuestbook> implements GuestbookService {
 
     @Autowired
     private MybatisDao mybatisDao;
 
-
     @Override
-    @Transactional()
     public String save(CmsGuestbook object) throws Exception {
         if (StringUtils.isNotEmpty(object.getId())) {
             mybatisDao.update(object);
@@ -40,9 +37,4 @@ public class GuestbookServiceImpl extends BaseServiceImpl<CmsGuestbook> implemen
         return object.getId();
     }
 
-    @Override
-    @Transactional()
-    public int delete(String ids) throws Exception {
-        return 0;
-    }
 }

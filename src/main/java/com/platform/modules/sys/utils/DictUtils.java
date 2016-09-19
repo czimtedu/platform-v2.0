@@ -71,7 +71,7 @@ public class DictUtils {
      * 根据某个字典label和字典类型获取值
      *
      * @param label        字典名对应的标签
-     * @param enName        字典名
+     * @param enName       字典名
      * @param defaultLabel 默认标签
      * @return 字典值
      */

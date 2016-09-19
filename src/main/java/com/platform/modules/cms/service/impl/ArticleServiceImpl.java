@@ -4,31 +4,52 @@
 
 package com.platform.modules.cms.service.impl;
 
+import com.google.common.collect.Lists;
+import com.platform.framework.cache.JedisUtils;
+import com.platform.framework.common.Page;
+import com.platform.framework.common.PropertyFilter;
+import com.platform.framework.util.StringUtils;
 import com.platform.modules.cms.bean.CmsArticle;
 import com.platform.modules.cms.bean.CmsArticleData;
+import com.platform.modules.cms.bean.CmsLink;
 import com.platform.modules.cms.service.ArticleService;
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisDao;
 import com.platform.framework.util.Encodes;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
- * 系统角色service实现类
+ * 文章Service实现类
  *
- * @author lufengcheng
- * @date 2016-01-15 09:56:22
+ * @author lufengc
+ * @version 2016-09-12
  */
 @Service
-@Transactional(readOnly = true)
 public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements ArticleService {
 
     @Autowired
     private MybatisDao mybatisDao;
+
+    @Override
+    public Page<CmsArticle> updatePage(Page<CmsArticle> page, CmsArticle object, List<PropertyFilter> propertyFilters,
+                                          String conditions) throws Exception {
+        // 更新过期的权重，间隔为“6”个小时
+        Date updateExpiredWeightDate = (Date) JedisUtils.getObject("updateExpiredWeightDateByArticle");
+        if (updateExpiredWeightDate == null || updateExpiredWeightDate.getTime() < new Date().getTime()) {
+            String sql = "update cms_article SET weight = 0 WHERE weight > 0 AND weight_date < CURDATE()";
+            mybatisDao.updateBySql(sql, null);
+            JedisUtils.setObject("updateExpiredWeightDateByArticle", DateUtils.addHours(new Date(), 6), 0);
+        }
+
+        return super.getPage(page, object, propertyFilters, conditions);
+    }
 
     /**
      * 保存
@@ -37,8 +58,10 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
      * @throws Exception
      */
     @Override
-    @Transactional()
     public String save(CmsArticle object, CmsArticleData articleData) throws Exception {
+        if (StringUtils.isNotBlank(object.getViewConfig())){
+            object.setViewConfig(StringEscapeUtils.unescapeHtml4(object.getViewConfig()));
+        }
         if (StringUtils.isNotEmpty(object.getId())) {
             mybatisDao.update(object);
             mybatisDao.update(articleData);
@@ -54,27 +77,28 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
 
     /**
      * 获取文章内容
+     *
      * @param id 文章内容ID
      * @return 文章内容
      */
     @Override
-    public String getContent(String id) {
-        String content;
-        List<CmsArticleData> list = mybatisDao.selectFieldByIds(CmsArticleData.class, id, "content");
-        if(list != null && list.size() > 0){
-            content = list.get(0).getContent();
+    public CmsArticleData getArticleData(String id) {
+        CmsArticleData data;
+        List<CmsArticleData> list = mybatisDao.selectListByIds(CmsArticleData.class, id);
+        if (list != null && list.size() > 0) {
+            data = list.get(0);
         } else {
-            content = "暂无内容...";
+            data = new CmsArticleData();
         }
-        return content;
+        return data;
     }
 
     /**
      * 更新文章信息（点击数）
+     *
      * @param object 文章列表对象
      */
     @Override
-    @Transactional()
     public void updateArticle(CmsArticle object) {
         mybatisDao.update(object);
     }
@@ -86,7 +110,6 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
      * @throws Exception
      */
     @Override
-    @Transactional()
     public int delete(String ids) throws Exception {
         mybatisDao.deleteByIds(CmsArticle.class, ids);
         mybatisDao.deleteByIds(CmsArticleData.class, ids);
@@ -96,5 +119,19 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
     @Override
     public String save(CmsArticle object) throws Exception {
         return null;
+    }
+
+    /**
+     * 通过编号获取内容标题
+     * @return new Object[]{栏目Id,文章Id,文章标题}
+     */
+    @Override
+    public List<Object[]> getByIds(String ids) {
+        List<Object[]> list = Lists.newArrayList();
+        List<CmsArticle> articles = mybatisDao.selectListByIds(CmsArticle.class, ids);
+        for (CmsArticle e : articles) {
+            list.add(new Object[]{e.getCategoryId(),e.getId(), StringUtils.abbr(e.getTitle(),50)});
+        }
+        return list;
     }
 }

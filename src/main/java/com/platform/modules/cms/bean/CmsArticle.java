@@ -4,6 +4,7 @@
 
 package com.platform.modules.cms.bean;
 
+import com.platform.modules.sys.bean.NoDbColumn;
 import com.platform.modules.sys.bean.SysLog;
 import com.platform.framework.common.BaseEntity;
 
@@ -15,7 +16,7 @@ import java.util.Date;
  * @author lufengcheng
  * @date 2016-01-15 09:56:22
  */
-public class CmsArticle extends BaseEntity<SysLog> {
+public class CmsArticle extends BaseEntity<CmsArticle> {
 
     private static final long serialVersionUID = 1L;
     private String id;
@@ -32,6 +33,11 @@ public class CmsArticle extends BaseEntity<SysLog> {
     private String customContentView;	// 自定义内容视图
     private String viewConfig;	// 视图参数
     private String author; // 作者
+
+    @NoDbColumn
+    public static final String DEFAULT_TEMPLATE = "frontViewArticle";
+    @NoDbColumn
+    private String categoryName;
 
     public String getId() {
         return id;
@@ -143,5 +149,13 @@ public class CmsArticle extends BaseEntity<SysLog> {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }

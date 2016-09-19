@@ -47,6 +47,9 @@ public class MybatisDao {
         if (clazz == null) {
             throw new CommonException("clazz is null");
         }
+        if(ids == null){
+            return new ArrayList<>();
+        }
         String name = StringUtils.substringAfterLast(clazz.getName(), ".");
         String tableName = BeanToTable.beanToTable(name);
         List list = new ArrayList<>();

@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
@@ -20,11 +19,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
@@ -162,8 +159,8 @@ public abstract class BaseFrontAction {
         if (StringUtils.isEmpty(description)) {
             description = e.getMessage();
         }
-        ErrorResult errorResult = new ErrorResult("INTERNAL_SERVER_ERROR", description);
-        return new ModelAndView().addObject(errorResult);
+        Result result = new Result("INTERNAL_SERVER_ERROR", description);
+        return new ModelAndView().addObject(result);
     }
 
     /**

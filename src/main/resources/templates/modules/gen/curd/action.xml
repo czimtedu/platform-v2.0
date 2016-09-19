@@ -30,6 +30,7 @@ import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModule
 
 /**
  * ${functionName}Controller
+ *
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
@@ -52,7 +53,7 @@ public class ${ClassName}Action extends BaseAction<${ClassName}> {
 	public ${ClassName} get(@RequestParam(required=false) String id) throws Exception {
 		${ClassName} entity = null;
 		if (StringUtils.isNotBlank(id)){
-			entity = ${className}Service.get(${ClassName}.class, id);
+			entity = ${className}Service.get(id);
 		}
 		if (entity == null){
 			entity = new ${ClassName}();
@@ -82,7 +83,6 @@ public class ${ClassName}Action extends BaseAction<${ClassName}> {
     @Override
 	@RequestMapping(value = "form")
 	public String form(Model model, ${ClassName} object) throws Exception {
-		model.addAttribute("${className}", object);
 		return "${lastPackageName}/${viewPrefix}Form";
 	}
 

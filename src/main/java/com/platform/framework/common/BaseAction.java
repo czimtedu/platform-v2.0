@@ -246,8 +246,8 @@ public abstract class BaseAction<T> {
         if (StringUtils.isEmpty(description)) {
             description = e.getMessage();
         }
-        ErrorResult errorResult = new ErrorResult("INTERNAL_SERVER_ERROR", description);
-        return new ModelAndView().addObject(errorResult);
+        Result result = new Result("INTERNAL_SERVER_ERROR", description);
+        return new ModelAndView().addObject(result);
     }
 
     /**

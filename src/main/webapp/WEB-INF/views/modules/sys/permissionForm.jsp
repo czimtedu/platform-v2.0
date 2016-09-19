@@ -3,7 +3,7 @@
 
 <html>
 <head>
-	<title>用户管理</title>
+	<title>菜单管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		var validateForm;

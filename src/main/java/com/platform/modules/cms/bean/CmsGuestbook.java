@@ -27,7 +27,7 @@ public class CmsGuestbook implements Serializable {
     private String phone;    // 电话
     private String workunit;// 单位
     private String ip;        // 留言IP
-    private Date createTime;// 留言时间
+    private Date createDate;// 留言时间
     private Integer reUserId; // 回复人
     private Date reDate;    // 回复时间
     private String reContent;// 回复内容
@@ -109,12 +109,12 @@ public class CmsGuestbook implements Serializable {
         this.ip = ip;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public Integer getReUserId() {

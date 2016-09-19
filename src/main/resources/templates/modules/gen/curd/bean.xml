@@ -17,6 +17,7 @@ import com.platform.framework.common.BaseEntity;
 
 /**
  * ${functionName}Entity
+ *
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */

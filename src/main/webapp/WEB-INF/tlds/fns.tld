@@ -33,6 +33,13 @@
         <example>${fns:getFrontPath()}</example>
     </function>
     <function>
+        <description>获取网站URL后缀</description>
+        <name>getUrlSuffix</name>
+        <function-class>com.platform.framework.common.SysConfigManager</function-class>
+        <function-signature>java.lang.String getUrlSuffix()</function-signature>
+        <example>${fns:getUrlSuffix()}</example>
+    </function>
+    <function>
         <description>获取配置</description>
         <name>getConfig</name>
         <function-class>com.platform.framework.common.SysConfigManager</function-class>

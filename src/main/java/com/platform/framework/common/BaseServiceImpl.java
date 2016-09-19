@@ -86,6 +86,9 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
                 entity = list.get(0);
             }
         }
+        if (entity == null) {
+            entity = entityClass.newInstance();
+        }
         return entity;
     }
 
@@ -118,7 +121,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
                 propertyFilter.setPropertyClass(field.getType());
                 propertyFilter.setMatchType(PropertyFilter.MatchType.EQ);
                 propertyFilter.setPropertyName(field.getName());
-                propertyFilter.setMatchValue("'" + value + "'");
+                propertyFilter.setMatchValue(value);
                 propertyFilterList.add(propertyFilter);
             }
         }
@@ -128,7 +131,12 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
         if (index > 0) {
             conditionStr = conditions.substring(index + 6, conditions.length());
         }
-        return (List<T>) mybatisDao.selectListByConditions(object.getClass(), conditionStr);
+        List<T> list = (List<T>) mybatisDao.selectListByConditions(object.getClass(), conditionStr);
+        if (list != null) {
+            return list;
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     /**

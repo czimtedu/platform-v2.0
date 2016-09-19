@@ -16,9 +16,20 @@ import java.util.Date;
  * @date 2016-01-15 09:56:22
  */
 public abstract class BaseResult {
-    protected String code;
+    /**
+     * 1XX表示客户端的错误，2XX表示服务端的错误
+     * 0：成功
+     * 100：请求错误
+     * 101：缺少appKey
+     * 102：缺少签名
+     * 103：缺少参数
+     * 200：服务器出错
+     * 201：服务不可用
+     * 202：服务器正在重启
+     */
+    protected String code = "0";
     protected String message;
-    private String systime;
+    protected String systime;
 
     public String getCode() {
         return code;
@@ -37,7 +48,7 @@ public abstract class BaseResult {
     }
 
     public String getSystime() {
-        if(StringUtils.isEmpty(systime)){
+        if (StringUtils.isEmpty(systime)) {
             systime = DateUtils.formatDateTime(new Date());
         }
         return systime;

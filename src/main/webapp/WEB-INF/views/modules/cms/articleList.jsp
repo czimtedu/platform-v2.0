@@ -1,10 +1,6 @@
 <%@ page language="java" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 
-<%--
-  ~ Copyright &copy; <a href="https://www.zlgx.com">zlgx</a> All rights reserved.
-  --%>
-
 <html>
 <head>
     <title>文章管理</title>
@@ -57,14 +53,18 @@
                     </div>
                 </div>
             </div>
+
             <table:check id="contentTable"/>
-            <table id="contentTable" class="table table-striped table-bordered table-hover table-condensed dataTables-example dataTable no-footer">
+            <table id="contentTable" class="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th><input type="checkbox" class="i-checks"></th>
-                        <th class="sort-column username">标题</th>
-                        <th class="sort-column real_name">关键字</th>
-                        <th class="sort-column mobile">点击数</th>
+                        <th>栏目</th>
+                        <th class="sort-column title">标题</th>
+                        <th class="sort-column weight">权重</th>
+                        <th class="sort-column hits">点击数</th>
+                        <th class="sort-column keywords">关键字</th>
+                        <th class="sort-column updateTime">更新时间</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -72,27 +72,18 @@
                 <c:forEach items="${page.list}" var="bean">
                     <tr>
                         <td><input type="checkbox" id="${bean.id}" class="i-checks"></td>
-                        <td>${bean.title}</td>
-                        <td>${bean.keywords}</td>
+                        <td><a href="javascript:" onclick="$('#categoryId').val('${bean.categoryId}');$('#categoryName').val('${bean.categoryName}');$('#searchForm').submit();return false;">${bean.categoryName}</a></td>
+                        <td><a href="#" onclick="openDialogView('查看', '${ctx}/cms/article/form?id=${bean.id}')">${fns:abbr(bean.title,40)}</a></td>
+                        <td>${bean.weight}</td>
                         <td>${bean.hits}</td>
+                        <td>${bean.keywords}</td>
+                        <td><fmt:formatDate value="${bean.updateTime}" type="both"/></td>
                         <td>
-                            <a href="#"
-                               onclick="openDialogView('查看', '${ctx}/cms/article/form?id=${bean.id}','800px', '500px')"
-                               class="btn btn-link btn-xs">
-                                <i class="fa fa-search-plus"></i> 查看
-                            </a>
+                            <a href="${pageContext.request.contextPath}${fns:getFrontPath()}/view-${bean.categoryId}-${bean.id}${fns:getUrlSuffix()}"
+                               target="_blank"><i class="fa fa-street-view"></i>访问</a>
                             <shiro:hasPermission name="sys:user:edit">
-                                <a href="#"
-                                   onclick="openDialog('修改', '${ctx}/cms/article/form?id=${bean.id}','800px', '680px')"
-                                   class="btn btn-link btn-xs">
-                                    <i class="fa fa-edit"></i> 修改
-                                </a>
-                            </shiro:hasPermission>
-                            <shiro:hasPermission name="sys:user:del">
-                                <a href="${ctx}/cms/article/delete?ids=${bean.id}"
-                                   onclick="return confirmx('确认要删除该数据吗？', this.href)" class="btn btn-link btn-xs">
-                                    <i class="fa fa-trash"></i> 删除
-                                </a>
+                                <a href="#" onclick="openDialog('修改', '${ctx}/cms/article/form?id=${bean.id}')"><i class="fa fa-edit"></i>修改</a>
+                                <a href="#" onclick="return confirmx('确认要删除该数据吗？', '${ctx}/cms/article/delete?ids=${bean.id}')"><i class="fa fa-trash"></i>删除</a>
                             </shiro:hasPermission>
                         </td>
                     </tr>

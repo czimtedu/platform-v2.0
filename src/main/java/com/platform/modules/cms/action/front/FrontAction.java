@@ -72,7 +72,7 @@ public class FrontAction extends BaseFrontAction {
         bean.setHits(bean.getHits() + 1);
         articleService.updateArticle(bean);
         model.addAttribute("bean", bean);
-        model.addAttribute("content", articleService.getContent(id));
+        model.addAttribute("content", articleService.getArticleData(id).getContent());
         return "modules/cms/front/pages/article";
     }
 
@@ -141,7 +141,7 @@ public class FrontAction extends BaseFrontAction {
         }
         String content = "";
         if (StringUtils.isNotEmpty(object.getId())) {
-            content = articleService.getContent(object.getId());
+            content = articleService.getArticleData(id).getContent();
         }
         boolean computer = UserAgentUtils.isComputer(request);
         model.addAttribute("computer", computer ? 1 : 0);
@@ -163,7 +163,7 @@ public class FrontAction extends BaseFrontAction {
         bean.setHits(bean.getHits() + 1);
         articleService.updateArticle(bean);
         model.addAttribute("bean", bean);
-        model.addAttribute("content", articleService.getContent(id));
+        model.addAttribute("content", articleService.getArticleData(id).getContent());
         return "modules/cms/front/pages/grz-article";
     }
 

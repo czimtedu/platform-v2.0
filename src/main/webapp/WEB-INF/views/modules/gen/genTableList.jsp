@@ -60,9 +60,6 @@
                         <shiro:hasPermission name="gen:genTable:edit">
                             <table:addRow url="${ctx}/gen/genTable/form" title="业务表" width="1200px" height="650px"/><!-- 增加按钮 -->
                             <table:delRow url="${ctx}/gen/genTable/delete" id="contentTable"/><!-- 删除按钮 -->
-                            <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="genCodeForm()" title="生成代码">
-                                <i class="fa fa-folder-o"></i> 生成代码
-                            </button>
                         </shiro:hasPermission>
                         <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="sortOrRefresh()" title="刷新">
                             <i class="glyphicon glyphicon-repeat"></i> 刷新

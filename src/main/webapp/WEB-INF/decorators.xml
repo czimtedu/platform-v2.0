@@ -7,6 +7,6 @@
 	<decorator name="default" page="layouts/default.jsp" />
 
     <!-- CMS基础主题装饰页面 -->
-	<decorator name="cms_default_basic" page="cms/front/layouts/default.jsp" />
-	<decorator name="cms_grz" page="cms/front/layouts/grz.jsp" />
+	<decorator name="cms_default_basic" page="modules/cms/front/layouts/default.jsp" />
+	<decorator name="cms_grz" page="modules/cms/front/layouts/grz.jsp" />
 </decorators>
