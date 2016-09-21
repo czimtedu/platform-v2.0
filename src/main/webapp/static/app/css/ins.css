@@ -328,7 +328,6 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
 
 .slimScrollDiv >* {
     overflow: hidden;
-    overflow-y:hide;
 }
 
 .mini-navbar .nav-second-level li a {
@@ -2079,6 +2078,10 @@ table.dataTable thead .sorting:after {
     padding-left: 0;
 }
 
+.form-group span{
+    margin-left: 5px;
+}
+
 .form-control,
 .single-line {
     background: #FFFFFF none;
@@ -2650,11 +2653,6 @@ label.error {
     border: 1px solid #d4d4d4;
     width: 500px;
     height: 300px;
-}
-
-.ngH eaderCell {
-    border-right: none;
-    border-bottom: 1px solid #e7eaec;
 }
 
 .ngCell {
@@ -3337,10 +3335,6 @@ body {
 body.full-height-layout #wrapper,
 body.full-height-layout #page-wrapper {
     height: 100%;
-}
-
-#page-wrapper {
-    min-height: auto;
 }
 
 body.boxed-layout {
@@ -6498,8 +6492,8 @@ del {
 
 @-webkit-keyframes sk-innerCircle {
     0% {
-        -webkit-transform: rotate(0);
-        transform: rotate(0);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     100% {
         -webkit-transform: rotate(360deg);
@@ -6509,8 +6503,8 @@ del {
 
 @keyframes sk-innerCircle {
     0% {
-        -webkit-transform: rotate(0);
-        transform: rotate(0);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     100% {
         -webkit-transform: rotate(360deg);
@@ -7806,7 +7800,7 @@ body.skin-3 {
 .supcan {border:1px #d3d3d3 solid;height:300px;}
 /*.control-group {padding-bottom:8px;margin-bottom:0;border-bottom:1px dotted #dddddd;} legend + .control-group {margin-top:8px;}*/
 .controls .lbl {display:inline-block;padding-top:5px;margin-bottom:0;vertical-align:middle;}
-.measure-input {background:url("../images/ruler.gif") repeat-x scroll 0 bottom transparent;}
+.measure-input {background:url("../image/ruler.gif") repeat-x scroll 0 bottom transparent;}
 .input-min{width:30px;} .input-mini{width:90px;} .input-small{width:120px;} .input-medium {width:163px;}.input-xxlarge {width:460px;}
 .help-block,.help-inline {color:#aaaaaa;} .alert {margin-bottom:10px;}
 

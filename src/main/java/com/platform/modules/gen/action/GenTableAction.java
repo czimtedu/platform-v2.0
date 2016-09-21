@@ -50,7 +50,7 @@ public class GenTableAction extends BaseAction<GenTable> {
     @Override
     @RequestMapping(value = {"list", ""})
     public String list(Model model, GenTable genTable, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Page<GenTable> page = genTableService.getPage(new Page<GenTable>(request, response), genTable, null, "");
+        Page<GenTable> page = genTableService.getPage(new Page<GenTable>(request, response), genTable, "");
         model.addAttribute("page", page);
         return "modules/gen/genTableList";
     }

@@ -161,13 +161,12 @@ public class DaoUtils {
      *
      * @param sb        StringBuffer对象用以保存SQL语句
      * @param orderBy   字段名称
-     * @param direction 排序(ASC,DESC)
      * @return StringBuffer
      */
-    public static StringBuffer getOrderBy(StringBuffer sb, String orderBy, String direction) {
+    public static StringBuffer getOrderBy(StringBuffer sb, String orderBy) {
         if (!sb.toString().contains("order by")) {
             if (StringUtils.isNotEmpty(orderBy)) {
-                sb.append(" order by ").append(orderBy).append(" ").append(direction.replace(".", ""));
+                sb.append(" order by ").append(orderBy);
             }
         }
         return sb;

@@ -91,7 +91,7 @@ public class CategoryAction extends BaseAction<CmsCategory> {
     public String list(Model model, CmsCategory object, HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<CmsCategory> sourcelist = categoryService.getByUser(true, null);
         List<CmsCategory> list = Lists.newArrayList();
-        Collections.sort(sourcelist, new Comparator<CmsCategory>() {
+        Collections.sort(sourcelist,  new Comparator<CmsCategory>() {
             public int compare(CmsCategory o1, CmsCategory o2) {
                 // 按sortId升序排序
                 if (o1.getSort() > o2.getSort()) {

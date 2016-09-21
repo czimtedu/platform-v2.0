@@ -17,7 +17,7 @@
             <!-- 查询条件 -->
             <div class="row">
                 <div class="col-sm-12">
-                    <form:form id="searchForm" modelAttribute="cmsComment" action="${ctx}/cms/site/" method="post" class="form-inline">
+                    <form:form id="searchForm" modelAttribute="cmsComment" action="${ctx}/cms/comment/" method="post" class="form-inline">
                         <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
                         <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
                         <table:sortColumn id="orderBy" name="orderBy" value="${page.orderBy}" callback="sortOrRefresh();"/><!-- 支持排序 -->
@@ -40,8 +40,8 @@
                 <div class="col-sm-12">
                     <div class="pull-left">
                         <shiro:hasPermission name="cms:comment:edit">
-                            <table:addRow url="${ctx}/cms/site/form" title="评论" width="800px" height="650px"/><!-- 增加按钮 -->
-                            <table:delRow url="${ctx}/cms/site/delete" id="contentTable"/><!-- 删除按钮 -->
+                            <table:addRow url="${ctx}/cms/comment/form" title="评论" width="800px" height="650px"/><!-- 增加按钮 -->
+                            <table:delRow url="${ctx}/cms/comment/delete" id="contentTable"/><!-- 删除按钮 -->
                         </shiro:hasPermission>
                         <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="sortOrRefresh()" title="刷新">
                             <i class="glyphicon glyphicon-repeat"></i> 刷新
@@ -75,10 +75,10 @@
                                target="_blank">${fns:abbr(bean.title,40)}</a></td>
                         <td>${bean.name}</td>
                         <td>${bean.ip}</td>
-                        <td><fmt:formatDate value="${bean.createTime}" type="both"/></td>
+                        <td><fmt:formatDate value="${bean.createDate}" type="both"/></td>
                         <td>
-                            <shiro:hasPermission name="cms:site:edit">
-                                <a href="#" onclick="return confirmx('确认要删除该数据吗？', '${ctx}/cms/site/delete?ids=${bean.id}')">
+                            <shiro:hasPermission name="cms:comment:edit">
+                                <a href="#" onclick="return confirmx('确认要删除该数据吗？', '${ctx}/cms/comment/delete?ids=${bean.id}')">
                                     <i class="fa fa-trash"></i>删除</a>
                             </shiro:hasPermission>
                         </td>

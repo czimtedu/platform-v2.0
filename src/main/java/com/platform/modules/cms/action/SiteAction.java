@@ -69,7 +69,7 @@ public class SiteAction extends BaseAction<CmsSite> {
     @RequestMapping(value = {"list", ""})
     @RequiresPermissions("cms:site:view")
     public String list(Model model, CmsSite object, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Page<CmsSite> page = siteService.getPage(new Page<CmsSite>(request, response), object, null, "");
+        Page<CmsSite> page = siteService.getPage(new Page<CmsSite>(request, response), object, "");
         model.addAttribute("page", page);
         return "modules/cms/siteList";
     }

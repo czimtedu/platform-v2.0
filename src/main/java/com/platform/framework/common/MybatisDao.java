@@ -236,7 +236,7 @@ public class MybatisDao {
             page.setPageNo(totalPage + 1);
         }
         //拼接查询顺序
-        DaoUtils.getOrderBy(jpql, page.getOrderBy(), page.getDirection());
+        DaoUtils.getOrderBy(jpql, page.getOrderBy());
         if (page.getPageSize() != -1) {
             int start = 0;
             //查询分页信息

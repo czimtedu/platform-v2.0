@@ -117,7 +117,7 @@ public class UserAction extends BaseAction<SysUser> {
             throws Exception {
         //String conditions = "status <> 0";
         //根据当前组织机构ID查询数据
-        List<PropertyFilter> propertyFilters = new ArrayList<>();
+        Page<SysUser> sysUserPage = new Page<>(request, response);
         if (StringUtils.isNotEmpty(object.getOfficeId())) {
             String ids = object.getOfficeId();
             List<SysOffice> offices = officeService.getByParentIdsLike(object.getOfficeId());
@@ -131,10 +131,10 @@ public class UserAction extends BaseAction<SysUser> {
             propertyFilter.setMatchType(PropertyFilter.MatchType.IN);
             propertyFilter.setPropertyName("officeId");
             propertyFilter.setMatchValue(StringUtils.idsToString(ids));
-            propertyFilters.add(propertyFilter);
+            sysUserPage.addPropertyFilter(propertyFilter);
         }
         object.setOfficeId(null);
-        Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), object, propertyFilters, "status <> 0");
+        Page<SysUser> page = userService.getPage(sysUserPage, object, "status <> 0");
         model.addAttribute("page", page);
         return "modules/sys/userList";
     }
@@ -222,7 +222,7 @@ public class UserAction extends BaseAction<SysUser> {
     public String exportFile(SysUser user, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
         try {
             String fileName = "用户数据" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
-            Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), user, null, "status <> 0");
+            Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), user, "status <> 0");
             new ExportExcel("用户数据", SysUser.class).setDataList(page.getList()).write(response, fileName).dispose();
             return null;
         } catch (Exception e) {

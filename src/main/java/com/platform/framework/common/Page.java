@@ -31,7 +31,6 @@ public class Page<T> implements Serializable {
     private int count; // 总记录数，设置为“-1”表示不查询总数
     private int displayCount; // 根据筛选条件筛选后的总记录数
 
-    private String direction = ""; // 排序方式
     private String orderBy = "create_time desc"; // 排序字段
 
     private int first;  // 首页索引
@@ -55,7 +54,15 @@ public class Page<T> implements Serializable {
 
     private List<PropertyFilter> propertyFilterList = new ArrayList<>();
 
-    public void addPropertyFilterList(PropertyFilter propertyFilter) {
+    public List<PropertyFilter> getPropertyFilterList() {
+        return propertyFilterList;
+    }
+
+    public void setPropertyFilterList(List<PropertyFilter> propertyFilterList) {
+        this.propertyFilterList = propertyFilterList;
+    }
+
+    public void addPropertyFilter(PropertyFilter propertyFilter) {
         this.propertyFilterList.add(propertyFilter);
     }
 
@@ -107,8 +114,11 @@ public class Page<T> implements Serializable {
         }
         // 设置排序参数
         String orderBy = request.getParameter("orderBy");
+        Object orderByAttr = request.getAttribute("orderBy");
         if (StringUtils.isNotBlank(orderBy)) {
             this.setOrderBy(orderBy);
+        } else if (orderByAttr != null){
+            this.setOrderBy(orderByAttr.toString());
         }
     }
 
@@ -359,7 +369,7 @@ public class Page<T> implements Serializable {
      * 设置页面大小（最大500）
      */
     public void setPageSize(int pageSize) {
-        this.pageSize = pageSize <= 0 ? 10 : pageSize;// > 500 ? 500 : pageSize;
+        this.pageSize = pageSize <= 0 ? 10 : pageSize > 500 ? 500 : pageSize;
     }
 
     /**
@@ -504,6 +514,12 @@ public class Page<T> implements Serializable {
     }
 
     /**
+     * 获取提示消息，显示在“共n条”之后
+     */
+    public String getMessage() {
+        return message;
+    }
+    /**
      * 设置提示消息，显示在“共n条”之后
      */
     public void setMessage(String message) {
@@ -557,19 +573,5 @@ public class Page<T> implements Serializable {
         this.displayCount = displayCount;
     }
 
-    public String getDirection() {
-        return direction;
-    }
 
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
-
-    public List<PropertyFilter> getPropertyFilterList() {
-        return propertyFilterList;
-    }
-
-    public void setPropertyFilterList(List<PropertyFilter> propertyFilterList) {
-        this.propertyFilterList = propertyFilterList;
-    }
 }

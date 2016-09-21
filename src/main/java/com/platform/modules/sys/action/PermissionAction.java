@@ -189,7 +189,7 @@ public class PermissionAction extends BaseAction<SysPermission> {
     public List<Map<String, Object>> treeData(@RequestParam(required = false) Integer extId,
                                               @RequestParam(required = false) Integer isShowHide) throws Exception {
         List<Map<String, Object>> mapList = Lists.newArrayList();
-        List<SysPermission> list = permissionService.getList(new SysPermission());
+        List<SysPermission> list = UserUtils.getMenuList();
         for (SysPermission bean : list) {
             if (extId == null || (!extId.equals(bean.getId()) && !bean.getParentIds().contains("," + extId + ","))) {
                 if (isShowHide != null && isShowHide == 0 && bean.getIsShow() == 0) {

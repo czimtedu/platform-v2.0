@@ -144,16 +144,12 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
      *
      * @param page            分页信息
      * @param object          分页对象
-     * @param propertyFilters List<PropertyFilter>
      * @return Page<T>
      * @throws Exception
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Page<T> getPage(Page<T> page, T object, List<PropertyFilter> propertyFilters, String conditions) throws Exception {
-        if (propertyFilters == null) {
-            propertyFilters = new ArrayList<>();
-        }
+    public Page<T> getPage(Page<T> page, T object, String conditions) throws Exception {
         PropertyFilter propertyFilter;
         Field[] fields = Reflections.getField(object.getClass(), null);
         for (Field field : fields) {
@@ -166,13 +162,16 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
             if (!"serialVersionUID".equals(field.getName()) && value != null && !value.equals("")) {
                 propertyFilter = new PropertyFilter();
                 propertyFilter.setPropertyClass(field.getType());
-                propertyFilter.setMatchType(PropertyFilter.MatchType.LIKE);
+                if("String".equals(field.getType().getName()) || "java.lang.String".equals(field.getType().getName())){
+                    propertyFilter.setMatchType(PropertyFilter.MatchType.LIKE);
+                } else {
+                    propertyFilter.setMatchType(PropertyFilter.MatchType.EQ);
+                }
                 propertyFilter.setPropertyName(field.getName());
                 propertyFilter.setMatchValue(value);
-                propertyFilters.add(propertyFilter);
+                page.addPropertyFilter(propertyFilter);
             }
         }
-        page.setPropertyFilterList(propertyFilters);
         List<T> list = (List<T>) mybatisDao.selectPageByConditions(object.getClass(), conditions, page);
         page.setList(list);
         return page;

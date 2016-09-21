@@ -59,13 +59,11 @@ public class OfficeAction extends BaseAction<SysOffice> {
     /**
      * 机构首页
      *
-     * @param office SysOffice
-     * @param model  Model
      * @return String
      */
     @RequestMapping(value = {""})
     @RequiresPermissions("sys:office:view")
-    public String index(SysOffice office, Model model) {
+    public String index() {
         return "modules/sys/officeIndex";
     }
 

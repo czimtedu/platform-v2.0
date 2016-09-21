@@ -70,11 +70,10 @@ public interface BaseService<T> {
     /**
      * @param page            分页信息
      * @param object          分页对象
-     * @param propertyFilters List<PropertyFilter>
      * @return Page<T>
      * @throws Exception
      */
-    Page<T> getPage(Page<T> page, T object, List<PropertyFilter> propertyFilters, String conditions) throws Exception;
+    Page<T> getPage(Page<T> page, T object, String conditions) throws Exception;
 
 
 }

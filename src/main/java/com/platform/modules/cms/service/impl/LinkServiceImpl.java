@@ -8,7 +8,6 @@ import com.platform.framework.cache.JedisUtils;
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisDao;
 import com.platform.framework.common.Page;
-import com.platform.framework.common.PropertyFilter;
 import com.platform.framework.util.StringUtils;
 import com.platform.modules.cms.bean.CmsLink;
 import com.platform.modules.cms.service.LinkService;
@@ -34,7 +33,7 @@ public class LinkServiceImpl extends BaseServiceImpl<CmsLink> implements LinkSer
     MybatisDao mybatisDao;
 
     @Override
-    public Page<CmsLink> getPage(Page<CmsLink> page, CmsLink object, List<PropertyFilter> propertyFilters,
+    public Page<CmsLink> getPage(Page<CmsLink> page, CmsLink object,
                                  String conditions) throws Exception {
         // 更新过期的权重，间隔为“6”个小时
         Date updateExpiredWeightDate = (Date) JedisUtils.getObject("updateExpiredWeightDateByLink");
@@ -44,7 +43,7 @@ public class LinkServiceImpl extends BaseServiceImpl<CmsLink> implements LinkSer
             JedisUtils.setObject("updateExpiredWeightDateByLink", DateUtils.addHours(new Date(), 6), 0);
         }
 
-        return super.getPage(page, object, propertyFilters, conditions);
+        return super.getPage(page, object, conditions);
     }
 
     @Override

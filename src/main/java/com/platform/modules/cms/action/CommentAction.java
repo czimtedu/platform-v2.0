@@ -70,7 +70,8 @@ public class CommentAction extends BaseAction<CmsComment> {
     @RequestMapping(value = {"list", ""})
     @RequiresPermissions("cms:comment:view")
     public String list(Model model, CmsComment object, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Page<CmsComment> page = commentService.getPage(new Page<CmsComment>(request, response), object, null, "");
+        request.setAttribute("orderBy", "create_date desc");
+        Page<CmsComment> page = commentService.getPage(new Page<CmsComment>(request, response), object, "");
         model.addAttribute("page", page);
         return "modules/cms/commentList";
     }
@@ -87,7 +88,7 @@ public class CommentAction extends BaseAction<CmsComment> {
     @RequestMapping(value = "form")
     @RequiresPermissions("cms:comment:edit")
     public String form(Model model, CmsComment object) throws Exception {
-        return "modules/cms/commentForm";
+        return "";
     }
 
     /**

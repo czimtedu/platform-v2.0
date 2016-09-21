@@ -208,7 +208,7 @@ public class CmsUtils {
         }
         article.setStatus(Global.STATUS_NORMAL);
         try {
-            page = articleService.getPage(page, article, null, "");
+            page = articleService.getPage(page, article, "");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -248,7 +248,7 @@ public class CmsUtils {
         }
         link.setStatus(Global.STATUS_NORMAL);
         try {
-            page = linkService.getPage(page, link, null, "");
+            page = linkService.getPage(page, link, "");
         } catch (Exception e) {
             e.printStackTrace();
         }

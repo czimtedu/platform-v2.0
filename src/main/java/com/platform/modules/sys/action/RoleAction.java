@@ -21,7 +21,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +57,6 @@ public class RoleAction extends BaseAction<SysRole> {
         SysRole sysRole;
         if (StringUtils.isNotEmpty(id)) {
             sysRole = roleService.get(id);
-            StringBuilder checkedPermissionIds = new StringBuilder();
             StringBuilder permissionIds = new StringBuilder();
             List<SysPermission> permissionList = permissionService.getByRoleId(sysRole.getId());
             for (SysPermission sysPermission : permissionList) {
@@ -67,17 +65,8 @@ public class RoleAction extends BaseAction<SysRole> {
                 } else {
                     permissionIds.append(",").append(sysPermission.getId());
                 }
-                List<SysPermission> subPermissionList = permissionService.getByParentId(sysPermission.getId());
-                if (subPermissionList == null || subPermissionList.size() <= 0) {
-                    if (checkedPermissionIds.length() == 0) {
-                        checkedPermissionIds.append(sysPermission.getId());
-                    } else {
-                        checkedPermissionIds.append(",").append(sysPermission.getId());
-                    }
-                }
             }
             sysRole.setPermissionIds(permissionIds.toString());
-            sysRole.setCheckedPermissionIds(checkedPermissionIds.toString());
         } else {
             sysRole = new SysRole();
         }
@@ -198,7 +187,7 @@ public class RoleAction extends BaseAction<SysRole> {
     public String selectUser(SysRole role, SysUser user, Model model, HttpServletRequest request,
                              HttpServletResponse response) throws Exception {
         user.setId(null);
-        Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), user, null, "status <> 0");
+        Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), user, "status <> 0");
         model.addAttribute("page", page);
         return "modules/sys/selectUser";
     }

@@ -4,11 +4,9 @@
 
 package com.platform.modules.cms.service;
 
-import com.platform.framework.common.Page;
-import com.platform.framework.common.PropertyFilter;
+import com.platform.framework.common.BaseService;
 import com.platform.modules.cms.bean.CmsArticle;
 import com.platform.modules.cms.bean.CmsArticleData;
-import com.platform.framework.common.BaseService;
 
 import java.util.List;
 
@@ -20,9 +18,6 @@ import java.util.List;
  */
 public interface ArticleService extends BaseService<CmsArticle> {
 
-    Page<CmsArticle> updatePage(Page<CmsArticle> page, CmsArticle object, List<PropertyFilter> propertyFilters,
-                                String conditions) throws Exception;
-
     String save(CmsArticle object, CmsArticleData articleData) throws Exception;
 
     CmsArticleData getArticleData(String id);
@@ -30,4 +25,6 @@ public interface ArticleService extends BaseService<CmsArticle> {
     void updateArticle(CmsArticle object);
 
     List<Object[]> getByIds(String ids);
+
+    void updateWeight();
 }

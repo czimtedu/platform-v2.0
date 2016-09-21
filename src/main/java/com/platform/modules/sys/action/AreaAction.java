@@ -10,6 +10,7 @@ import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.Param;
 import com.platform.modules.sys.bean.SysArea;
 import com.platform.modules.sys.service.AreaService;
+import com.platform.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,7 +54,7 @@ public class AreaAction extends BaseAction<SysArea> {
     @RequestMapping(value = {"list", ""})
     @RequiresPermissions("sys:area:view")
     protected String list(Model model, SysArea object, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        model.addAttribute("list", areaService.getList(new SysArea()));
+        model.addAttribute("list", UserUtils.getAreaList());
         return "modules/sys/areaList";
     }
 
@@ -96,7 +97,7 @@ public class AreaAction extends BaseAction<SysArea> {
     public List<Map<String, Object>> treeData(@RequestParam(required = false) String extId) {
         List<Map<String, Object>> mapList = Lists.newArrayList();
         try {
-            List<SysArea> list = areaService.getList(new SysArea());
+            List<SysArea> list = UserUtils.getAreaList();
             for (SysArea e : list) {
                 if (StringUtils.isBlank(extId)
                         || (!extId.equals(e.getId()) && !e.getParentIds().contains("," + extId + ","))) {

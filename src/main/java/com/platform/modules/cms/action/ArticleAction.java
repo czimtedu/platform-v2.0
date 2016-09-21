@@ -92,7 +92,8 @@ public class ArticleAction extends BaseAction<CmsArticle> {
     @RequestMapping(value = "list")
     @RequiresPermissions("cms:article:view")
     public String list(Model model, CmsArticle object, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Page<CmsArticle> page = articleService.updatePage(new Page<CmsArticle>(request, response), object, null, "");
+        articleService.updateWeight();
+        Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response), object, "");
         model.addAttribute("page", page);
         return "modules/cms/articleList";
     }

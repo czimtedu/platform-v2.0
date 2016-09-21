@@ -94,7 +94,7 @@ public class LogAction extends BaseAction<SysLog> {
             }
             conditions += "create_time >= '" + start + "' and create_time <= '" + end + "'";
         }
-        Page<SysLog> page = logService.getPage(new Page<SysLog>(request, response), object, null, conditions);
+        Page<SysLog> page = logService.getPage(new Page<SysLog>(request, response), object, conditions);
         model.addAttribute("page", page);
         return "modules/sys/logList";
     }

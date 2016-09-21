@@ -11,7 +11,6 @@ import com.platform.framework.common.PropertyFilter;
 import com.platform.framework.util.StringUtils;
 import com.platform.modules.cms.bean.CmsArticle;
 import com.platform.modules.cms.bean.CmsArticleData;
-import com.platform.modules.cms.bean.CmsLink;
 import com.platform.modules.cms.service.ArticleService;
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisDao;
@@ -21,7 +20,6 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,9 +35,11 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
     @Autowired
     private MybatisDao mybatisDao;
 
+    /**
+     * 更新过期的权重，间隔时间为6个小时
+     */
     @Override
-    public Page<CmsArticle> updatePage(Page<CmsArticle> page, CmsArticle object, List<PropertyFilter> propertyFilters,
-                                          String conditions) throws Exception {
+    public void updateWeight() {
         // 更新过期的权重，间隔为“6”个小时
         Date updateExpiredWeightDate = (Date) JedisUtils.getObject("updateExpiredWeightDateByArticle");
         if (updateExpiredWeightDate == null || updateExpiredWeightDate.getTime() < new Date().getTime()) {
@@ -47,8 +47,6 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
             mybatisDao.updateBySql(sql, null);
             JedisUtils.setObject("updateExpiredWeightDateByArticle", DateUtils.addHours(new Date(), 6), 0);
         }
-
-        return super.getPage(page, object, propertyFilters, conditions);
     }
 
     /**
@@ -134,4 +132,5 @@ public class ArticleServiceImpl extends BaseServiceImpl<CmsArticle> implements A
         }
         return list;
     }
+
 }
