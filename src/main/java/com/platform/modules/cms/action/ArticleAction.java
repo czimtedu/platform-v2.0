@@ -9,6 +9,7 @@ import com.platform.modules.cms.bean.CmsArticle;
 import com.platform.modules.cms.bean.CmsArticleData;
 import com.platform.modules.cms.bean.CmsSite;
 import com.platform.modules.cms.service.ArticleService;
+import com.platform.modules.cms.service.CategoryService;
 import com.platform.modules.cms.service.FileTplService;
 import com.platform.modules.cms.service.SiteService;
 import com.platform.modules.cms.utils.CmsUtils;
@@ -47,6 +48,8 @@ public class ArticleAction extends BaseAction<CmsArticle> {
     private FileTplService fileTplService;
     @Autowired
     private SiteService siteService;
+    @Autowired
+    private CategoryService categoryService;
 
     /**
      * 数据绑定
@@ -70,13 +73,13 @@ public class ArticleAction extends BaseAction<CmsArticle> {
     @RequestMapping(value = "")
     @RequiresPermissions("cms:article:view")
     public String index() {
-        return "modules/cms/cmsIndex";
+        return "modules/cms/articleIndex";
     }
 
     @RequestMapping(value = "none")
     @RequiresPermissions("cms:article:view")
     public String none() {
-        return "modules/cms/cmsNone";
+        return "modules/cms/articleNone";
     }
 
     /**
@@ -94,6 +97,11 @@ public class ArticleAction extends BaseAction<CmsArticle> {
     public String list(Model model, CmsArticle object, HttpServletRequest request, HttpServletResponse response) throws Exception {
         articleService.updateWeight();
         Page<CmsArticle> page = articleService.getPage(new Page<CmsArticle>(request, response), object, "");
+        List<CmsArticle> list = page.getList();
+        for (CmsArticle article : list) {
+            article.setCategoryName(categoryService.get(article.getCategoryId()).getName());
+        }
+        page.setList(list);
         model.addAttribute("page", page);
         return "modules/cms/articleList";
     }
@@ -114,10 +122,10 @@ public class ArticleAction extends BaseAction<CmsArticle> {
         if(StringUtils.isNotEmpty(object.getId())){
             articleData = articleService.getArticleData(object.getId());
         }
-        model.addAttribute("articleData", articleData);
+        object.setCmsArticleData(articleData);
         model.addAttribute("contentViewList",getTplContent());
         model.addAttribute("article_DEFAULT_TEMPLATE",CmsArticle.DEFAULT_TEMPLATE);
-        model.addAttribute("article", object);
+        model.addAttribute("cmsArticle", object);
         CmsUtils.addViewConfigAttribute(model, CmsUtils.getCategory(object.getCategoryId()));
         return "modules/cms/articleForm";
     }

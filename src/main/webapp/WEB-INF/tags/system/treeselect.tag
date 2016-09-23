@@ -23,17 +23,20 @@
 <%@ attribute name="disabled" type="java.lang.String" required="false" description="是否限制选择，如果限制，设置为disabled"%>
 <%@ attribute name="dataMsgRequired" type="java.lang.String" required="false" description=""%>
 
-<input id="${id}Id" name="${name}" class="${cssClass}" type="hidden" value="${value}"/>
-	<div class="input-group">
-		<input id="${id}Name" name="${labelName}" ${allowInput?'':'readonly="readonly"'}  type="text" value="${labelValue}" data-msg-required="${dataMsgRequired}"
-		class="${cssClass}" style="${cssStyle}"/>
-       		 <span class="input-group-btn">
-	       		 <button type="button"  id="${id}Button" class="btn <c:if test="${fn:contains(cssClass, 'input-sm')}"> btn-sm </c:if><c:if test="${fn:contains(cssClass, 'input-lg')}"> btn-lg </c:if>  btn-primary ${disabled} ${hideBtn ? 'hide' : ''}"><i class="fa fa-search"></i>
-	             </button> 
-       		 </span>
-       		
-    </div>
-	 <label id="${id}Name-error" class="error" for="${id}Name" style="display:none"></label>
+<div class="input-group">
+    <input id="${id}Id" name="${name}" class="${cssClass}" type="hidden" value="${value}"/>
+
+		<input id="${id}Name" name="${labelName}" ${allowInput?'':'readonly="readonly"'}  type="text" value="${labelValue}"
+               data-msg-required="${dataMsgRequired}" class="${cssClass}" style="${cssStyle}"/>
+         <span class="input-group-btn">
+             <button type="button"  id="${id}Button" class="btn <c:if test="${fn:contains(cssClass, 'input-sm')}"> btn-sm </c:if><c:if test="${fn:contains(cssClass, 'input-lg')}"> btn-lg </c:if>  btn-primary ${disabled} ${hideBtn ? 'hide' : ''}">
+                 <i class="fa fa-search"></i>
+             </button>
+         </span>
+
+</div>
+<label id="${id}Name-error" class="error" for="${id}Name" style="display:none"></label>
+
 <script type="text/javascript">
 	$("#${id}Button, #${id}Name").click(function(){
 		// 是否限制选择，如果限制，设置为disabled

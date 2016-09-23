@@ -2062,24 +2062,6 @@ table.dataTable thead .sorting:after {
     font-family: "FontAwesome", serif;
 }
 
-/* INPUTS */
-
-.inline {
-    display: inline-block !important;
-}
-
-.input-s-sm {
-    width: 120px;
-}
-
-.input-s {
-    width: 200px;
-}
-
-.input-s-lg {
-    width: 250px;
-}
-
 .i-checks {
     padding-left: 0;
 }
@@ -7959,27 +7941,41 @@ body.skin-3 {
     vertical-align: middle;
 }
 
+/* INPUTS */
+
+.inline {
+    display: inline-block !important;
+}
+
 .measure-input {
     background: url("../image/ruler.gif") repeat-x scroll 0 bottom transparent;
 }
 
-.input-min {
+.input-min, .input-group .input-min {
     width: 30px;
 }
 
-.input-mini {
+.input-mini, .input-group .input-mini {
     width: 90px;
 }
 
-.input-small {
+.input-small, .input-group .input-small {
     width: 120px;
 }
 
-.input-medium {
+.input-medium, .input-group .input-medium {
     width: 163px;
 }
 
-.input-xxlarge {
+.input-large, .input-group .input-large {
+    width: 210px
+}
+
+.input-xlarge, .input-group .input-xlarge {
+    width: 270px
+}
+
+.input-xxlarge, .input-group .input-xxlarge {
     width: 460px;
 }
 
@@ -8259,4 +8255,12 @@ textarea {
 
 .input-group-btn button {
     height: 30px;
+}
+
+.input-group-btn {
+    width: 0;
+}
+
+input[type=checkbox], input[type=radio] {
+    margin: 0;
 }

@@ -7,8 +7,8 @@ package com.platform.modules.cms.action;
 import com.platform.framework.common.BaseAction;
 import com.platform.framework.common.Page;
 import com.platform.framework.util.StringUtils;
-import com.platform.modules.cms.bean.CmsComment;
-import com.platform.modules.cms.service.CommentService;
+import com.platform.modules.cms.bean.CmsGuestbook;
+import com.platform.modules.cms.service.GuestbookService;
 import com.platform.modules.sys.bean.Param;
 import com.platform.modules.sys.utils.DictUtils;
 import com.platform.modules.sys.utils.UserUtils;
@@ -26,35 +26,33 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 /**
- * 评论
+ * 留言
  *
  * @author lufengc
  * @date 2016-01-15 09:56:22
  */
 @Controller
-@RequestMapping(value = "${adminPath}/cms/comment")
-public class CommentAction extends BaseAction<CmsComment> {
+@RequestMapping(value = "${adminPath}/cms/guestbook")
+public class GuestbookAction extends BaseAction<CmsGuestbook> {
 
     @Autowired
-    private CommentService commentService;
+    private GuestbookService guestbookService;
 
     /**
      * 数据绑定
      *
      * @param id ID
-     * @return CmsComment
+     * @return CmsGuestbook
      * @throws Exception
      */
     @Override
     @ModelAttribute
-    public CmsComment get(@RequestParam(required = false) String id) throws Exception {
-        CmsComment cmsComment;
+    public CmsGuestbook get(@RequestParam(required = false) String id) throws Exception {
         if (StringUtils.isNotEmpty(id)) {
-            cmsComment = commentService.get(id);
+            return guestbookService.get(id);
         } else {
-            cmsComment = new CmsComment();
+            return new CmsGuestbook();
         }
-        return cmsComment;
     }
 
     /**
@@ -68,12 +66,12 @@ public class CommentAction extends BaseAction<CmsComment> {
      */
     @Override
     @RequestMapping(value = {"list", ""})
-    @RequiresPermissions("cms:comment:view")
-    public String list(Model model, CmsComment object, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequiresPermissions("cms:guestbook:view")
+    public String list(Model model, CmsGuestbook object, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setAttribute("orderBy", "create_date desc");
-        Page<CmsComment> page = commentService.getPage(new Page<CmsComment>(request, response), object, "");
+        Page<CmsGuestbook> page = guestbookService.getPage(new Page<CmsGuestbook>(request, response), object, "");
         model.addAttribute("page", page);
-        return "modules/cms/commentList";
+        return "modules/cms/guestbookList";
     }
 
     /**
@@ -86,9 +84,9 @@ public class CommentAction extends BaseAction<CmsComment> {
      */
     @Override
     @RequestMapping(value = "form")
-    @RequiresPermissions("cms:comment:edit")
-    public String form(Model model, CmsComment object) throws Exception {
-        return "";
+    @RequiresPermissions("cms:guestbook:edit")
+    public String form(Model model, CmsGuestbook object) throws Exception {
+        return "modules/cms/guestbookForm";
     }
 
     /**
@@ -101,19 +99,19 @@ public class CommentAction extends BaseAction<CmsComment> {
      */
     @Override
     @RequestMapping(value = "save")
-    @RequiresPermissions("cms:comment:edit")
-    protected String save(Model model, CmsComment object, RedirectAttributes redirectAttributes) throws Exception {
-        if (beanValidator(redirectAttributes, object)) {
-            if (object.getAuditUserId() == null) {
-                object.setAuditUserId(UserUtils.getUserId());
-                object.setAuditDate(new Date());
-            }
-            commentService.save(object);
-            addMessage(redirectAttributes, DictUtils.getDictLabel(object.getDelFlag(), "cms_status", "保存")
-                    + "评论'" + StringUtils.abbr(StringUtils.replaceHtml(object.getContent()), 50) + "'成功");
+    @RequiresPermissions("cms:guestbook:edit")
+    protected String save(Model model, CmsGuestbook object, RedirectAttributes redirectAttributes) throws Exception {
+        if (!beanValidator(model, object)){
+            return form(model, object);
         }
-        addMessage(redirectAttributes, "保存成功");
-        return "redirect:" + adminPath + "/cms/comment/list?repage";
+        if (object.getReUserId() == null){
+            object.setReUserId(UserUtils.getUserId());
+            object.setReDate(new Date());
+        }
+        guestbookService.save(object);
+        addMessage(redirectAttributes, DictUtils.getDictLabel(object.getDelFlag(), "cms_del_flag", "保存")
+                +"留言'" + object.getName() + "'成功");
+        return "redirect:" + adminPath + "/cms/guestbook/?repage&status=2";
     }
 
     /**
@@ -126,11 +124,11 @@ public class CommentAction extends BaseAction<CmsComment> {
      */
     @Override
     @RequestMapping(value = "delete")
-    @RequiresPermissions("cms:comment:edit")
-    public String delete(Model model, CmsComment object, Param param, RedirectAttributes redirectAttributes) throws Exception {
-        commentService.delete(object.getId());
+    @RequiresPermissions("cms:guestbook:edit")
+    public String delete(Model model, CmsGuestbook object, Param param, RedirectAttributes redirectAttributes) throws Exception {
+        guestbookService.delete(object.getId());
         addMessage(redirectAttributes, "删除成功");
-        return "redirect:" + adminPath + "/cms/comment/list?repage";
+        return "redirect:" + adminPath + "/cms/guestbook/list?repage&status=2";
     }
 
 }

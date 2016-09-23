@@ -8,9 +8,12 @@
 <script type="text/javascript">
     (function($){
         $.fn.extend({
-            datetime:function(){
+            datetime:function(option){
+                var options = typeof option == 'object' && option;
+                var format = options.format;
+                format = format ? format : "yyyy-mm-dd";
                 $(this).datetimepicker({
-                    format: 'yyyy-mm-dd',
+                    format: format,
                     language: 'zh-CN',
                     autoclose: true,
                     minView: 2,

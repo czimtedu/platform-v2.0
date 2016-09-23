@@ -4,6 +4,7 @@
 
 package com.platform.modules.cms.bean;
 
+import com.platform.modules.sys.bean.NoDbColumn;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
@@ -32,6 +33,9 @@ public class CmsGuestbook implements Serializable {
     private Date reDate;    // 回复时间
     private String reContent;// 回复内容
     private String delFlag;    // 删除标记删除标记（0：正常；1：删除；2：审核）
+
+    @NoDbColumn
+    private String reUserName;
 
     public CmsGuestbook() {
         this.delFlag = "0";
@@ -150,6 +154,13 @@ public class CmsGuestbook implements Serializable {
         this.delFlag = delFlag;
     }
 
+    public void setReUserName(String reUserName) {
+        this.reUserName = reUserName;
+    }
+
+    public String getReUserName() {
+        return reUserName;
+    }
 }
 
 

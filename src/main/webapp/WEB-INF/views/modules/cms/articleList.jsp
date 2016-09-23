@@ -19,17 +19,21 @@
             <!-- 查询条件 -->
             <div class="row">
                 <div class="col-sm-12">
-                    <form:form id="searchForm" modelAttribute="cmsArticle" action="${ctx}/cms/article/" method="post" class="form-inline">
+                    <form:form id="searchForm" modelAttribute="cmsArticle" action="${ctx}/cms/article/list" method="post" class="form-inline">
                         <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
                         <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
                         <table:sortColumn id="orderBy" name="orderBy" value="${page.orderBy}" callback="sortOrRefresh();"/><!-- 支持排序 -->
                         <div class="form-group">
+                            <span>栏目：</span>
+                            <sys:treeselect id="categoryId" name="categoryId" value="${cmsArticle.categoryId}" labelName="categoryName"
+                                            labelValue="${cmsArticle.categoryName}" title="栏目" url="/cms/category/treeData"
+                                            module="article" notAllowSelectRoot="false" cssClass="form-control"/>
                             <span>标题：</span>
                             <form:input path="title" htmlEscape="false" maxlength="50" class="form-control"/>
                             <span>关键字：</span>
                             <form:input path="keywords" htmlEscape="false" maxlength="50" class="form-control"/>
-                            <button  class="btn btn-primary btn-outline btn-sm " onclick="search()" ><i class="fa fa-search"></i> 查询</button>
-                            <button  class="btn btn-primary btn-outline btn-sm " onclick="reset()" ><i class="fa fa-refresh"></i> 重置</button>
+                            <button class="btn btn-primary btn-outline btn-sm " onclick="searchAll()" ><i class="fa fa-search"></i> 查询</button>
+                            <button class="btn btn-primary btn-outline btn-sm " onclick="resetAll()" ><i class="fa fa-refresh"></i> 重置</button>
                         </div>
                     </form:form>
                     <br/>
@@ -41,10 +45,7 @@
                 <div class="col-sm-12">
                     <div class="pull-left">
                         <shiro:hasPermission name="sys:user:edit">
-                            <table:addRow url="${ctx}/cms/article/form" title="用户" width="800px" height="650px"/><!-- 增加按钮 -->
-                            <table:editRow url="${ctx}/cms/article/form" title="用户" width="800px" height="680px" id="contentTable"/><!-- 编辑按钮 -->
-                        </shiro:hasPermission>
-                        <shiro:hasPermission name="sys:user:del">
+                            <table:addRow url="${ctx}/cms/article/form" title="文章" width="800px" height="650px"/><!-- 增加按钮 -->
                             <table:delRow url="${ctx}/cms/article/delete" id="contentTable"/><!-- 删除按钮 -->
                         </shiro:hasPermission>
                         <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" onclick="sortOrRefresh()" title="刷新">
@@ -72,7 +73,8 @@
                 <c:forEach items="${page.list}" var="bean">
                     <tr>
                         <td><input type="checkbox" id="${bean.id}" class="i-checks"></td>
-                        <td><a href="javascript:" onclick="$('#categoryId').val('${bean.categoryId}');$('#categoryName').val('${bean.categoryName}');$('#searchForm').submit();return false;">${bean.categoryName}</a></td>
+                        <td><a href="javascript:" onclick="$('#categoryId').val('${bean.categoryId}');$('#categoryName').val('${bean.categoryName}');$('#searchForm').submit();return false;">
+                            ${bean.categoryName}</a></td>
                         <td><a href="#" onclick="openDialogView('查看', '${ctx}/cms/article/form?id=${bean.id}')">${fns:abbr(bean.title,40)}</a></td>
                         <td>${bean.weight}</td>
                         <td>${bean.hits}</td>

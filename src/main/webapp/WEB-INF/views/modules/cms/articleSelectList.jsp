@@ -1,9 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%--
-  ~ Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
-  --%>
-
 <html>
 <head>
 	<title>选择文章</title>
@@ -55,7 +51,7 @@
 	<form:form id="searchForm" modelAttribute="cmsArticle" action="${ctx}/cms/article/selectList" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-		<label>栏目：</label><sys:treeselect id="category" name="categoryId" value="${cmsArticle.categoryId}" labelName="category.name" labelValue="${cmsArticle.categoryName}"
+		<label>栏目：</label><sys:treeselect id="categoryId" name="categoryId" value="${cmsArticle.categoryId}" labelName="categoryName" labelValue="${cmsArticle.categoryName}"
 					title="栏目" url="/cms/category/treeData" module="article" cssClass="input-small"/>
 		<label>标题：</label><form:input path="title" htmlEscape="false" maxlength="50" class="input-small"/>&nbsp;
 		<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>&nbsp;&nbsp;
@@ -66,12 +62,12 @@
 		<c:forEach items="${page.list}" var="article">
 			<tr>
 				<td style="text-align:center;"><input type="checkbox" name="id" value="${article.id}" title="${fns:abbr(article.title,40)}" /></td>
-				<td><a href="javascript:" onclick="$('#categoryId').val('${article.category.id}');$('#categoryName').val('${article.category.name}');$('#searchForm').submit();return false;">${article.category.name}</a></td>
+				<td><a href="javascript:" onclick="$('#categoryId').val('${article.categoryId}');$('#categoryName').val('${article.categoryName}');$('#searchForm').submit();return false;">${article.categoryName}</a></td>
 				<td><a href="${ctx}/cms/article/form?id=${article.id}" title="${article.title}" onclick="return view(this.href);">${fns:abbr(article.title,40)}</a></td>
 				<td>${article.weight}</td>
 				<td>${article.hits}</td>
-				<td>${article.createBy.name}</td>
-				<td><fmt:formatDate value="${article.updateDate}" type="both"/></td>
+				<td>${article.createBy}</td>
+				<td><fmt:formatDate value="${article.updateTime}" type="both"/></td>
 			</tr>
 		</c:forEach>
 		</tbody>
